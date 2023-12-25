@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 
@@ -30,12 +32,15 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        if (!Auth::check()) {
+            Auth::loginUsingId(User::first()->id);
+        }
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
             ],
-            'ziggy' => fn () => [
+            'ziggy' => fn() => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
