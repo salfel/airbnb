@@ -1,7 +1,7 @@
 import { Link, usePage } from "@inertiajs/react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import route from "ziggy-js";
-import { PageProps, User } from "@/types";
+import { PageProps } from "@/types";
 import { ReactNode } from "react";
 import {
     DropdownMenu,
@@ -11,7 +11,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getAvatarFallbackName } from "@/lib/utils";
 import UserAvatar from "@/components/UserAvatar";
 
 export default function AuthenticatedLayout({
