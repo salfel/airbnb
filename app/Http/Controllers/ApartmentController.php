@@ -25,7 +25,7 @@ class ApartmentController extends Controller
     public function show(Apartment $apartment)
     {
         return Inertia::render('Apartment/Show', [
-            'apartment' => $apartment
+            'apartment' => $apartment->with('host.user')
         ]);
     }
 

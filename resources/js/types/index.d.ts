@@ -13,7 +13,11 @@ export interface User extends Model {
     image: string;
 }
 
-export interface Apartment {
+export interface Host extends Model {
+    user: User;
+}
+
+export interface Apartment extends Model {
     id: number;
     city: string;
     country: string;
@@ -27,8 +31,7 @@ export interface Apartment {
     guests: number;
     start: string;
     end: string;
-    created_at: string;
-    updated_at: string;
+    host: Host;
 }
 
 export interface Pagination<T extends Object> {
