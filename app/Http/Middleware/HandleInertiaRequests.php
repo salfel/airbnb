@@ -32,9 +32,6 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        if (!Auth::check()) {
-            Auth::loginUsingId(User::first()->id);
-        }
         return [
             ...parent::share($request),
             'auth' => [

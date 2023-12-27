@@ -10,10 +10,8 @@ class ApartmentController extends Controller
 {
     public function index()
     {
-        $this->authorize('viewAny', Apartment::class);
-
         return Inertia::render('Home', [
-            'apartments' => Apartment::paginate(12)
+            'apartments' => Apartment::latest()->paginate(12)
         ]);
     }
 
@@ -26,9 +24,9 @@ class ApartmentController extends Controller
 
     public function show(Apartment $apartment)
     {
-        $this->authorize('view', $apartment);
-
-        return $apartment;
+        return Inertia::render('Apartment/Show', [
+            'apartment' => $apartment
+        ]);
     }
 
     public function update(ApartmentRequest $request, Apartment $apartment)
