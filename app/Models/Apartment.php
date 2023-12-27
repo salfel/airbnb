@@ -33,6 +33,6 @@ class Apartment extends Model
 
     public function host(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Host::class);
     }
 }

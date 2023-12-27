@@ -17,7 +17,6 @@ return new class extends Migration {
             $table->longText('description');
             $table->integer('beds');
             $table->integer('baths');
-            $table->integer('guests');
             $table->dateTime('start');
             $table->dateTime('end');
             $table->string('images')->nullable();
