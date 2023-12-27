@@ -22,8 +22,9 @@ class ApartmentController extends Controller
         return Apartment::create($request->validated());
     }
 
-    public function show(Apartment $apartment)
+    public function show(int $apartment)
     {
+        $apartment = Apartment::with('host.user')->findOrFail($apartment);
         return Inertia::render('Apartment/Show', [
             'apartment' => $apartment
         ]);
