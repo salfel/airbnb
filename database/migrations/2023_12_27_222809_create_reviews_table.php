@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained();
             $table->foreignId('apartment_id')->constrained();
             $table->integer('stars');
-            $table->string('comment');
+            $table->longText('comment');
             $table->timestamps();
         });
     }
