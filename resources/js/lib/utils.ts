@@ -30,3 +30,11 @@ export function formatDateRange(begin: string, end: string): string {
         )}`;
     }
 }
+
+export function getAvatarFallbackName(name: string) {
+    if (name.split(" ").length > 1) {
+        const names = name.split(" ");
+        return names[0][0].toUpperCase() + names[1][0].toUpperCase();
+    }
+    return name[0].toUpperCase();
+}
