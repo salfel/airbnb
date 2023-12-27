@@ -26,7 +26,7 @@ class ApartmentController extends Controller
     {
         $apartment = Apartment::with('host.user')->findOrFail($apartment);
         return Inertia::render('Apartment/Show', [
-            'apartment' => $apartment
+            'apartment' => $apartment->with('host.user')
         ]);
     }
 
