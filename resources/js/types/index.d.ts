@@ -1,10 +1,16 @@
 import { Config } from "ziggy-js";
 
-export interface User {
+interface Model {
     id: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface User extends Model {
     name: string;
     email: string;
     email_verified_at: string;
+    image: string;
 }
 
 export interface Apartment {
