@@ -1,9 +1,8 @@
 import { Link, usePage } from "@inertiajs/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import route from "ziggy-js";
-import { PageProps } from "@/types";
+import { PageProps, User } from "@/types";
 import { ReactNode } from "react";
-import { DropdownMenuIcon } from "@radix-ui/react-icons";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,6 +11,8 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getAvatarFallbackName } from "@/lib/utils";
+import UserAvatar from "@/components/UserAvatar";
 
 export default function AuthenticatedLayout({
     children,
@@ -20,14 +21,6 @@ export default function AuthenticatedLayout({
 }) {
     const page = usePage<PageProps>();
     const location = page.props.ziggy.location;
-
-    function getAvatarFallbackName(name: string) {
-        if (name.split(" ").length > 1) {
-            const names = name.split(" ");
-            return names[0][0].toUpperCase() + names[1][0].toUpperCase();
-        }
-        return name[0].toUpperCase();
-    }
 
     return (
         <>
@@ -56,13 +49,7 @@ export default function AuthenticatedLayout({
                 {page.props.auth.user ? (
                     <DropdownMenu>
                         <DropdownMenuTrigger>
-                            <Avatar className="w-8 h-8">
-                                <AvatarFallback>
-                                    {getAvatarFallbackName(
-                                        page.props.auth.user.name,
-                                    )}
-                                </AvatarFallback>
-                            </Avatar>
+                            <UserAvatar user={page.props.auth.user} />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-40">
                             <DropdownMenuLabel>
