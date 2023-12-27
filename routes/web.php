@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ApartmentController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ApartmentController::class, 'index'])->middleware(['auth'])->name('home');
-Route::resource('apartment', ApartmentController::class)->except(['index'])->middleware(['auth']);
+Route::get('/', [ApartmentController::class, 'index'])->name('home');
+Route::resource('apartment', ApartmentController::class)->except(['index']);
 
 Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
