@@ -26,6 +26,10 @@ class Apartment extends Model
         'host_id'
     ];
 
+    protected $appends = [
+        'stars'
+    ];
+
     protected $casts = [
         'start' => 'datetime',
         'end' => 'datetime',
@@ -40,5 +44,10 @@ class Apartment extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    protected function getStarsAttribute(): float
+    {
+        return $this->reviews()->avg('stars');
     }
 }

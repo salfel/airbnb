@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             'password' => 'password'
         ]);
 
+        User::factory(10)->create();
+
         $this->run(ApartmentSeeder::class);
     }
 }
