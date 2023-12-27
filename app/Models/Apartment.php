@@ -14,15 +14,20 @@ class Apartment extends Model
         'city',
         'country',
         'price',
-        'location',
         'start',
         'end',
-        'thumbnail',
+        'images',
+        'title',
+        'description',
+        'beds',
+        'baths',
+        'guests',
     ];
 
     protected $casts = [
         'start' => 'datetime',
         'end' => 'datetime',
+        'images' => 'array'
     ];
 
     public function Host(): BelongsTo

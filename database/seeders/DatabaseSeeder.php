@@ -17,5 +17,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'felix.salcher@gmail.com',
             'password' => 'password'
         ]);
+
+        $this->run(ApartmentSeeder::class);
     }
 }

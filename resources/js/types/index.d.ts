@@ -13,7 +13,12 @@ export interface Apartment {
     country: string;
     location: string;
     price: number;
-    thumbnail: string;
+    images: string[];
+    title: string;
+    description: string;
+    beds: number;
+    baths: number;
+    guests: number;
     start: string;
     end: string;
     created_at: string;

@@ -13,10 +13,14 @@ return new class extends Migration {
             $table->string('city');
             $table->string('country');
             $table->integer('price');
-            $table->string('location');
+            $table->string('title');
+            $table->longText('description');
+            $table->integer('beds');
+            $table->integer('baths');
+            $table->integer('guests');
             $table->dateTime('start');
             $table->dateTime('end');
-            $table->string('thumbnail')->nullable();
+            $table->string('images')->nullable();
             $table->timestamps();
         });
     }
