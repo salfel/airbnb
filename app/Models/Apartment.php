@@ -22,6 +22,7 @@ class Apartment extends Model
         'beds',
         'baths',
         'guests',
+        'host_id'
     ];
 
     protected $casts = [
@@ -30,7 +31,7 @@ class Apartment extends Model
         'images' => 'array'
     ];
 
-    public function Host(): BelongsTo
+    public function host(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
