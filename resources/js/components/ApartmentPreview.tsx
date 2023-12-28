@@ -40,7 +40,7 @@ export default function ApartmentPreview({ apartment }: Props) {
                 <p className="my-2 text-2xl font-bold">€ {apartment.price}</p>
                 <Button>
                     <Link href={route("apartments.show", [apartment.id])}>
-                        Rent now
+                        Details
                     </Link>
                 </Button>
             </CardContent>
