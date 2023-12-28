@@ -11,6 +11,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Toaster } from "@/components/ui/toaster";
 import UserAvatar from "@/components/UserAvatar";
 
 export default function AuthenticatedLayout({
@@ -99,6 +100,7 @@ export default function AuthenticatedLayout({
             </header>
             <main className="max-w-7xl mx-auto mt-6">{children}</main>
             <footer className="h-8"></footer>
+            <Toaster />
         </>
     );
 }
