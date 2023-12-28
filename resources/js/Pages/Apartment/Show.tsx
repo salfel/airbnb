@@ -12,7 +12,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Bath, Bed, Star } from "lucide-react";
+import { LuBath, LuBed, LuStar } from "react-icons/lu";
 import UserAvatar from "@/components/UserAvatar";
 import { formatDistanceToNow } from "date-fns";
 import { Label } from "@/components/ui/label";
@@ -76,7 +76,7 @@ export default function Show({
                             <TableBody>
                                 <TableRow>
                                     <TableCell className="flex items-center gap-3">
-                                        <Bed className="w-10" />
+                                        <LuBed className="w-10" />
                                         <span className="font-medium">
                                             Bedrooms
                                         </span>
@@ -85,7 +85,7 @@ export default function Show({
                                 </TableRow>
                                 <TableRow>
                                     <TableCell className="flex items-center gap-3">
-                                        <Bath className="w-10" />
+                                        <LuBath className="w-10" />
                                         <span className="font-medium">
                                             Bathrooms
                                         </span>
@@ -234,7 +234,7 @@ function ReviewForm({ apartment }: ReviewFormProps) {
                         <Label>Rating</Label>
                         <div>
                             {Array.from({ length: 5 }).map((_, index) => (
-                                <Star
+                                <LuStar
                                     fill={
                                         data.stars >= index + 1
                                             ? "black"
