@@ -27,7 +27,7 @@ export default function ApartmentPreview({ apartment }: Props) {
             </CardHeader>
             <CardContent>
                 <CardTitle>
-                    <Link href={route("apartment.show", [apartment.id])}>
+                    <Link href={route("apartments.show", [apartment.id])}>
                         {apartment.city}, {apartment.country}
                     </Link>
                 </CardTitle>
@@ -39,7 +39,7 @@ export default function ApartmentPreview({ apartment }: Props) {
                 </p>
                 <p className="my-2 text-2xl font-bold">€ {apartment.price}</p>
                 <Button>
-                    <Link href={route("apartment.show", [apartment.id])}>
+                    <Link href={route("apartments.show", [apartment.id])}>
                         Rent now
                     </Link>
                 </Button>
