@@ -42,6 +42,14 @@ export interface Review extends Model {
     user: User;
 }
 
+export interface Attribute {
+    name: string;
+    category: string;
+    icon:
+        | keyof typeof import("react-icons/lu")
+        | keyof typeof import("react-icons/md");
+}
+
 export interface Pagination<T extends Object> {
     current_page: number;
     data: T[];

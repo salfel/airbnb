@@ -15,6 +15,10 @@ class ApartmentSeeder extends Seeder
             'user_id' => User::first()->id,
         ]);
 
+        foreach (Apartment::all() as $apartment) {
+            $apartment->delete();
+        }
+
         Apartment::factory(20)->create([
             'host_id' => $host->id
         ]);

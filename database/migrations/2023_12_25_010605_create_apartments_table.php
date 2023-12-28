@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->dateTime('start');
             $table->dateTime('end');
             $table->string('images')->nullable();
+            $table->string('attributes')->nullable();
             $table->timestamps();
         });
     }

@@ -20,9 +20,9 @@ class Apartment extends Model
         'images',
         'title',
         'description',
+        'attributes',
         'beds',
         'baths',
-        'guests',
         'host_id'
     ];
 
@@ -33,7 +33,8 @@ class Apartment extends Model
     protected $casts = [
         'start' => 'datetime',
         'end' => 'datetime',
-        'images' => 'array'
+        'images' => 'array',
+        'attributes' => 'array'
     ];
 
     public function host(): BelongsTo
