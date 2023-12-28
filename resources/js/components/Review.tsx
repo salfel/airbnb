@@ -10,7 +10,7 @@ interface Props {
 
 export default function Review({ review }: Props) {
     return (
-        <Card className="p-6">
+        <Card className="p-3">
             <CardHeader>
                 <div className="flex items-center space-x-4">
                     <UserAvatar user={review.user} />
