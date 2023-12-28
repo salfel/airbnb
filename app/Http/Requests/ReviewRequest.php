@@ -9,13 +9,8 @@ class ReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'starts' => ['required', 'integer'],
+            'stars' => ['required', 'integer'],
             'message' => ['required', 'string', 'min:12'],
         ];
-    }
-
-    public function authorize(): bool
-    {
-        return true;
     }
 }

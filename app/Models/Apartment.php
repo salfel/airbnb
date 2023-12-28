@@ -48,6 +48,6 @@ class Apartment extends Model
 
     protected function getStarsAttribute(): float
     {
-        return $this->reviews()->avg('stars');
+        return round($this->reviews()->avg('stars'), 1);
     }
 }

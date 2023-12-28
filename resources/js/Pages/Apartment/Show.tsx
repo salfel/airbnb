@@ -1,7 +1,7 @@
 import AuthenticatedLayout from "@/layouts/AuthenticatedLayout";
-import { ReactNode, useEffect, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { Apartment, PageProps } from "@/types";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -17,27 +17,13 @@ import UserAvatar from "@/components/UserAvatar";
 import { formatDistanceToNow } from "date-fns";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 export default function Show({
     apartment,
 }: PageProps & { apartment: Apartment }) {
     const [image, setImage] = useState(apartment.images[0]);
-    const [isDown, setIsDown] = useState(false);
-
-    useEffect(() => {
-        document.addEventListener("mousedown", () => setIsDown(true));
-        document.addEventListener("mouseup", () => setIsDown(false));
-
-        return () => {
-            document.removeEventListener("mousedown", () => setIsDown(true));
-            document.removeEventListener("mouseup", () => setIsDown(false));
-        };
-    }, []);
-
-    const { data, setData, errors, clearErrors } = useForm({
-        stars: 1,
-        message: "",
-    });
 
     return (
         <>
@@ -169,71 +155,125 @@ export default function Show({
                     </span>
                 </div>
 
-                <form className="mt-6">
-                    <Card className="space-y-2">
-                        <CardHeader>
-                            <div className="flex items-center justify-between">
-                                <CardTitle>Write a Review</CardTitle>
-                            </div>
-                            <CardDescription>
-                                Share your experience about this apartment. Your
-                                review will help others make informed decisions.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-3">
-                            <div className="grid items-center gap-1">
-                                <Label>Rating</Label>
-                                <div>
-                                    {Array.from({ length: 5 }).map(
-                                        (_, index) => (
-                                            <Star
-                                                fill={
-                                                    data.stars >= index + 1
-                                                        ? "black"
-                                                        : "none"
-                                                }
-                                                className="inline-block w-4 h-4"
-                                                onMouseOver={() =>
-                                                    isDown &&
-                                                    setData("stars", index + 1)
-                                                }
-                                                key={index}
-                                            />
-                                        ),
-                                    )}
-                                </div>
-                            </div>
-                            <div className="grid w-full gap-1">
-                                <Label htmlFor="comment">Comment</Label>
-                                <Textarea
-                                    id="comment"
-                                    placeholder="Write your review here..."
-                                    rows={3}
-                                    value={data.message}
-                                    onChange={(e) => {
-                                        setData("message", e.target.value);
-                                        clearErrors("message");
-                                    }}
-                                />
-                                {errors.message ? (
-                                    <p className="text-[0.8rem] font-medium text-red-500">
-                                        {errors.message}
-                                    </p>
-                                ) : (
-                                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                                        Your review will be public. Please avoid
-                                        sharing sensitive information.
-                                    </p>
-                                )}
-                            </div>
-                        </CardContent>
-                        <CardFooter>
-                            <Button>Post Review</Button>
-                        </CardFooter>
-                    </Card>
-                </form>
+                <CommentForm apartment={apartment} />
             </section>
         </>
+    );
+}
+
+interface CommentFormProps {
+    apartment: Apartment;
+}
+
+function CommentForm({ apartment }: CommentFormProps) {
+    const [isDown, setIsDown] = useState(false);
+    const { toast } = useToast();
+
+    useEffect(() => {
+        document.addEventListener("mousedown", () => setIsDown(true));
+        document.addEventListener("mouseup", () => setIsDown(false));
+
+        return () => {
+            document.removeEventListener("mousedown", () => setIsDown(true));
+            document.removeEventListener("mouseup", () => setIsDown(false));
+        };
+    }, []);
+
+    const { data, setData, errors, clearErrors, post, processing, reset } =
+        useForm({
+            stars: 1,
+            message: "",
+        });
+
+    function handleSubmit(e: FormEvent) {
+        e.preventDefault();
+
+        post(route("apartments.reviews.store", [apartment.id]), {
+            preserveScroll: true,
+            onSuccess: () => {
+                reset("stars", "message");
+            },
+            onError: ({ auth }) => {
+                if (!auth) return;
+
+                reset("stars", "message");
+                toast({
+                    variant: "destructive",
+                    title: "Not authorized!",
+                    description: auth,
+                    action: (
+                        <ToastAction altText="Login">
+                            <Link href={route("login")}>Login</Link>
+                        </ToastAction>
+                    ),
+                });
+            },
+        });
+    }
+
+    return (
+        <form className="mt-6" onSubmit={handleSubmit}>
+            <Card className="space-y-2">
+                <CardHeader>
+                    <div className="flex items-center justify-between">
+                        <CardTitle>Write a Review</CardTitle>
+                    </div>
+                    <CardDescription>
+                        Share your experience about this apartment. Your review
+                        will help others make informed decisions.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                    <div className="grid items-center gap-1">
+                        <Label>Rating</Label>
+                        <div>
+                            {Array.from({ length: 5 }).map((_, index) => (
+                                <Star
+                                    fill={
+                                        data.stars >= index + 1
+                                            ? "black"
+                                            : "none"
+                                    }
+                                    className="inline-block w-4 h-4"
+                                    onMouseOver={() =>
+                                        isDown && setData("stars", index + 1)
+                                    }
+                                    key={index}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                    <div className="grid w-full gap-1">
+                        <Label htmlFor="message">Comment</Label>
+                        <Textarea
+                            id="message"
+                            placeholder="Write your review here..."
+                            rows={3}
+                            value={data.message}
+                            onChange={(e) => {
+                                setData("message", e.target.value);
+                                clearErrors("message");
+                            }}
+                        />
+                        {errors.message ? (
+                            <p className="text-[0.8rem] font-medium text-red-500">
+                                {errors.message}
+                            </p>
+                        ) : (
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                                Your review will be public. Please avoid sharing
+                                sensitive information.
+                            </p>
+                        )}
+                    </div>
+                </CardContent>
+                <CardFooter>
+                    <Button disabled={processing} type="submit">
+                        Post Review
+                    </Button>
+                </CardFooter>
+            </Card>
+        </form>
     );
 }
 
