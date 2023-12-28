@@ -1,6 +1,5 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { FormMessage } from "@/components/ui/form";
 import * as React from "react";
 
 interface InputProps<T extends string>
@@ -27,7 +26,9 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps<T>>(
                     onChange={(e) => setValue(field, e.target.value)}
                     {...props}
                 />
-                <FormMessage>{error}</FormMessage>
+                <p className="text-[0.8rem] font-medium text-red-500">
+                    {error}
+                </p>
             </div>
         );
     },
