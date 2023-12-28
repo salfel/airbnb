@@ -24,7 +24,7 @@ export default function AuthenticatedLayout({
 
     return (
         <>
-            <header className="max-w-7xl mx-auto flex items-center justify-between py-2 gap-8">
+            <header className="max-w-7xl mx-auto flex items-center justify-between py-2 gap-8 px-6">
                 <Link href={route("home")} className="flex items-center gap-3">
                     <img src="/airbnb.svg" alt="Logo" className="w-12 h-12" />
                     <span className="text-2xl font-bold">Airbnb</span>
@@ -98,7 +98,7 @@ export default function AuthenticatedLayout({
                     </DropdownMenu>
                 )}
             </header>
-            <main className="max-w-7xl mx-auto mt-6">{children}</main>
+            <main className="max-w-7xl mx-auto mt-6 px-6">{children}</main>
             <footer className="h-8"></footer>
             <Toaster />
         </>
