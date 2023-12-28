@@ -24,7 +24,7 @@ class ApartmentController extends Controller
 
     public function show(int $apartment)
     {
-        $apartment = Apartment::with(['host.user', 'reviews'])->withCount('reviews')->findOrFail($apartment);
+        $apartment = Apartment::with(['host.user', 'reviews.user'])->withCount('reviews')->findOrFail($apartment);
         return Inertia::render('Apartment/Show', [
             'apartment' => $apartment,
         ]);

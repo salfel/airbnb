@@ -37,8 +37,9 @@ export interface Apartment extends Model {
 }
 
 export interface Review extends Model {
-    rating: number;
-    comment: string;
+    stars: number;
+    message: string;
+    user: User;
 }
 
 export interface Pagination<T extends Object> {

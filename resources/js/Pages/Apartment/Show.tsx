@@ -18,8 +18,8 @@ import { formatDistanceToNow } from "date-fns";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import Review from "@/components/Review";
 import { ToastAction } from "@/components/ui/toast";
+import Review from "@/components/Review";
 import AverageStars from "@/components/AverageStars";
 
 export default function Show({
@@ -133,7 +133,7 @@ export default function Show({
 
                 <ReviewForm apartment={apartment} />
 
-                <div className="grid grid-cols-2 gap-12">
+                <div className="grid grid-cols-2 gap-12 mt-8">
                     {apartment.reviews.map((review) => (
                         <Review review={review} key={review.id} />
                     ))}
