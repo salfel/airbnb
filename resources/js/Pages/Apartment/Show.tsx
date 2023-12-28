@@ -33,13 +33,27 @@ export default function Show({
             <Head title={apartment.title} />
 
             <section className="grid grid-cols-3 gap-x-12">
-                <img
-                    src={image || "/placeholder.svg"}
-                    alt={apartment.title}
-                    className="col-span-2 aspect-video object-cover"
-                />
+                <div className="col-span-2">
+                    <img
+                        src={image || "/placeholder.svg"}
+                        alt={apartment.title}
+                        className="aspect-video object-cover"
+                    />
 
-                <div className="flex flex-col justify-between">
+                    <div className="flex flex-wrap gap-6 mt-6">
+                        {apartment.images.map((image, index) => (
+                            <button onClick={() => setImage(image)} key={index}>
+                                <img
+                                    src={image || "/placeholder.svg"}
+                                    alt="placeholder"
+                                    className="h-20 aspect-video"
+                                />
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="flex flex-col justify-between space-y-4">
                     <div>
                         <h1 className="text-2xl font-semibold">
                             {apartment.title}
@@ -107,18 +121,6 @@ export default function Show({
                         Start Renting
                     </Button>
                 </div>
-
-                <div className="flex gap-6 mt-6">
-                    {apartment.images.map((image, index) => (
-                        <button onClick={() => setImage(image)} key={index}>
-                            <img
-                                src={image || "/placeholder.svg"}
-                                alt="placeholder"
-                                className="h-20 aspect-video"
-                            />
-                        </button>
-                    ))}
-                </div>
             </section>
             <section className="mt-12">
                 <div className="flex items-center gap-4 mb-12">
@@ -134,7 +136,7 @@ export default function Show({
 
                 <ReviewForm apartment={apartment} />
 
-                <div className="grid grid-cols-3 gap-12 mt-8">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
                     {reviews.map((review) => (
                         <Review review={review} key={review.id} />
                     ))}
