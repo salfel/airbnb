@@ -155,17 +155,17 @@ export default function Show({
                     </span>
                 </div>
 
-                <CommentForm apartment={apartment} />
+                <ReviewForm apartment={apartment} />
             </section>
         </>
     );
 }
 
-interface CommentFormProps {
+interface ReviewFormProps {
     apartment: Apartment;
 }
 
-function CommentForm({ apartment }: CommentFormProps) {
+function ReviewForm({ apartment }: ReviewFormProps) {
     const [isDown, setIsDown] = useState(false);
     const { toast } = useToast();
 
