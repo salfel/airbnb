@@ -11,6 +11,9 @@ class ReviewSeeder extends Seeder
 {
     public function run(): void
     {
+        foreach (Review::all() as $review) {
+            $review->delete();
+        }
 
         foreach (Apartment::all() as $apartment) {
             Review::factory(10)->create([

@@ -14,7 +14,7 @@ class ReviewFactory extends Factory
     {
         return [
             'stars' => rand(1, 5),
-            'message' => $this->faker->word(),
+            'message' => $this->faker->text(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];
