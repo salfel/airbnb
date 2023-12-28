@@ -12,13 +12,15 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Bath, Bed, Star, StarHalf } from "lucide-react";
+import { Bath, Bed, Star } from "lucide-react";
 import UserAvatar from "@/components/UserAvatar";
 import { formatDistanceToNow } from "date-fns";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import Review from "@/components/Review";
 import { ToastAction } from "@/components/ui/toast";
+import AverageStars from "@/components/AverageStars";
 
 export default function Show({
     apartment,
@@ -119,34 +121,8 @@ export default function Show({
             </section>
             <section className="mt-12">
                 <div className="flex items-center gap-4 mb-12">
-                    <div className="flex items-center gap-1">
-                        {Array.from({ length: 5 }).map((_, index) =>
-                            apartment.stars >= index + 1 ? (
-                                <Star
-                                    key={index}
-                                    fill="black"
-                                    className="w-8 h-8"
-                                />
-                            ) : apartment.stars >= index + 0.5 ? (
-                                <div className="relative" key={index}>
-                                    <StarHalf
-                                        fill="black"
-                                        className="absolute w-8 h-8"
-                                    />
-                                    <Star
-                                        className="w-8 h-8"
-                                        strokeWidth={1.5}
-                                    />
-                                </div>
-                            ) : (
-                                <Star
-                                    key={index}
-                                    className="w-8 h-8"
-                                    strokeWidth={1.5}
-                                />
-                            ),
-                        )}
-                    </div>
+                    <AverageStars stars={apartment.stars} />
+
                     <span className="font-semibold text-xl">
                         {apartment.stars}
                     </span>
@@ -156,6 +132,12 @@ export default function Show({
                 </div>
 
                 <ReviewForm apartment={apartment} />
+
+                <div className="grid grid-cols-2 gap-12">
+                    {apartment.reviews.map((review) => (
+                        <Review review={review} key={review.id} />
+                    ))}
+                </div>
             </section>
         </>
     );
