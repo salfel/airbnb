@@ -6,7 +6,7 @@ return [
             ["name" => "Fireplace", "category" => "Amenities", "icon" => "LuFlameKindling"],
             ["name" => "Study/Office Nook", "category" => "Spaces", "icon" => "LuLampDesk"],
             ["name" => "Parking", "category" => "Facilities", "icon" => "LuParkingMeter"],
-            ["name" => "Washer", "category" => "Amenities", "MdLocalLaundryService"],
+            ["name" => "Washer", "category" => "Amenities", "icon" => "MdLocalLaundryService"],
             ["name" => "Gym", "category" => "Facilities", "icon" => "LuDumbbell"],
             ["name" => "Security", "category" => "Safety", "icon" => "LuCctv"],
             ["name" => "Pool", "category" => "Facilities", "icon" => "MdPool"],
