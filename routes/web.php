@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ApartmentController::class, 'index'])->name('home');
 Route::resource('apartment', ApartmentController::class)->except(['index']);
+Route::resource('apartment.review', ReviewController::class)->except(['show']);
 
 Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
