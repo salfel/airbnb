@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ApartmentRequest;
 use App\Models\Apartment;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class ApartmentController extends Controller
@@ -22,11 +24,11 @@ class ApartmentController extends Controller
         return Apartment::create($request->validated());
     }
 
-    public function show(int $apartment)
+    public function show(Apartment $apartment, Request $request)
     {
-        $apartment = Apartment::with(['host.user', 'reviews.user'])->withCount('reviews')->findOrFail($apartment);
         return Inertia::render('Apartment/Show', [
-            'apartment' => $apartment,
+            'apartment' => fn() => Apartment::with(['host.user' => fn($user) => Log::info('test', [$user])])->withCount('reviews')->findOrFail($apartment->id),
+            'reviews' => $apartment->reviews()->with('user')->take($request->get('page', 1) * 6)->latest()->get()
         ]);
     }
 

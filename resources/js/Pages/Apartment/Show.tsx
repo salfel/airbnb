@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/layouts/AuthenticatedLayout";
 import { FormEvent, ReactNode, useEffect, useState } from "react";
-import { Apartment, PageProps } from "@/types";
+import { Apartment, PageProps, Review as ReviewType } from "@/types";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,7 +24,8 @@ import AverageStars from "@/components/AverageStars";
 
 export default function Show({
     apartment,
-}: PageProps & { apartment: Apartment }) {
+    reviews,
+}: PageProps & { apartment: Apartment; reviews: ReviewType[] }) {
     const [image, setImage] = useState(apartment.images[0]);
 
     return (
@@ -133,11 +134,32 @@ export default function Show({
 
                 <ReviewForm apartment={apartment} />
 
-                <div className="grid grid-cols-2 gap-12 mt-8">
-                    {apartment.reviews.map((review) => (
+                <div className="grid grid-cols-3 gap-12 mt-8">
+                    {reviews.map((review) => (
                         <Review review={review} key={review.id} />
                     ))}
                 </div>
+                {reviews.length !== apartment.reviews_count && (
+                    <Button asChild variant="link" className="mt-6">
+                        <Link
+                            href={route("apartments.show", {
+                                apartment: apartment.id,
+                                _query: {
+                                    page:
+                                        parseInt(
+                                            new URLSearchParams(
+                                                location.search,
+                                            ).get("page") ?? "1",
+                                        ) + 1,
+                                },
+                            })}
+                            preserveScroll
+                            only={["reviews"]}
+                        >
+                            View more
+                        </Link>
+                    </Button>
+                )}
             </section>
         </>
     );
@@ -219,6 +241,9 @@ function ReviewForm({ apartment }: ReviewFormProps) {
                                     className="inline-block w-4 h-4"
                                     onMouseOver={() =>
                                         isDown && setData("stars", index + 1)
+                                    }
+                                    onMouseDown={() =>
+                                        setData("stars", index + 1)
                                     }
                                     key={index}
                                 />
