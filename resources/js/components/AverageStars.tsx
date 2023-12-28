@@ -6,7 +6,6 @@ interface Props {
 }
 
 export default function AverageStars({ stars, size = 8 }: Props) {
-    console.log(stars);
     return (
         <div className="flex items-center gap-1">
             {Array.from({ length: 5 }).map((_, index) =>
