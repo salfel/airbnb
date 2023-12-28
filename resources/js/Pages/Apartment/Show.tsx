@@ -1,18 +1,43 @@
 import AuthenticatedLayout from "@/layouts/AuthenticatedLayout";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Apartment, PageProps } from "@/types";
-import { Head } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
-import { Card, CardTitle } from "@/components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Bath, Bed } from "lucide-react";
+import { Bath, Bed, Star, StarHalf } from "lucide-react";
 import UserAvatar from "@/components/UserAvatar";
 import { formatDistanceToNow } from "date-fns";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function Show({
     apartment,
 }: PageProps & { apartment: Apartment }) {
     const [image, setImage] = useState(apartment.images[0]);
+    const [isDown, setIsDown] = useState(false);
+
+    useEffect(() => {
+        document.addEventListener("mousedown", () => setIsDown(true));
+        document.addEventListener("mouseup", () => setIsDown(false));
+
+        return () => {
+            document.removeEventListener("mousedown", () => setIsDown(true));
+            document.removeEventListener("mouseup", () => setIsDown(false));
+        };
+    }, []);
+
+    const { data, setData, errors, clearErrors } = useForm({
+        stars: 1,
+        message: "",
+    });
 
     return (
         <>
@@ -27,7 +52,7 @@ export default function Show({
 
                 <div className="flex flex-col justify-between">
                     <div>
-                        <h1 className="text-2xl font-medium">
+                        <h1 className="text-2xl font-semibold">
                             {apartment.title}
                         </h1>
                         <p className="mt-2 text-gray-800 text-sm">
@@ -72,9 +97,12 @@ export default function Show({
                         <div className="flex items-center gap-3">
                             <UserAvatar user={apartment.host.user} />
                             <div>
-                                <CardTitle>
-                                    {apartment.host.user.name}
-                                </CardTitle>
+                                <div>
+                                    <span>Your host is: </span>
+                                    <span className="font-semibold tracking-tight">
+                                        {apartment.host.user.name}
+                                    </span>
+                                </div>
 
                                 <p>
                                     Host since{" "}
@@ -86,7 +114,9 @@ export default function Show({
                         </div>
                     </Card>
 
-                    <Button className="w-full">Start Renting</Button>
+                    <Button className="w-full" size="lg">
+                        Start Renting
+                    </Button>
                 </div>
 
                 <div className="flex gap-6 mt-6">
@@ -100,6 +130,108 @@ export default function Show({
                         </button>
                     ))}
                 </div>
+            </section>
+            <section className="mt-12">
+                <div className="flex items-center gap-4 mb-12">
+                    <div className="flex items-center gap-1">
+                        {Array.from({ length: 5 }).map((_, index) =>
+                            apartment.stars >= index + 1 ? (
+                                <Star
+                                    key={index}
+                                    fill="black"
+                                    className="w-8 h-8"
+                                />
+                            ) : apartment.stars >= index + 0.5 ? (
+                                <div className="relative" key={index}>
+                                    <StarHalf
+                                        fill="black"
+                                        className="absolute w-8 h-8"
+                                    />
+                                    <Star
+                                        className="w-8 h-8"
+                                        strokeWidth={1.5}
+                                    />
+                                </div>
+                            ) : (
+                                <Star
+                                    key={index}
+                                    className="w-8 h-8"
+                                    strokeWidth={1.5}
+                                />
+                            ),
+                        )}
+                    </div>
+                    <span className="font-semibold text-xl">
+                        {apartment.stars}
+                    </span>
+                    <span className="text-gray-500">
+                        (Based on {apartment.reviews_count} reviews)
+                    </span>
+                </div>
+
+                <form className="mt-6">
+                    <Card className="space-y-2">
+                        <CardHeader>
+                            <div className="flex items-center justify-between">
+                                <CardTitle>Write a Review</CardTitle>
+                            </div>
+                            <CardDescription>
+                                Share your experience about this apartment. Your
+                                review will help others make informed decisions.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-3">
+                            <div className="grid items-center gap-1">
+                                <Label>Rating</Label>
+                                <div>
+                                    {Array.from({ length: 5 }).map(
+                                        (_, index) => (
+                                            <Star
+                                                fill={
+                                                    data.stars >= index + 1
+                                                        ? "black"
+                                                        : "none"
+                                                }
+                                                className="inline-block w-4 h-4"
+                                                onMouseOver={() =>
+                                                    isDown &&
+                                                    setData("stars", index + 1)
+                                                }
+                                                key={index}
+                                            />
+                                        ),
+                                    )}
+                                </div>
+                            </div>
+                            <div className="grid w-full gap-1">
+                                <Label htmlFor="comment">Comment</Label>
+                                <Textarea
+                                    id="comment"
+                                    placeholder="Write your review here..."
+                                    rows={3}
+                                    value={data.message}
+                                    onChange={(e) => {
+                                        setData("message", e.target.value);
+                                        clearErrors("message");
+                                    }}
+                                />
+                                {errors.message ? (
+                                    <p className="text-[0.8rem] font-medium text-red-500">
+                                        {errors.message}
+                                    </p>
+                                ) : (
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                                        Your review will be public. Please avoid
+                                        sharing sensitive information.
+                                    </p>
+                                )}
+                            </div>
+                        </CardContent>
+                        <CardFooter>
+                            <Button>Post Review</Button>
+                        </CardFooter>
+                    </Card>
+                </form>
             </section>
         </>
     );

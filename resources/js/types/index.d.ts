@@ -18,7 +18,6 @@ export interface Host extends Model {
 }
 
 export interface Apartment extends Model {
-    id: number;
     city: string;
     country: string;
     location: string;
@@ -32,6 +31,14 @@ export interface Apartment extends Model {
     start: string;
     end: string;
     host: Host;
+    stars: number;
+    reviews: Review[];
+    reviews_count: number;
+}
+
+export interface Review extends Model {
+    rating: number;
+    comment: string;
 }
 
 export interface Pagination<T extends Object> {
