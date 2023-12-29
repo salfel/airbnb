@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/layouts/AuthenticatedLayout";
-import { FormEvent, ReactNode, useEffect, useState } from "react";
-import { Apartment, PageProps, Review as ReviewType } from "@/types";
+import React, { FormEvent, ReactNode, useEffect, useState } from "react";
+import { Apartment, Attribute, PageProps, Review as ReviewType } from "@/types";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,11 +21,15 @@ import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import Review from "@/components/Review";
 import AverageStars from "@/components/AverageStars";
+import { attributes as _attributes } from "@/lib/constants";
 
 export default function Show({
     apartment,
     reviews,
-}: PageProps & { apartment: Apartment; reviews: ReviewType[] }) {
+}: PageProps & {
+    apartment: Apartment;
+    reviews: ReviewType[];
+}) {
     const [image, setImage] = useState(apartment.images[0]);
 
     return (
@@ -134,6 +138,9 @@ export default function Show({
                     </span>
                 </div>
 
+                <AttributesCard attributes={apartment.attributes} />
+            </section>
+            <section className="mt-12">
                 <ReviewForm apartment={apartment} />
 
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
@@ -283,6 +290,62 @@ function ReviewForm({ apartment }: ReviewFormProps) {
                 </CardFooter>
             </Card>
         </form>
+    );
+}
+
+interface AttributesCardProps {
+    attributes: string[];
+}
+
+function AttributesCard({ attributes }: AttributesCardProps) {
+    const [collapsed, setCollapsed] = useState(false);
+    return (
+        <div className="space-y-6">
+            <h2 className="text-xl font-semibold">
+                This Apartment offers you:{" "}
+            </h2>
+            <div>
+                <div className="inline-grid grid-cols-2 gap-y-6 gap-x-12">
+                    {attributes
+                        .map(
+                            (attribute) =>
+                                _attributes.find(
+                                    (value) => value.name === attribute,
+                                ) as Attribute,
+                        )
+                        .filter((attribute) => attribute)
+                        .sort((a, b): number => {
+                            const getIndex = (c: Attribute) =>
+                                _attributes.findIndex(
+                                    (attribute) => attribute.name === c.name,
+                                );
+
+                            return getIndex(a) - getIndex(b);
+                        })
+                        .map((attribute, index) => {
+                            return (
+                                <div
+                                    key={index}
+                                    className="flex items-center gap-6"
+                                >
+                                    <attribute.icon className="w-6 h-6" />
+                                    <p className="text-lg">{attribute.name}</p>
+                                </div>
+                            );
+                        })
+                        .filter((_, index) => collapsed || index < 6)}
+                </div>
+            </div>
+
+            <Button
+                variant="outline"
+                onClick={() =>
+                    collapsed ? setCollapsed(false) : setCollapsed(true)
+                }
+            >
+                View {collapsed ? "less" : "more"}
+            </Button>
+        </div>
     );
 }
 

@@ -1,4 +1,5 @@
 import { Config } from "ziggy-js";
+import { IconType } from "react-icons";
 
 interface Model {
     id: number;
@@ -32,22 +33,21 @@ export interface Apartment extends Model {
     end: string;
     host: Host;
     stars: number;
+    attributes: string[];
     reviews: Review[];
     reviews_count: number;
+}
+
+export interface Attribute {
+    name: string;
+    category: string;
+    icon: IconType;
 }
 
 export interface Review extends Model {
     stars: number;
     message: string;
     user: User;
-}
-
-export interface Attribute {
-    name: string;
-    category: string;
-    icon:
-        | keyof typeof import("react-icons/lu")
-        | keyof typeof import("react-icons/md");
 }
 
 export interface Pagination<T extends Object> {
