@@ -52,61 +52,65 @@ export default function AuthenticatedLayout({
                         </li>
                     </ul>
                 </nav>
-                {page.props.auth.user ? (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger>
-                            <UserAvatar user={page.props.auth.user} />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-40">
-                            <DropdownMenuLabel>
-                                {page.props.auth.user.name}
-                            </DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem asChild>
-                                <Link href={route("dashboard")}>Dashboard</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                                className="text-red-500 hover:!text-red-500"
-                                asChild
-                            >
-                                <Link
-                                    method="post"
-                                    href={route("logout")}
-                                    as="button"
-                                    className="w-full"
-                                >
-                                    Logout
-                                </Link>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                ) : (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger>
-                            <Avatar className="w-8 h-8">
-                                <AvatarFallback>G</AvatarFallback>
-                            </Avatar>
-                            <DropdownMenuContent className="w-40">
-                                <DropdownMenuLabel>Guest</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
 
-                                <DropdownMenuItem asChild>
-                                    <Link href={route("login")}>Login</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href={route("register")}>
-                                        Register
-                                    </Link>
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenuTrigger>
-                    </DropdownMenu>
-                )}
+                <Dropdown />
             </header>
             <main className="max-w-7xl mx-auto mt-6 px-6">{children}</main>
             <footer className="h-8"></footer>
             <Toaster />
         </>
+    );
+}
+
+function Dropdown() {
+    const page = usePage<PageProps>();
+    return page.props.auth.user ? (
+        <DropdownMenu>
+            <DropdownMenuTrigger>
+                <UserAvatar user={page.props.auth.user} />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-40">
+                <DropdownMenuLabel>
+                    {page.props.auth.user.name}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                    <Link href={route("dashboard")}>Dashboard</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                    className="text-red-500 hover:!text-red-500"
+                    asChild
+                >
+                    <Link
+                        method="post"
+                        href={route("logout")}
+                        as="button"
+                        className="w-full"
+                    >
+                        Logout
+                    </Link>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    ) : (
+        <DropdownMenu>
+            <DropdownMenuTrigger>
+                <Avatar className="w-8 h-8">
+                    <AvatarFallback>G</AvatarFallback>
+                </Avatar>
+                <DropdownMenuContent className="w-40">
+                    <DropdownMenuLabel>Guest</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuItem asChild>
+                        <Link href={route("login")}>Login</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <Link href={route("register")}>Register</Link>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenuTrigger>
+        </DropdownMenu>
     );
 }
