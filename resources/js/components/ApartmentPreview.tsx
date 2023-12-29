@@ -38,11 +38,9 @@ export default function ApartmentPreview({ apartment }: Props) {
                     {formatDateRange(apartment.start, apartment.end)}
                 </p>
                 <p className="my-2 text-2xl font-bold">€ {apartment.price}</p>
-                <Button>
-                    <Link href={route("apartments.show", [apartment.id])}>
-                        Details
-                    </Link>
-                </Button>
+                <Link href={route("apartments.show", [apartment.id])}>
+                    <Button>Details</Button>
+                </Link>
             </CardContent>
         </Card>
     );
