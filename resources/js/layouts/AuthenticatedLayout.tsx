@@ -31,8 +31,8 @@ export default function AuthenticatedLayout({
                     <span className="text-2xl font-bold">Airbnb</span>
                 </Link>
 
-                <nav className="flex-1 flex items-center justify-end">
-                    <ul>
+                <nav className="flex-1">
+                    <ul className="flex items-center justify-end">
                         <li>
                             <Link
                                 href={route("dashboard")}
@@ -42,7 +42,12 @@ export default function AuthenticatedLayout({
                                         : ""
                                 }
                             >
-                                <Button variant="link">Dashboard</Button>
+                                <Button variant="ghost">Dashboard</Button>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href={route("apartments.create")}>
+                                <Button variant="ghost">Become a Host</Button>
                             </Link>
                         </li>
                     </ul>
