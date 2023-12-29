@@ -1,28 +1,38 @@
 import GuestLayout from "@/layouts/GuestLayout";
-import { FormEvent, ReactNode } from "react";
+import { ReactNode } from "react";
 import {
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, Link, usePage, router } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
-import FormInput, { getChangeData } from "@/components/FormInput";
+import FormInput from "@/components/FormInput";
+import { useForm } from "react-hook-form";
+import { Form } from "@/components/ui/form";
+
+type Data = {
+    name: string;
+    email: string;
+    password: string;
+};
 
 export default function Login() {
-    const { data, setData, errors, clearErrors, post } = useForm({
-        name: "",
-        email: "",
-        password: "",
+    const {
+        props: { errors },
+    } = usePage();
+
+    const form = useForm({
+        defaultValues: {
+            name: "",
+            email: "",
+            password: "",
+        },
     });
 
-    const changeData = getChangeData(setData, clearErrors);
-
-    function handleSubmit(e: FormEvent) {
-        e.preventDefault();
-
-        post(route("register"));
+    function handleSubmit(values: Data) {
+        router.post(route("register"), values);
     }
 
     return (
@@ -40,31 +50,33 @@ export default function Login() {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-4 w-80">
-                    <FormInput
-                        field="name"
-                        value={data.name}
-                        setValue={changeData}
-                        error={errors.name}
-                    />
-                    <FormInput
-                        field="email"
-                        value={data.email}
-                        setValue={changeData}
-                        error={errors.email}
-                    />
-                    <FormInput
-                        type="password"
-                        field="password"
-                        value={data.password}
-                        setValue={changeData}
-                        error={errors.password}
-                    />
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(handleSubmit)}
+                        className="space-y-4 w-80"
+                    >
+                        <FormInput
+                            name="name"
+                            control={form.control}
+                            error={errors.name}
+                        />
+                        <FormInput
+                            name="email"
+                            control={form.control}
+                            error={errors.email}
+                        />
+                        <FormInput
+                            type="password"
+                            name="password"
+                            control={form.control}
+                            error={errors.password}
+                        />
 
-                    <Button type="submit" className="w-full">
-                        Register
-                    </Button>
-                </form>
+                        <Button type="submit" className="w-full">
+                            Register
+                        </Button>
+                    </form>
+                </Form>
             </CardContent>
         </>
     );

@@ -1,51 +1,63 @@
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import * as React from "react";
+import React from "react";
+import {
+    FormControl,
+    FormField,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import { Control, Path } from "react-hook-form";
+import { Textarea } from "@/components/ui/textarea";
 
-interface InputProps<T extends string>
-    extends React.InputHTMLAttributes<HTMLInputElement> {
-    field: T;
-    value: string;
-    setValue: (field: T, value: string) => void;
+type FormInputProps<T extends object, U extends boolean> = {
+    name: Path<T>;
+    control: Control<T>;
     error?: string;
+    textarea?: U;
+    type?: string;
+    render?:
+        | React.ComponentType<any>
+        | ((props: any) => React.ReactElement<any, any>);
+} & React.InputHTMLAttributes<
+    U extends true ? HTMLTextAreaElement : HTMLInputElement
+>;
+
+export default function FormInput<T extends object, U extends boolean>({
+    name,
+    control,
+    error,
+    textarea,
+    render,
+    type,
+}: FormInputProps<T, U>) {
+    const Element = render;
+
+    return (
+        <FormField
+            name={name}
+            control={control}
+            render={({ field }) => (
+                <>
+                    <div>
+                        <FormLabel
+                            htmlFor={name}
+                            className="font-medium capitalize"
+                        >
+                            {name}
+                        </FormLabel>
+                        <FormControl>
+                            {Element ? (
+                                <Element id={name} {...field} />
+                            ) : textarea ? (
+                                <Textarea id={name} rows={4} {...field} />
+                            ) : (
+                                <Input id={name} type={type} {...field} />
+                            )}
+                        </FormControl>
+                        <FormMessage>{error}</FormMessage>
+                    </div>
+                </>
+            )}
+        />
+    );
 }
-
-// @ts-ignore
-const FormInput = React.forwardRef<HTMLInputElement, InputProps<T>>(
-    ({ className, type, field, value, setValue, error, ...props }, ref) => {
-        return (
-            <div className="w-full space-y-1">
-                <Label htmlFor={field} className="capitalize font-semibold">
-                    {field}
-                </Label>
-                <Input
-                    type={type}
-                    ref={ref}
-                    id={field}
-                    name={field}
-                    value={value}
-                    onChange={(e) => setValue(field, e.target.value)}
-                    {...props}
-                />
-                <InputError error={error} />
-            </div>
-        );
-    },
-);
-FormInput.displayName = "FormInput";
-
-export function getChangeData<T extends {}>(
-    setValue: (field: keyof T, value: T[keyof T]) => void,
-    clearErrors: (field: keyof T) => void,
-) {
-    return function changeData<K extends keyof T>(field: K, value: T[K]): void {
-        setValue(field, value);
-        clearErrors(field);
-    };
-}
-
-export function InputError({ error }: { error?: string }) {
-    return <p className="text-[0.8rem] font-medium text-red-500">{error}</p>;
-}
-
-export default FormInput;
