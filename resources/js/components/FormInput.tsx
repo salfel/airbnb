@@ -12,7 +12,7 @@ interface InputProps<T extends string>
 
 // @ts-ignore
 const FormInput = React.forwardRef<HTMLInputElement, InputProps<T>>(
-    ({ className, type, field, value, setValue, error, ...props }) => {
+    ({ className, type, field, value, setValue, error, ...props }, ref) => {
         return (
             <div className="w-full space-y-1">
                 <Label htmlFor={field} className="capitalize font-semibold">
@@ -20,6 +20,7 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps<T>>(
                 </Label>
                 <Input
                     type={type}
+                    ref={ref}
                     id={field}
                     name={field}
                     value={value}
