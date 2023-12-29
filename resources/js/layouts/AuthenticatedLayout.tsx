@@ -20,9 +20,6 @@ export default function AuthenticatedLayout({
 }: {
     children: ReactNode;
 }) {
-    const page = usePage<PageProps>();
-    const location = page.props.ziggy.location;
-
     return (
         <>
             <header className="max-w-7xl mx-auto flex items-center justify-between py-2 gap-8 px-6">
@@ -34,14 +31,7 @@ export default function AuthenticatedLayout({
                 <nav className="flex-1">
                     <ul className="flex items-center justify-end">
                         <li>
-                            <Link
-                                href={route("dashboard")}
-                                className={
-                                    location === route("dashboard")
-                                        ? "font-bold"
-                                        : ""
-                                }
-                            >
+                            <Link href={route("dashboard")}>
                                 <Button variant="ghost">Dashboard</Button>
                             </Link>
                         </li>
