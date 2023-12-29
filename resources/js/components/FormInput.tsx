@@ -12,7 +12,7 @@ interface InputProps<T extends string>
 
 // @ts-ignore
 const FormInput = React.forwardRef<HTMLInputElement, InputProps<T>>(
-    ({ className, type, field, value, setValue, error, ...props }, ref) => {
+    ({ className, type, field, value, setValue, error, ...props }) => {
         return (
             <div className="w-full space-y-1">
                 <Label htmlFor={field} className="capitalize">
@@ -26,13 +26,15 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps<T>>(
                     onChange={(e) => setValue(field, e.target.value)}
                     {...props}
                 />
-                <p className="text-[0.8rem] font-medium text-red-500">
-                    {error}
-                </p>
+                <InputError error={error} />
             </div>
         );
     },
 );
 FormInput.displayName = "FormInput";
+
+export function InputError({ error }: { error?: string }) {
+    return <p className="text-[0.8rem] font-medium text-red-500">{error}</p>;
+}
 
 export default FormInput;
