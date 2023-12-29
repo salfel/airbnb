@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Toaster } from "@/components/ui/toaster";
 import UserAvatar from "@/components/UserAvatar";
+import { Button } from "@/components/ui/button";
 
 export default function AuthenticatedLayout({
     children,
@@ -41,7 +42,7 @@ export default function AuthenticatedLayout({
                                         : ""
                                 }
                             >
-                                Dashboard
+                                <Button variant="link">Dashboard</Button>
                             </Link>
                         </li>
                     </ul>
