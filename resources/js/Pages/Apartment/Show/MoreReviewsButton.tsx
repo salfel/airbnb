@@ -10,7 +10,7 @@ export default function MoreReviewsButton({
     apartmentId,
 }: MoreReviewsButtonProps) {
     return (
-        <Button asChild variant="link" className="mt-6">
+        <Button asChild variant="link">
             <Link
                 href={route("apartments.show", {
                     apartment: apartmentId,

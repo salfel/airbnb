@@ -125,13 +125,19 @@ export default function Show({
 
                 <AttributesCard attributes={apartment.attributes} />
             </section>
-            <section className="mt-12">
+            <section className="mt-12 space-y-8">
                 <ReviewForm apartment={apartment} />
 
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
-                    {reviews.map((review) => (
-                        <Review review={review} key={review.id} />
-                    ))}
+                <div>
+                    <h3 className="mb-3 font-semibold text-lg">
+                        Most recent Reviews
+                    </h3>
+
+                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-12">
+                        {reviews.map((review) => (
+                            <Review review={review} key={review.id} />
+                        ))}
+                    </div>
                 </div>
 
                 {reviews.length !== apartment.reviews_count && (
