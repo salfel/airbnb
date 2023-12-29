@@ -15,11 +15,11 @@ import { Toaster } from "@/components/ui/toaster";
 import UserAvatar from "@/components/UserAvatar";
 import { Button } from "@/components/ui/button";
 
-export default function AuthenticatedLayout({
-    children,
-}: {
+interface Props {
     children: ReactNode;
-}) {
+}
+
+export default function AuthenticatedLayout({ children }: Props) {
     return (
         <>
             <header className="max-w-7xl mx-auto flex items-center justify-between py-2 gap-8 px-6">
