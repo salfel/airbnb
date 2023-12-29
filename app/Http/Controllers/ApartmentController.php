@@ -10,6 +10,11 @@ use Inertia\Inertia;
 
 class ApartmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     public function index()
     {
         return Inertia::render('Home', [
@@ -27,8 +32,6 @@ class ApartmentController extends Controller
 
     public function create()
     {
-        $this->authorize('create', Apartment::class);
-
         return Inertia::render('Apartment/Create');
     }
 
