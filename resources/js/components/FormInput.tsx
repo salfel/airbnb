@@ -20,8 +20,8 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps<T>>(
                 </Label>
                 <Input
                     type={type}
-                    id="email"
-                    name="email"
+                    id={field}
+                    name={field}
                     value={value}
                     onChange={(e) => setValue(field, e.target.value)}
                     {...props}
