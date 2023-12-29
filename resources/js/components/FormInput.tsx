@@ -15,7 +15,7 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps<T>>(
     ({ className, type, field, value, setValue, error, ...props }) => {
         return (
             <div className="w-full space-y-1">
-                <Label htmlFor={field} className="capitalize">
+                <Label htmlFor={field} className="capitalize font-semibold">
                     {field}
                 </Label>
                 <Input
