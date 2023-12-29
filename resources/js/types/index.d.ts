@@ -21,14 +21,12 @@ export interface Host extends Model {
 export interface Apartment extends Model {
     city: string;
     country: string;
-    location: string;
     price: number;
     images: string[];
     title: string;
     description: string;
     beds: number;
     baths: number;
-    guests: number;
     start: string;
     end: string;
     host: Host;
