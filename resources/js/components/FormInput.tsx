@@ -33,6 +33,16 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps<T>>(
 );
 FormInput.displayName = "FormInput";
 
+export function getChangeData<T extends {}>(
+    setValue: (field: keyof T, value: T[keyof T]) => void,
+    clearErrors: (field: keyof T) => void,
+) {
+    return function changeData<K extends keyof T>(field: K, value: T[K]): void {
+        setValue(field, value);
+        clearErrors(field);
+    };
+}
+
 export function InputError({ error }: { error?: string }) {
     return <p className="text-[0.8rem] font-medium text-red-500">{error}</p>;
 }

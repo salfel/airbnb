@@ -6,10 +6,10 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { Head, Link, useForm, usePage } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import FormInput from "@/components/FormInput";
+import FormInput, { getChangeData } from "@/components/FormInput";
 import { Checkbox } from "@/components/ui/checkbox";
 
 export default function Login() {
@@ -19,13 +19,7 @@ export default function Login() {
         remember: true,
     });
 
-    function changeData(
-        field: keyof typeof data,
-        value: (typeof data)[keyof typeof data],
-    ) {
-        setData(field, value);
-        clearErrors(field);
-    }
+    const changeData = getChangeData(setData, clearErrors);
 
     function handleSubmit(e: FormEvent) {
         e.preventDefault();

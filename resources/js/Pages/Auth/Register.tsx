@@ -6,29 +6,18 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { Head, Link, useForm, usePage } from "@inertiajs/react";
-import { PageProps } from "@/types";
-import { Label } from "@/components/ui/label";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
-import FormInput from "@/components/FormInput";
-import { Checkbox } from "@/components/ui/checkbox";
+import FormInput, { getChangeData } from "@/components/FormInput";
 
 export default function Login() {
-    const page = usePage<PageProps>();
-
     const { data, setData, errors, clearErrors, post } = useForm({
         name: "",
         email: "",
         password: "",
     });
 
-    function changeData(
-        field: keyof typeof data,
-        value: (typeof data)[keyof typeof data],
-    ) {
-        setData(field, value);
-        clearErrors(field);
-    }
+    const changeData = getChangeData(setData, clearErrors);
 
     function handleSubmit(e: FormEvent) {
         e.preventDefault();
