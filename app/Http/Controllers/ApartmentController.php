@@ -17,6 +17,21 @@ class ApartmentController extends Controller
         ]);
     }
 
+    public function show(Apartment $apartment, Request $request)
+    {
+        return Inertia::render('Apartment/Show', [
+            'apartment' => fn() => Apartment::with(['host.user' => fn($user) => Log::info('test', [$user])])->withCount('reviews')->findOrFail($apartment->id),
+            'reviews' => $apartment->reviews()->with('user')->take($request->get('page', 1) * 6)->latest()->get()
+        ]);
+    }
+
+    public function create()
+    {
+        $this->authorize('create', Apartment::class);
+
+        return Inertia::render('Apartment/Create');
+    }
+
     public function store(ApartmentRequest $request)
     {
         $this->authorize('create', Apartment::class);
@@ -24,12 +39,11 @@ class ApartmentController extends Controller
         return Apartment::create($request->validated());
     }
 
-    public function show(Apartment $apartment, Request $request)
+    public function edit(Apartment $apartment)
     {
-        return Inertia::render('Apartment/Show', [
-            'apartment' => fn() => Apartment::with(['host.user' => fn($user) => Log::info('test', [$user])])->withCount('reviews')->findOrFail($apartment->id),
-            'reviews' => $apartment->reviews()->with('user')->take($request->get('page', 1) * 6)->latest()->get()
-        ]);
+        $this->authorize('update', $apartment);
+
+        return Inertia::render('Apartment/Edit');
     }
 
     public function update(ApartmentRequest $request, Apartment $apartment)
