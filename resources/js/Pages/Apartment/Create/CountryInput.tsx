@@ -18,6 +18,7 @@ import { MdCheck } from "react-icons/md";
 import * as React from "react";
 import { FormValues } from "@/Pages/Apartment/Create";
 import { ControllerRenderProps, Path } from "react-hook-form";
+import { ForwardRefProps } from "@/components/FormInput";
 
 interface CountryInputProps {
     onChange: (value: string) => void;
@@ -99,21 +100,19 @@ function Input({ onChange, value, name, innerRef }: CountryInputProps) {
     );
 }
 
-type ForwardRefProps = React.InputHTMLAttributes<HTMLInputElement> &
-    ControllerRenderProps<FormValues, Path<FormValues>>;
-
-const CountryInput = React.forwardRef<HTMLInputElement, ForwardRefProps>(
-    ({ onChange, value, name, ...props }, ref) => {
-        return (
-            <Input
-                onChange={onChange}
-                value={value as string}
-                name={name}
-                innerRef={ref}
-            />
-        );
-    },
-);
+const CountryInput = React.forwardRef<
+    HTMLInputElement,
+    ForwardRefProps<HTMLInputElement, FormValues>
+>(({ onChange, value, name, ...props }, ref) => {
+    return (
+        <Input
+            onChange={onChange}
+            value={value as string}
+            name={name}
+            innerRef={ref}
+        />
+    );
+});
 
 CountryInput.displayName = "CountryInput";
 
