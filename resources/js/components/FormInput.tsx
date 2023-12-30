@@ -3,6 +3,7 @@ import React from "react";
 import {
     FormControl,
     FormField,
+    FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
@@ -40,7 +41,7 @@ export default function FormInput<T extends object, U extends boolean>({
             control={control}
             render={({ field }) => (
                 <>
-                    <div className="w-full">
+                    <FormItem className="w-full">
                         <FormLabel
                             htmlFor={name}
                             className="font-medium capitalize"
@@ -71,7 +72,7 @@ export default function FormInput<T extends object, U extends boolean>({
                             )}
                         </FormControl>
                         <FormMessage>{error}</FormMessage>
-                    </div>
+                    </FormItem>
                 </>
             )}
         />

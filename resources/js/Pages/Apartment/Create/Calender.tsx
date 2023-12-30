@@ -57,55 +57,49 @@ export default function CalenderInput({ control, error }: Props) {
             control={control}
             render={({ field }) => (
                 <FormItem>
-                    <div>
-                        <FormLabel
-                            htmlFor={id}
-                            className="font-medium block mb-1"
-                        >
-                            Begin - End
-                        </FormLabel>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <FormControl>
-                                    <Button
-                                        variant="outline"
-                                        className={cn(
-                                            "w-[240px] pl-3 text-left font-normal",
-                                            !field.value &&
-                                                "text-muted-foreground",
-                                        )}
-                                    >
-                                        <span>
-                                            {format(field.value[0], "PP")} -{" "}
-                                            {format(field.value[1], "PP")}
-                                        </span>
-                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                    </Button>
-                                </FormControl>
-                            </PopoverTrigger>
-                            <PopoverContent>
-                                <Calendar
-                                    mode="multiple"
-                                    selected={field.value}
-                                    min={2}
-                                    id={id}
-                                    onSelect={(e) => {
-                                        const tmp = field.value;
-                                        field.onChange({
-                                            target: { value: e },
-                                        });
-                                        handleChange(
-                                            tmp,
-                                            e as Date[],
-                                            field.onChange,
-                                        );
-                                    }}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
-                        <FormMessage>{error}</FormMessage>
-                    </div>
+                    <FormLabel htmlFor={id} className="font-medium block mb-1">
+                        Begin - End
+                    </FormLabel>
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <FormControl>
+                                <Button
+                                    variant="outline"
+                                    className={cn(
+                                        "w-[240px] pl-3 text-left font-normal",
+                                        !field.value && "text-muted-foreground",
+                                    )}
+                                >
+                                    <span>
+                                        {format(field.value[0], "PP")} -{" "}
+                                        {format(field.value[1], "PP")}
+                                    </span>
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                            </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <Calendar
+                                mode="multiple"
+                                selected={field.value}
+                                min={2}
+                                id={id}
+                                onSelect={(e) => {
+                                    const tmp = field.value;
+                                    field.onChange({
+                                        target: { value: e },
+                                    });
+                                    handleChange(
+                                        tmp,
+                                        e as Date[],
+                                        field.onChange,
+                                    );
+                                }}
+                                initialFocus
+                            />
+                        </PopoverContent>
+                    </Popover>
+                    <FormMessage>{error}</FormMessage>
                 </FormItem>
             )}
         />
