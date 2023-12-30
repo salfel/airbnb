@@ -100,6 +100,7 @@ export default function Create() {
                                 control={form.control}
                                 type="number"
                             />
+
                             <Calendar
                                 control={form.control}
                                 error={errors.date}
@@ -112,11 +113,9 @@ export default function Create() {
                                     error={errors.city}
                                 />
 
-                                <FormInput
-                                    name="country"
+                                <CountryInput
                                     control={form.control}
                                     error={errors.country}
-                                    render={CountryInput}
                                 />
                             </div>
 
