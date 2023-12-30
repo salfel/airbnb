@@ -7,7 +7,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Control, Path, ControllerRenderProps } from "react-hook-form";
+import { Control, ControllerRenderProps, Path } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 
 type FormInputProps<T extends object, U extends boolean> = {
@@ -17,9 +17,6 @@ type FormInputProps<T extends object, U extends boolean> = {
     textarea?: U;
     type?: string;
     className?: string;
-    render?:
-        | React.ComponentType<any>
-        | ((props: any) => React.ReactElement<any, any>);
 } & React.InputHTMLAttributes<
     U extends true ? HTMLTextAreaElement : HTMLInputElement
 >;
@@ -29,12 +26,9 @@ export default function FormInput<T extends object, U extends boolean>({
     control,
     error,
     textarea,
-    render,
     type,
     className,
 }: FormInputProps<T, U>) {
-    const Element = render;
-
     return (
         <FormField
             name={name}
@@ -49,13 +43,7 @@ export default function FormInput<T extends object, U extends boolean>({
                             {name}
                         </FormLabel>
                         <FormControl>
-                            {Element ? (
-                                <Element
-                                    id={name}
-                                    {...field}
-                                    className={className}
-                                />
-                            ) : textarea ? (
+                            {textarea ? (
                                 <Textarea
                                     id={name}
                                     rows={4}
