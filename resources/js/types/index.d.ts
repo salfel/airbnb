@@ -76,3 +76,10 @@ export type PageProps<
     };
     ziggy: Config & { location: string };
 };
+
+type RequiredProperties<T> = Pick<
+    T,
+    {
+        [K in keyof T]-?: {} extends Pick<T, K> ? never : K;
+    }[keyof T]
+>;

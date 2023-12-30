@@ -14,7 +14,7 @@ import CountryInput from "@/Pages/Apartment/Create/CountryInput";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { Apartment, Model } from "@/types";
+import { Apartment, Model, RequiredProperties } from "@/types";
 import Calendar from "./Create/Calender";
 import { tomorrow } from "@/lib/utils";
 
@@ -50,7 +50,18 @@ export default function Create() {
     });
 
     function handleSubmit(values: FormValues) {
-        router.post(route("apartments.store"), values);
+        const { date, ...tmp } = values;
+
+        const data: RequiredProperties<Omit<FormValues, "date">> & {
+            start: Date;
+            end: Date;
+        } = {
+            start: date[0],
+            end: date[1],
+            ...tmp,
+        };
+
+        router.post(route("apartments.store"), data);
     }
 
     return (
