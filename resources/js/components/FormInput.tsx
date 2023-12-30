@@ -15,6 +15,7 @@ type FormInputProps<T extends object, U extends boolean> = {
     error?: string;
     textarea?: U;
     type?: string;
+    className?: string;
     render?:
         | React.ComponentType<any>
         | ((props: any) => React.ReactElement<any, any>);
@@ -29,6 +30,7 @@ export default function FormInput<T extends object, U extends boolean>({
     textarea,
     render,
     type,
+    className,
 }: FormInputProps<T, U>) {
     const Element = render;
 
@@ -47,11 +49,25 @@ export default function FormInput<T extends object, U extends boolean>({
                         </FormLabel>
                         <FormControl>
                             {Element ? (
-                                <Element id={name} {...field} />
+                                <Element
+                                    id={name}
+                                    {...field}
+                                    className={className}
+                                />
                             ) : textarea ? (
-                                <Textarea id={name} rows={4} {...field} />
+                                <Textarea
+                                    id={name}
+                                    rows={4}
+                                    {...field}
+                                    className={className}
+                                />
                             ) : (
-                                <Input id={name} type={type} {...field} />
+                                <Input
+                                    id={name}
+                                    type={type}
+                                    {...field}
+                                    className={className}
+                                />
                             )}
                         </FormControl>
                         <FormMessage>{error}</FormMessage>
