@@ -16,13 +16,8 @@ import {
 import { countries } from "@/lib/constants";
 import { MdCheck } from "react-icons/md";
 import * as React from "react";
-import { Apartment, Model } from "@/types";
+import { FormValues } from "@/Pages/Apartment/Create";
 import { ControllerRenderProps, Path } from "react-hook-form";
-
-export type FormValues = Omit<
-    Apartment,
-    keyof Model | "host" | "user" | "stars" | "reviews" | "reviews_count"
->;
 
 interface CountryInputProps {
     onChange: (value: string) => void;

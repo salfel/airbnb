@@ -10,12 +10,16 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import FormInput from "@/components/FormInput";
-import CountryInput, {
-    FormValues,
-} from "@/Pages/Apartment/Create/CountryInput";
+import CountryInput from "@/Pages/Apartment/Create/CountryInput";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
+import { Apartment, Model } from "@/types";
+
+export type FormValues = Omit<
+    Apartment,
+    keyof Model | "host" | "user" | "stars" | "reviews" | "reviews_count"
+>;
 
 export default function Create() {
     const {
