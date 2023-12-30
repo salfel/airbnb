@@ -82,6 +82,7 @@ export default function Create() {
                                 name="description"
                                 control={form.control}
                                 error={errors.description}
+                                textarea
                             />
                             <FormInput
                                 name="price"
