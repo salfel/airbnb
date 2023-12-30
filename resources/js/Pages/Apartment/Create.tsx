@@ -100,6 +100,10 @@ export default function Create() {
                                 control={form.control}
                                 type="number"
                             />
+                            <Calendar
+                                control={form.control}
+                                error={errors.date}
+                            />
 
                             <div className="flex items-center gap-6">
                                 <FormInput
