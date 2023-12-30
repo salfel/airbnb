@@ -53,7 +53,7 @@ export default function CountryInput({ control, error }: CountryInputProps) {
                 }
 
                 return (
-                    <FormItem>
+                    <FormItem className="w-full">
                         <FormLabel className="font-semibold">Country</FormLabel>
                         <FormControl>
                             <Popover
