@@ -40,7 +40,7 @@ export default function FormInput<T extends object, U extends boolean>({
             control={control}
             render={({ field }) => (
                 <>
-                    <div>
+                    <div className="w-full">
                         <FormLabel
                             htmlFor={name}
                             className="font-medium capitalize"
