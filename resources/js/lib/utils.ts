@@ -38,3 +38,19 @@ export function getAvatarFallbackName(name: string) {
     }
     return name[0].toUpperCase();
 }
+
+export function tomorrow(): Date {
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    return date;
+}
+
+export function array_diff<T>(a: T[], b: T[]) {
+    const array = a.filter((x) => !b.includes(x));
+    b.forEach((x) => {
+        if (!a.includes(x) && !array.includes(x)) {
+            array.push(x);
+        }
+    });
+    return array;
+}

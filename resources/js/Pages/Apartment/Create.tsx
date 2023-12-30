@@ -15,11 +15,20 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Apartment, Model } from "@/types";
+import Calendar from "./Create/Calender";
+import { tomorrow } from "@/lib/utils";
 
 export type FormValues = Omit<
     Apartment,
-    keyof Model | "host" | "user" | "stars" | "reviews" | "reviews_count"
->;
+    | keyof Model
+    | "host"
+    | "user"
+    | "stars"
+    | "reviews"
+    | "reviews_count"
+    | "start"
+    | "end"
+> & { date: Date[] };
 
 export default function Create() {
     const {
@@ -34,8 +43,7 @@ export default function Create() {
             country: "",
             beds: 0,
             baths: 0,
-            start: "",
-            end: "",
+            date: [new Date(), tomorrow()],
             attributes: [],
             images: [],
         },
@@ -75,13 +83,28 @@ export default function Create() {
                                 control={form.control}
                                 error={errors.description}
                             />
-
                             <FormInput
-                                name="country"
+                                name="price"
                                 control={form.control}
-                                error={errors.country}
-                                render={CountryInput}
+                                type="number"
                             />
+
+                            <div className="flex items-center gap-6">
+                                <FormInput
+                                    name="country"
+                                    control={form.control}
+                                    error={errors.country}
+                                    render={CountryInput}
+                                />
+
+                                <FormInput
+                                    name="city"
+                                    control={form.control}
+                                    error={errors.city}
+                                />
+                            </div>
+
+                            <Calendar control={form.control} />
 
                             <Button type="submit">Submit</Button>
                         </form>
