@@ -1,5 +1,4 @@
-import React from "react";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import AuthenticatedLayout from "@/layouts/AuthenticatedLayout";
 import { Head, router, usePage } from "@inertiajs/react";
 import {
@@ -17,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { Apartment, Model, RequiredProperties } from "@/types";
 import Calendar from "./Create/Calender";
 import { tomorrow } from "@/lib/utils";
+import AttributesInput from "@/Pages/Apartment/Create/AttributesInput";
 
 export type FormValues = Omit<
     Apartment,
@@ -107,20 +107,39 @@ export default function Create() {
 
                             <div className="flex items-center gap-6">
                                 <FormInput
+                                    name="city"
+                                    control={form.control}
+                                    error={errors.city}
+                                />
+
+                                <FormInput
                                     name="country"
                                     control={form.control}
                                     error={errors.country}
                                     render={CountryInput}
                                 />
+                            </div>
+
+                            <div className="flex items-center gap-6">
+                                <FormInput
+                                    type="number"
+                                    name="beds"
+                                    control={form.control}
+                                    error={errors.beds}
+                                />
 
                                 <FormInput
-                                    name="city"
+                                    type="number"
+                                    name="baths"
                                     control={form.control}
-                                    error={errors.city}
+                                    error={errors.baths}
                                 />
                             </div>
 
-                            <Calendar control={form.control} />
+                            <AttributesInput
+                                control={form.control}
+                                error={errors.attributes}
+                            />
 
                             <Button type="submit">Submit</Button>
                         </form>
