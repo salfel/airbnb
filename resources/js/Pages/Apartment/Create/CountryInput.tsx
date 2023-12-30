@@ -45,7 +45,7 @@ function Input({ onChange, value, name, innerRef }: CountryInputProps) {
             <Popover open={open} onOpenChange={(open) => setOpen(open)}>
                 <PopoverTrigger asChild>
                     <Button
-                        className="w-60 flex justify-between"
+                        className="w-full flex justify-between"
                         variant="outline"
                     >
                         {value || "Select Country"}
@@ -53,7 +53,10 @@ function Input({ onChange, value, name, innerRef }: CountryInputProps) {
                         <PiCaretUpDown className="w-4 h-4" />
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent onOpenAutoFocus={scrollToSelected}>
+                <PopoverContent
+                    onOpenAutoFocus={scrollToSelected}
+                    align="start"
+                >
                     <Command>
                         <CommandInput
                             placeholder="Search country..."
