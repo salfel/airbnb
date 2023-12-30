@@ -17,7 +17,6 @@ import { countries } from "@/lib/constants";
 import { MdCheck } from "react-icons/md";
 import * as React from "react";
 import { FormValues } from "@/Pages/Apartment/Create";
-import { ControllerRenderProps, Path } from "react-hook-form";
 import { ForwardRefProps } from "@/components/FormInput";
 
 interface CountryInputProps {
