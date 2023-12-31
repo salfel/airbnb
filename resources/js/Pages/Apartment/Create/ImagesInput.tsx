@@ -44,6 +44,7 @@ export default function ImagesInput({ control, error }: Props) {
                             {field.value.map((image, index) => (
                                 <button
                                     type="button"
+                                    key={image.name}
                                     onClick={() =>
                                         field.onChange(
                                             field.value.filter(
