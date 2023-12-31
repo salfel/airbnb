@@ -15,7 +15,7 @@ import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Apartment, Model } from "@/types";
 import Calendar from "./Create/Calender";
-import { tomorrow } from "@/lib/utils";
+import { objectToFormData, tomorrow } from "@/lib/utils";
 import AttributesInput from "@/Pages/Apartment/Create/AttributesInput";
 import ImagesInput from "@/Pages/Apartment/Create/ImagesInput";
 
@@ -55,12 +55,12 @@ export default function Create() {
         const { date, ...tmp } = values;
 
         const data = {
-            start: date.from,
-            end: date.to,
+            start: date.from.toISOString(),
+            end: date.to.toISOString(),
             ...tmp,
         };
 
-        router.post(route("apartments.store"), data);
+        router.post(route("apartments.store"), objectToFormData(data));
     }
 
     return (

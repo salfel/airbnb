@@ -78,3 +78,21 @@ export function groupAttributesByCategory(
         children,
     }));
 }
+
+export function objectToFormData(data: {
+    [key: string]: string | number | (string | Blob)[];
+}) {
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(data)) {
+        if (Array.isArray(value)) {
+            value.forEach((image) => {
+                formData.append(`${key}[]`, image);
+            });
+
+            continue;
+        }
+
+        formData.set(key, value.toString());
+    }
+    return formData;
+}
