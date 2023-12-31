@@ -101,11 +101,12 @@ export default function Create() {
                                 name="price"
                                 control={form.control}
                                 type="number"
+                                error={errors.price}
                             />
 
                             <Calendar
                                 control={form.control}
-                                error={errors.date}
+                                error={errors.begin || errors.end}
                             />
 
                             <div className="flex items-center gap-6">
