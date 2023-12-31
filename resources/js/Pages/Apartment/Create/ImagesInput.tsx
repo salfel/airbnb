@@ -21,7 +21,6 @@ export default function ImagesInput({ control, error }: Props) {
             name="images"
             control={control}
             render={({ field }) => {
-                console.log(field.value);
                 return (
                     <FormItem>
                         <FormLabel>Images</FormLabel>
