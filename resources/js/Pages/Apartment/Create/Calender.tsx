@@ -17,7 +17,6 @@ import { array_diff, cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { useId } from "react";
 
 interface Props {
     control: Control<FormValues>;
@@ -49,15 +48,13 @@ export default function CalenderInput({ control, error }: Props) {
         }
     }
 
-    const id = useId();
-
     return (
         <FormField
             name="date"
             control={control}
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel htmlFor={id} className="font-medium block mb-1">
+                    <FormLabel className="font-medium block mb-1">
                         Begin - End
                     </FormLabel>
                     <Popover>
@@ -80,10 +77,9 @@ export default function CalenderInput({ control, error }: Props) {
                         </PopoverTrigger>
                         <PopoverContent>
                             <Calendar
-                                mode="multiple"
+                                mode="range"
                                 selected={field.value}
                                 min={2}
-                                id={id}
                                 onSelect={(e) => {
                                     const tmp = field.value;
                                     field.onChange({
