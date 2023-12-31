@@ -1,4 +1,4 @@
-import React, { Fragment, useId, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Control } from "react-hook-form";
 import { FormValues } from "@/Pages/Apartment/Create";
 import {
@@ -71,8 +71,6 @@ export default function AttributesInput({ control, error }: Props) {
 
     const [open, setOpen] = useState(false);
 
-    const id = useId();
-
     return (
         <FormField
             control={control}
@@ -80,7 +78,7 @@ export default function AttributesInput({ control, error }: Props) {
             render={({ field }) => {
                 return (
                     <FormItem>
-                        <FormLabel htmlFor={id} className="block font-medium">
+                        <FormLabel className="block font-medium">
                             Attributes
                         </FormLabel>
                         <FormControl>
@@ -92,7 +90,7 @@ export default function AttributesInput({ control, error }: Props) {
                                 </PopoverTrigger>
                                 <PopoverContent>
                                     <Command>
-                                        <CommandInput id={id} />
+                                        <CommandInput />
                                         <CommandList className="hide-scrollbar">
                                             <CommandEmpty>
                                                 No attributes found...
