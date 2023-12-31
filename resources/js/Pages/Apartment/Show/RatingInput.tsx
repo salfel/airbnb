@@ -1,4 +1,4 @@
-import { LuStar } from "react-icons/lu";
+import { Star } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 interface Props {
@@ -20,9 +20,9 @@ export default function RatingInput({ value, onChange, size = 4 }: Props) {
         };
     }, []);
     return (
-        <div>
+        <div className="flex items-center gap-1">
             {Array.from({ length: 5 }).map((_, index) => (
-                <LuStar
+                <Star
                     fill={value >= index + 1 ? "black" : "none"}
                     className={`inline-block w-${size} h-${size}`}
                     onMouseOver={() => isDown && onChange(index + 1)}
