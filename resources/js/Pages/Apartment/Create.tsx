@@ -28,7 +28,7 @@ export type FormValues = Omit<
     | "reviews_count"
     | "start"
     | "end"
-> & { date: Date[] };
+> & { date: { from: Date; to: Date } };
 
 export default function Create() {
     const {
@@ -43,7 +43,7 @@ export default function Create() {
             country: "",
             beds: 0,
             baths: 0,
-            date: [new Date(), tomorrow()],
+            date: { from: new Date(), to: tomorrow() },
             attributes: [],
             images: [],
         },
@@ -56,8 +56,8 @@ export default function Create() {
             start: Date;
             end: Date;
         } = {
-            start: date[0],
-            end: date[1],
+            start: date.from,
+            end: date.to,
             ...tmp,
         };
 
