@@ -3,19 +3,36 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 
 class ApartmentRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
+            'title' => ['required', 'min:3'],
+            'description' => ['required', 'min:10'],
             'city' => ['required'],
-            'country' => ['required'],
-            'price' => ['required', 'integer'],
-            'location' => ['required'],
+            'country' => ['required', Rule::in(config('constants.countries'))],
+            'price' => ['required', 'integer', 'min:1'],
+            'baths' => ['required', 'integer', 'min:1'],
+            'beds' => ['required', 'integer', 'min:1'],
             'start' => ['required', 'date'],
             'end' => ['required', 'date'],
-            'thumbnail' => ['required'],
+            'images' => ['required', 'array', 'min:1'],
+            'images.*' => [File::image()->max(1024 * 5)],
+            'attributes' => ['required', 'array', 'min:1'],
+            'attributes.*' => [Rule::in(config('constants.apartment.attributes'))],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'price.min' => 'The :attribute field must be positive',
+            'baths.min' => 'The :attribute field must be positive',
+            'beds.min' => 'The :attribute field must be positive',
         ];
     }
 

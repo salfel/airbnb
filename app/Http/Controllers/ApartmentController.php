@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ApartmentRequest;
 use App\Models\Apartment;
+use App\Models\Host;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ApartmentController extends Controller
@@ -39,7 +42,25 @@ class ApartmentController extends Controller
     {
         $this->authorize('create', Apartment::class);
 
-        return Apartment::create($request->validated());
+        $user = Auth::user();
+        $host = $user->host ?? Host::create(['user_id' => $user->id]);
+
+        $validated = array_map(function ($value) {
+            if (!is_array($value) || (!count($value) || !($value[0] instanceof \Illuminate\Http\UploadedFile))) {
+                return $value ?? [];
+            }
+
+            return array_map(function ($image) {
+                return '/storage/' . Storage::disk('public')->putFile('apartments', $image);
+            }, $value);
+        }, $request->validated());
+
+        $apartment = Apartment::create([
+            'host_id' => $host->id,
+            ...$validated
+        ]);
+
+        return redirect()->route('apartments.show', $apartment);
     }
 
     public function edit(Apartment $apartment)
