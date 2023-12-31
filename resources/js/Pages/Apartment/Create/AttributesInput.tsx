@@ -78,7 +78,12 @@ export default function AttributesInput({ control, error }: Props) {
             render={({ field }) => {
                 return (
                     <FormItem>
-                        <FormLabel className="block">Attributes</FormLabel>
+                        <FormLabel
+                            className="block"
+                            onClick={() => setOpen(true)}
+                        >
+                            Attributes
+                        </FormLabel>
                         <FormControl>
                             <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>

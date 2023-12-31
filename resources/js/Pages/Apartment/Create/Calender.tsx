@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
+import { useState } from "react";
 
 interface Props {
     control: Control<FormValues>;
@@ -32,10 +33,12 @@ export default function CalenderInput({ control, error }: Props) {
             control={control}
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel className="block">Begin - End</FormLabel>
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <FormControl>
+                    <FormLabel className="block" onClick={() => setOpen(true)}>
+                        Begin - End
+                    </FormLabel>
+                    <FormControl>
+                        <Popover open={open} onOpenChange={setOpen}>
+                            <PopoverTrigger asChild>
                                 <Button
                                     variant="outline"
                                     className={cn(
