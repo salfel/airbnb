@@ -128,17 +128,19 @@ export default function Show({
             <section className="mt-12 space-y-8">
                 <ReviewForm apartment={apartment} />
 
-                <div>
-                    <h3 className="mb-3 font-semibold text-lg">
-                        Most recent Reviews
-                    </h3>
+                {reviews.length > 0 && (
+                    <div>
+                        <h3 className="mb-3 font-semibold text-lg">
+                            Most recent Reviews
+                        </h3>
 
-                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-12">
-                        {reviews.map((review) => (
-                            <Review review={review} key={review.id} />
-                        ))}
+                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-12">
+                            {reviews.map((review) => (
+                                <Review review={review} key={review.id} />
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {reviews.length !== apartment.reviews_count && (
                     <MoreReviewsButton apartmentId={apartment.id} />
