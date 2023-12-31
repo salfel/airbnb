@@ -47,14 +47,16 @@ export default function AttributesCard({ attributes }: AttributesCardProps) {
                 </div>
             </div>
 
-            <Button
-                variant="outline"
-                onClick={() =>
-                    collapsed ? setCollapsed(false) : setCollapsed(true)
-                }
-            >
-                View {collapsed ? "less" : "all"}
-            </Button>
+            {attributes.length >= 6 && (
+                <Button
+                    variant="outline"
+                    onClick={() =>
+                        collapsed ? setCollapsed(false) : setCollapsed(true)
+                    }
+                >
+                    View {collapsed ? "less" : "all"}
+                </Button>
+            )}
         </div>
     );
 }
