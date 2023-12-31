@@ -17,6 +17,7 @@ import { Apartment, Model, RequiredProperties } from "@/types";
 import Calendar from "./Create/Calender";
 import { tomorrow } from "@/lib/utils";
 import AttributesInput from "@/Pages/Apartment/Create/AttributesInput";
+import ImagesInput from "@/Pages/Apartment/Create/ImagesInput";
 
 export type FormValues = Omit<
     Apartment,
@@ -28,7 +29,8 @@ export type FormValues = Omit<
     | "reviews_count"
     | "start"
     | "end"
-> & { date: { from: Date; to: Date } };
+    | "images"
+> & { date: { from: Date; to: Date }; images: File[] };
 
 export default function Create() {
     const {
@@ -138,6 +140,11 @@ export default function Create() {
                             <AttributesInput
                                 control={form.control}
                                 error={errors.attributes}
+                            />
+
+                            <ImagesInput
+                                control={form.control}
+                                error={errors.images}
                             />
 
                             <Button type="submit">Submit</Button>
