@@ -81,13 +81,14 @@ export default function AttributesInput({ control, error }: Props) {
                         <FormLabel
                             className="block"
                             onClick={() => setOpen(true)}
+                            htmlFor="attributes"
                         >
                             Attributes
                         </FormLabel>
                         <FormControl>
                             <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>
-                                    <Button variant="outline">
+                                    <Button variant="outline" id="attributes">
                                         Select Attributes
                                     </Button>
                                 </PopoverTrigger>

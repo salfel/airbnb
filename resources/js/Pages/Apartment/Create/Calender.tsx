@@ -33,13 +33,18 @@ export default function CalenderInput({ control, error }: Props) {
             control={control}
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel className="block" onClick={() => setOpen(true)}>
+                    <FormLabel
+                        htmlFor="calendar"
+                        className="block"
+                        onClick={() => setOpen(true)}
+                    >
                         Begin - End
                     </FormLabel>
                     <FormControl>
                         <Popover open={open} onOpenChange={setOpen}>
                             <PopoverTrigger asChild>
                                 <Button
+                                    id="calendar"
                                     variant="outline"
                                     className={cn(
                                         "w-[240px] pl-3 text-left font-normal",

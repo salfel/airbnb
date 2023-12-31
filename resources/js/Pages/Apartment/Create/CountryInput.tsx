@@ -54,13 +54,17 @@ export default function CountryInput({ control, error }: CountryInputProps) {
 
                 return (
                     <FormItem className="w-full">
-                        <FormLabel onClick={() => setOpen(true)}>
+                        <FormLabel
+                            htmlFor="country"
+                            onClick={() => setOpen(true)}
+                        >
                             Country
                         </FormLabel>
                         <FormControl>
                             <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>
                                     <Button
+                                        id="country"
                                         className="w-full flex justify-between"
                                         variant="outline"
                                     >
