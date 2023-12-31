@@ -54,9 +54,7 @@ export default function CalenderInput({ control, error }: Props) {
             control={control}
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel className="font-medium block mb-1">
-                        Begin - End
-                    </FormLabel>
+                    <FormLabel className="block">Begin - End</FormLabel>
                     <Popover>
                         <PopoverTrigger asChild>
                             <FormControl>
