@@ -62,8 +62,11 @@ export default function FormInput<T extends object, U extends boolean>({
                                 />
                             )}
                         </FormControl>
-                        <FormDescription>{description}</FormDescription>
-                        <FormMessage>{error}</FormMessage>
+                        {!error ? (
+                            <FormDescription>{description}</FormDescription>
+                        ) : (
+                            <FormMessage>{error}</FormMessage>
+                        )}
                     </FormItem>
                 </>
             )}
