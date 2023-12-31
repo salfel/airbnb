@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input";
 import React from "react";
 import {
     FormControl,
+    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -17,6 +18,7 @@ type FormInputProps<T extends object, U extends boolean> = {
     textarea?: U;
     type?: string;
     className?: string;
+    description?: string;
 } & React.InputHTMLAttributes<
     U extends true ? HTMLTextAreaElement : HTMLInputElement
 >;
@@ -28,6 +30,7 @@ export default function FormInput<T extends object, U extends boolean>({
     textarea,
     type,
     className,
+    description,
 }: FormInputProps<T, U>) {
     return (
         <FormField
@@ -59,6 +62,7 @@ export default function FormInput<T extends object, U extends boolean>({
                                 />
                             )}
                         </FormControl>
+                        <FormDescription>{description}</FormDescription>
                         <FormMessage>{error}</FormMessage>
                     </FormItem>
                 </>

@@ -86,14 +86,17 @@ export default function Create() {
                                 name="title"
                                 control={form.control}
                                 error={errors.title}
+                                description="The title should be a concise yet descriptive name for your apartment. This will be the first thing potential renters see when browsing listings."
                             />
 
                             <FormInput
                                 name="description"
                                 control={form.control}
                                 error={errors.description}
+                                description="The description should provide a detailed overview of your apartment. This is your opportunity to convince potential renters that your apartment is the right choice for them."
                                 textarea
                             />
+
                             <FormInput
                                 name="price"
                                 control={form.control}
