@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useState } from "react";
 import {
     Popover,
@@ -15,104 +16,105 @@ import {
 } from "@/components/ui/command";
 import { countries } from "@/lib/constants";
 import { MdCheck } from "react-icons/md";
-import * as React from "react";
 import { FormValues } from "@/Pages/Apartment/Create";
-import { ForwardRefProps } from "@/components/FormInput";
+import {
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import { Control } from "react-hook-form";
 
 interface CountryInputProps {
-    onChange: (value: string) => void;
-    value: string;
-    name: string;
-    innerRef: React.Ref<HTMLInputElement>;
+    control: Control<FormValues>;
+    error?: string;
 }
 
-function Input({ onChange, value, name, innerRef }: CountryInputProps) {
+export default function CountryInput({ control, error }: CountryInputProps) {
     const [open, setOpen] = useState(false);
 
-    function scrollToSelected() {
-        const element = document.getElementById(value);
-        const container = document.getElementById("countryCommandGroup");
-        if (container && element) {
-            container.scrollTop =
-                element.offsetTop -
-                container.clientHeight / 2 -
-                element.clientHeight / 2;
-        }
-    }
-
     return (
-        <>
-            <Popover open={open} onOpenChange={(open) => setOpen(open)}>
-                <PopoverTrigger asChild>
-                    <Button
-                        className="w-full flex justify-between"
-                        variant="outline"
-                    >
-                        {value || "Select Country"}
+        <FormField
+            control={control}
+            name="country"
+            render={({ field }) => {
+                function scrollToSelected() {
+                    const element = document.getElementById(field.value);
+                    const container = document.getElementById(
+                        "countryCommandGroup",
+                    );
+                    if (container && element) {
+                        container.scrollTop =
+                            element.offsetTop -
+                            container.clientHeight / 2 -
+                            element.clientHeight / 2;
+                    }
+                }
 
-                        <PiCaretUpDown className="w-4 h-4" />
-                    </Button>
-                </PopoverTrigger>
-                <PopoverContent
-                    onOpenAutoFocus={scrollToSelected}
-                    align="start"
-                >
-                    <Command>
-                        <CommandInput
-                            placeholder="Search country..."
-                            className="h-9"
-                            name={name}
-                        />
-                        <CommandEmpty>No country found</CommandEmpty>
-                        <CommandGroup
-                            className="max-h-80 overflow-y-auto hide-scrollbar"
-                            id="countryCommandGroup"
+                return (
+                    <FormItem className="w-full">
+                        <FormLabel
+                            htmlFor="country"
+                            onClick={() => setOpen(true)}
                         >
-                            {countries.map((country, index) => (
-                                <CommandItem
-                                    id={country}
-                                    key={index}
-                                    value={country}
-                                    onSelect={() => {
-                                        onChange(country);
-                                        setOpen(false);
-                                    }}
+                            Country
+                        </FormLabel>
+                        <FormControl>
+                            <Popover open={open} onOpenChange={setOpen}>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        id="country"
+                                        className="w-full flex justify-between"
+                                        variant="outline"
+                                    >
+                                        {field.value || "Select Country"}
+
+                                        <PiCaretUpDown className="w-4 h-4" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent
+                                    onOpenAutoFocus={scrollToSelected}
+                                    align="start"
                                 >
-                                    {country}
-                                    {country === value && (
-                                        <MdCheck className="ml-auto w-4 h-4" />
-                                    )}
-                                </CommandItem>
-                            ))}
-                        </CommandGroup>
-                    </Command>
-                </PopoverContent>
-            </Popover>
-
-            <input
-                className="hidden"
-                ref={innerRef}
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-            />
-        </>
-    );
-}
-
-const CountryInput = React.forwardRef<
-    HTMLInputElement,
-    ForwardRefProps<HTMLInputElement, FormValues>
->(({ onChange, value, name, ...props }, ref) => {
-    return (
-        <Input
-            onChange={onChange}
-            value={value as string}
-            name={name}
-            innerRef={ref}
+                                    <Command>
+                                        <CommandInput
+                                            placeholder="Search country..."
+                                            className="h-9"
+                                        />
+                                        <CommandEmpty>
+                                            No country found
+                                        </CommandEmpty>
+                                        <CommandGroup
+                                            className="max-h-80 overflow-y-auto hide-scrollbar"
+                                            id="countryCommandGroup"
+                                        >
+                                            {countries.map((country) => (
+                                                <CommandItem
+                                                    id={country}
+                                                    key={country}
+                                                    value={country}
+                                                    onSelect={() => {
+                                                        field.onChange(country);
+                                                        setOpen(false);
+                                                    }}
+                                                >
+                                                    {country}
+                                                    {country ===
+                                                        field.value && (
+                                                        <MdCheck className="ml-auto w-4 h-4" />
+                                                    )}
+                                                </CommandItem>
+                                            ))}
+                                        </CommandGroup>
+                                    </Command>
+                                </PopoverContent>
+                            </Popover>
+                        </FormControl>
+                        <FormMessage>{error}</FormMessage>
+                    </FormItem>
+                );
+            }}
         />
     );
-});
-
-CountryInput.displayName = "CountryInput";
-
-export default CountryInput;
+}

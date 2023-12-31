@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { Attribute } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -53,4 +54,45 @@ export function array_diff<T>(a: T[], b: T[]) {
         }
     });
     return array;
+}
+
+type AttributeGroup = {
+    name: string;
+    children: Attribute[];
+};
+
+export function groupAttributesByCategory(
+    attributes: Attribute[],
+): AttributeGroup[] {
+    const grouped: { [key: string]: Attribute[] } = {};
+
+    attributes.forEach((attribute) => {
+        if (!grouped[attribute.category]) {
+            grouped[attribute.category] = [];
+        }
+        grouped[attribute.category].push(attribute);
+    });
+
+    return Object.entries(grouped).map(([name, children]) => ({
+        name,
+        children,
+    }));
+}
+
+export function objectToFormData(data: {
+    [key: string]: string | number | (string | Blob)[];
+}) {
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(data)) {
+        if (Array.isArray(value)) {
+            value.forEach((image) => {
+                formData.append(`${key}[]`, image);
+            });
+
+            continue;
+        }
+
+        formData.set(key, value.toString());
+    }
+    return formData;
 }

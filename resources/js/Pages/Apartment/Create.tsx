@@ -1,5 +1,4 @@
-import React from "react";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import AuthenticatedLayout from "@/layouts/AuthenticatedLayout";
 import { Head, router, usePage } from "@inertiajs/react";
 import {
@@ -14,9 +13,11 @@ import CountryInput from "@/Pages/Apartment/Create/CountryInput";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { Apartment, Model, RequiredProperties } from "@/types";
+import { Apartment, Model } from "@/types";
 import Calendar from "./Create/Calender";
-import { tomorrow } from "@/lib/utils";
+import { objectToFormData, tomorrow } from "@/lib/utils";
+import AttributesInput from "@/Pages/Apartment/Create/AttributesInput";
+import ImagesInput from "@/Pages/Apartment/Create/ImagesInput";
 
 export type FormValues = Omit<
     Apartment,
@@ -28,7 +29,8 @@ export type FormValues = Omit<
     | "reviews_count"
     | "start"
     | "end"
-> & { date: Date[] };
+    | "images"
+> & { date: { from: Date; to: Date }; images: File[] };
 
 export default function Create() {
     const {
@@ -43,7 +45,7 @@ export default function Create() {
             country: "",
             beds: 0,
             baths: 0,
-            date: [new Date(), tomorrow()],
+            date: { from: new Date(), to: tomorrow() },
             attributes: [],
             images: [],
         },
@@ -52,16 +54,13 @@ export default function Create() {
     function handleSubmit(values: FormValues) {
         const { date, ...tmp } = values;
 
-        const data: RequiredProperties<Omit<FormValues, "date">> & {
-            start: Date;
-            end: Date;
-        } = {
-            start: date[0],
-            end: date[1],
+        const data = {
+            start: date.from.toISOString(),
+            end: date.to.toISOString(),
             ...tmp,
         };
 
-        router.post(route("apartments.store"), data);
+        router.post(route("apartments.store"), objectToFormData(data));
     }
 
     return (
@@ -87,36 +86,67 @@ export default function Create() {
                                 name="title"
                                 control={form.control}
                                 error={errors.title}
+                                description="The title should be a concise yet descriptive name for your apartment. This will be the first thing potential renters see when browsing listings."
                             />
 
                             <FormInput
                                 name="description"
                                 control={form.control}
                                 error={errors.description}
+                                description="The description should provide a detailed overview of your apartment. This is your opportunity to convince potential renters that your apartment is the right choice for them."
                                 textarea
                             />
+
                             <FormInput
                                 name="price"
                                 control={form.control}
                                 type="number"
+                                error={errors.price}
+                            />
+
+                            <Calendar
+                                control={form.control}
+                                error={errors.begin || errors.end}
                             />
 
                             <div className="flex items-center gap-6">
-                                <FormInput
-                                    name="country"
-                                    control={form.control}
-                                    error={errors.country}
-                                    render={CountryInput}
-                                />
-
                                 <FormInput
                                     name="city"
                                     control={form.control}
                                     error={errors.city}
                                 />
+
+                                <CountryInput
+                                    control={form.control}
+                                    error={errors.country}
+                                />
                             </div>
 
-                            <Calendar control={form.control} />
+                            <div className="flex items-center gap-6">
+                                <FormInput
+                                    type="number"
+                                    name="beds"
+                                    control={form.control}
+                                    error={errors.beds}
+                                />
+
+                                <FormInput
+                                    type="number"
+                                    name="baths"
+                                    control={form.control}
+                                    error={errors.baths}
+                                />
+                            </div>
+
+                            <AttributesInput
+                                control={form.control}
+                                error={errors.attributes}
+                            />
+
+                            <ImagesInput
+                                control={form.control}
+                                error={errors.images}
+                            />
 
                             <Button type="submit">Submit</Button>
                         </form>
