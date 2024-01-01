@@ -1,6 +1,6 @@
 import Layout from "@/layouts/Layout";
 import React, { ReactNode, useState } from "react";
-import { Apartment, PageProps, Review as ReviewType } from "@/types";
+import { Apartment, Host, PageProps, Review as ReviewType } from "@/types";
 import { Head } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -72,51 +72,9 @@ export default function Show({
                         </span>
                     </p>
 
-                    <Card>
-                        <Table>
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell className="flex items-center gap-3">
-                                        <LuBed className="w-10" />
-                                        <span className="font-medium">
-                                            Bedrooms
-                                        </span>
-                                    </TableCell>
-                                    <TableCell>{apartment.beds}</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell className="flex items-center gap-3">
-                                        <LuBath className="w-10" />
-                                        <span className="font-medium">
-                                            Bathrooms
-                                        </span>
-                                    </TableCell>
-                                    <TableCell>{apartment.baths}</TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                    </Card>
+                    <RoomsCard apartment={apartment} />
 
-                    <Card className="p-3">
-                        <div className="flex items-center gap-3">
-                            <UserAvatar user={apartment.host.user} />
-                            <div>
-                                <div>
-                                    <span>Your host is: </span>
-                                    <span className="font-semibold tracking-tight">
-                                        {apartment.host.user.name}
-                                    </span>
-                                </div>
-
-                                <p>
-                                    Host since{" "}
-                                    {formatDistanceToNow(
-                                        apartment.host.created_at,
-                                    )}
-                                </p>
-                            </div>
-                        </div>
-                    </Card>
+                    <UserCard host={apartment.host} />
 
                     <Button className="w-full" size="lg">
                         Start Renting
@@ -177,6 +135,51 @@ function CreateReview({ apartmentId }: { apartmentId: number }) {
                     buttonText="Create Review"
                 />
             </CardContent>
+        </Card>
+    );
+}
+
+function UserCard({ host }: { host: Host }) {
+    return (
+        <Card className="p-3">
+            <div className="flex items-center gap-3">
+                <UserAvatar user={host.user} />
+                <div>
+                    <div>
+                        <span>Your host is: </span>
+                        <span className="font-semibold tracking-tight">
+                            {host.user.name}
+                        </span>
+                    </div>
+
+                    <p>Host since {formatDistanceToNow(host.created_at)}</p>
+                </div>
+            </div>
+        </Card>
+    );
+}
+
+function RoomsCard({ apartment }: { apartment: Apartment }) {
+    return (
+        <Card>
+            <Table>
+                <TableBody>
+                    <TableRow>
+                        <TableCell className="flex items-center gap-3">
+                            <LuBed className="w-10" />
+                            <span className="font-medium">Bedrooms</span>
+                        </TableCell>
+                        <TableCell>{apartment.beds}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className="flex items-center gap-3">
+                            <LuBath className="w-10" />
+                            <span className="font-medium">Bathrooms</span>
+                        </TableCell>
+                        <TableCell>{apartment.baths}</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
         </Card>
     );
 }
