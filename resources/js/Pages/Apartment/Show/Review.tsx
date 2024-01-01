@@ -60,34 +60,32 @@ export default function Review({ review }: Props) {
                     </>
                 )}
             </CardContent>
-            {page.props.auth.user &&
-                page.props.auth.user.id === review.user.id &&
-                !edit && (
-                    <div className="absolute top-3 right-3 space-x-2">
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => setEdit(true)}
-                        >
-                            Edit
-                        </Button>
+            {page.props.auth.user?.id === review.user.id && !edit && (
+                <div className="absolute top-3 right-3 space-x-2">
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setEdit(true)}
+                    >
+                        Edit
+                    </Button>
 
-                        <Button
-                            variant="ghost"
-                            className="bg-red-500 text-white hover:bg-red-600 hover:text-gray-100"
-                            size="sm"
-                            asChild
+                    <Button
+                        variant="ghost"
+                        className="bg-red-500 text-white hover:bg-red-600 hover:text-gray-100"
+                        size="sm"
+                        asChild
+                    >
+                        <Link
+                            href={route("reviews.destroy", [review.id])}
+                            method="delete"
+                            preserveScroll
                         >
-                            <Link
-                                href={route("reviews.destroy", [review.id])}
-                                method="delete"
-                                preserveScroll
-                            >
-                                <Trash2 className="w-2.5 h-2.5" />
-                            </Link>
-                        </Button>
-                    </div>
-                )}
+                            <Trash2 className="w-2.5 h-2.5" />
+                        </Link>
+                    </Button>
+                </div>
+            )}
         </Card>
     );
 }
