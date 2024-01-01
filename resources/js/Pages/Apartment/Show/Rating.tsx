@@ -13,7 +13,11 @@ export default function Rating({ stars, reviews_count }: RatingProps) {
 
             <span className="font-semibold text-xl">{stars}</span>
             <span className="text-gray-500">
-                (Based on {reviews_count} reviews)
+                (
+                {reviews_count
+                    ? `Based on ${reviews_count} reviews`
+                    : "No reviews yet"}
+                )
             </span>
         </div>
     );
