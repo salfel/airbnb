@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReviewRequest;
 use App\Models\Apartment;
 use App\Models\Review;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -33,8 +32,11 @@ class ReviewController extends Controller
         return redirect()->back();
     }
 
-    public function update(Request $request, Review $review)
+    public function update(ReviewRequest $request, Review $review)
     {
+        $review->update($request->validated());
+
+        return redirect()->back();
     }
 
     public function destroy(Review $review)
