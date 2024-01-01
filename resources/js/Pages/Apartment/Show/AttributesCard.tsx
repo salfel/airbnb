@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { attributes as _attributes } from "@/lib/constants";
+import _attributes from "@/constants/attributes";
 import { Attribute } from "@/types";
 import { Button } from "@/components/ui/button";
 
