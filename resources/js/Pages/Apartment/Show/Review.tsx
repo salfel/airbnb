@@ -79,6 +79,7 @@ export default function Review({ review }: Props) {
                         <Link
                             href={route("reviews.destroy", [review.id])}
                             method="delete"
+                            as="button"
                             preserveScroll
                         >
                             <Trash2 className="w-2.5 h-2.5" />
