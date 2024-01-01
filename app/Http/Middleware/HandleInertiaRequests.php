@@ -2,9 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 
@@ -20,7 +18,7 @@ class HandleInertiaRequests extends Middleware
     /**
      * Determine the current asset version.
      */
-    public function version(Request $request): string|null
+    public function version(Request $request): ?string
     {
         return parent::version($request);
     }
@@ -37,10 +35,11 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'ziggy' => fn() => [
+            'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
+            'flash' => $request->session()->get('message'),
         ];
     }
 }

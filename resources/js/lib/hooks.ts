@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { usePage } from "@inertiajs/react";
+import { PageProps } from "@/types";
 
 export function useSearchParams() {
     const [searchParams, setSearchParams] = useState(
@@ -15,4 +17,13 @@ export function useSearchParams() {
     }, []);
 
     return searchParams;
+}
+
+export function useErrors<T extends PageProps>(errorBag?: string | null) {
+    const page = usePage<T>();
+
+    if (errorBag) {
+        return page.props.errors[errorBag] ?? {};
+    }
+    return page.props.errors;
 }

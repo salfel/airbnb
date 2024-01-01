@@ -19,6 +19,7 @@ type FormInputProps<T extends object, U extends boolean> = {
     type?: string;
     className?: string;
     description?: string;
+    rows?: number;
 } & React.InputHTMLAttributes<
     U extends true ? HTMLTextAreaElement : HTMLInputElement
 >;
@@ -31,6 +32,7 @@ export default function FormInput<T extends object, U extends boolean>({
     type,
     className,
     description,
+    rows,
 }: FormInputProps<T, U>) {
     return (
         <FormField
@@ -49,8 +51,8 @@ export default function FormInput<T extends object, U extends boolean>({
                             {textarea ? (
                                 <Textarea
                                     id={name}
-                                    rows={4}
                                     {...field}
+                                    rows={rows}
                                     className={className}
                                 />
                             ) : (

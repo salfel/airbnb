@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { attributes as _attributes } from "@/lib/constants";
+import _attributes from "@/constants/attributes";
 import { Attribute } from "@/types";
 import { Button } from "@/components/ui/button";
 
@@ -47,14 +47,16 @@ export default function AttributesCard({ attributes }: AttributesCardProps) {
                 </div>
             </div>
 
-            <Button
-                variant="outline"
-                onClick={() =>
-                    collapsed ? setCollapsed(false) : setCollapsed(true)
-                }
-            >
-                View {collapsed ? "less" : "all"}
-            </Button>
+            {attributes.length >= 6 && (
+                <Button
+                    variant="outline"
+                    onClick={() =>
+                        collapsed ? setCollapsed(false) : setCollapsed(true)
+                    }
+                >
+                    View {collapsed ? "less" : "all"}
+                </Button>
+            )}
         </div>
     );
 }

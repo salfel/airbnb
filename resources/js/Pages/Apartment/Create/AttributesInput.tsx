@@ -17,7 +17,7 @@ import {
     CommandList,
     CommandSeparator,
 } from "@/components/ui/command";
-import { attributes as _attributes } from "@/lib/constants";
+import _attributes from "@/constants/attributes";
 import { groupAttributesByCategory } from "@/lib/utils";
 import {
     Popover,

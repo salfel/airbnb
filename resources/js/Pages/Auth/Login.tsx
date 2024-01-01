@@ -1,4 +1,4 @@
-import GuestLayout from "@/layouts/GuestLayout";
+import AuthLayout from "@/layouts/AuthLayout";
 import { ReactNode } from "react";
 import {
     CardContent,
@@ -89,4 +89,4 @@ export default function Login() {
     );
 }
 
-Login.layout = (page: ReactNode) => <GuestLayout>{page}</GuestLayout>;
+Login.layout = (page: ReactNode) => <AuthLayout>{page}</AuthLayout>;

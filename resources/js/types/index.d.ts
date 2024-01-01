@@ -1,5 +1,6 @@
 import { Config } from "ziggy-js";
 import { IconType } from "react-icons";
+import { toastActions } from "@/constants/toast";
 
 interface Model {
     id: number;
@@ -46,6 +47,7 @@ export interface Review extends Model {
     stars: number;
     message: string;
     user: User;
+    apartment_id: number;
 }
 
 export interface Pagination<T extends Object> {
@@ -75,4 +77,10 @@ export type PageProps<
         user: User;
     };
     ziggy: Config & { location: string };
+    flash: {
+        message: string;
+        title: string;
+        action: keyof typeof toastActions;
+        type: "default" | "destructive" | null;
+    };
 };

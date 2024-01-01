@@ -1,136 +1,94 @@
-import { Apartment } from "@/types";
-import React, { FormEvent, useEffect, useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
-import { Link, useForm } from "@inertiajs/react";
-import { ToastAction } from "@/components/ui/toast";
+import { Review as ReviewType } from "@/types";
+import { useForm } from "react-hook-form";
+import { useErrors } from "@/lib/hooks";
+import { router } from "@inertiajs/react";
+import { Method } from "@inertiajs/core";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { LuStar } from "react-icons/lu";
-import { Textarea } from "@/components/ui/textarea";
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import RatingInput from "@/Pages/Apartment/Show/RatingInput";
+import FormInput from "@/components/FormInput";
 import { Button } from "@/components/ui/button";
 
+type ReviewFormValues = {
+    stars: number;
+    message: string;
+};
+
 interface ReviewFormProps {
-    apartment: Apartment;
+    review?: ReviewType;
+    url: string;
+    buttonText: string;
+    method?: Method;
+    onSuccess?: () => void;
 }
 
-export default function ReviewForm({ apartment }: ReviewFormProps) {
-    const [isDown, setIsDown] = useState(false);
-    const { toast } = useToast();
+export default function ReviewForm({
+    review,
+    url,
+    buttonText,
+    onSuccess,
+    method,
+}: ReviewFormProps) {
+    const form = useForm<ReviewFormValues>({
+        defaultValues: {
+            stars: review?.stars ?? 1,
+            message: review?.message ?? "",
+        },
+    });
 
-    useEffect(() => {
-        document.addEventListener("mousedown", () => setIsDown(true));
-        document.addEventListener("mouseup", () => setIsDown(false));
+    const errorBag = review?.id ? `review.${review.id}` : undefined;
+    const errors = useErrors(errorBag);
 
-        return () => {
-            document.removeEventListener("mousedown", () => setIsDown(true));
-            document.removeEventListener("mouseup", () => setIsDown(false));
-        };
-    }, []);
-
-    const { data, setData, errors, clearErrors, post, processing, reset } =
-        useForm({
-            stars: 1,
-            message: "",
-        });
-
-    function handleSubmit(e: FormEvent) {
-        e.preventDefault();
-
-        post(route("apartments.reviews.store", [apartment.id]), {
+    function handleSubmit(values: ReviewFormValues) {
+        // @ts-ignore
+        router.visit(url, {
+            data: values,
             preserveScroll: true,
-            onSuccess: () => {
-                reset("stars", "message");
-            },
-            onError: ({ auth }) => {
-                if (!auth) return;
-
-                reset("stars", "message");
-                toast({
-                    variant: "destructive",
-                    title: "Not authorized!",
-                    description: auth,
-                    action: (
-                        <ToastAction altText="Login">
-                            <Link href={route("login")}>Login</Link>
-                        </ToastAction>
-                    ),
-                });
-            },
+            errorBag,
+            onSuccess,
+            method,
         });
     }
 
     return (
-        <form className="mt-6" onSubmit={handleSubmit}>
-            <Card className="space-y-2">
-                <CardHeader>
-                    <div className="flex items-center justify-between">
-                        <CardTitle>Write a Review</CardTitle>
-                    </div>
-                    <CardDescription>
-                        Share your experience about this apartment. Your review
-                        will help others make informed decisions.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                    <div className="grid items-center gap-1">
-                        <Label>Rating</Label>
-                        <div>
-                            {Array.from({ length: 5 }).map((_, index) => (
-                                <LuStar
-                                    fill={
-                                        data.stars >= index + 1
-                                            ? "black"
-                                            : "none"
-                                    }
-                                    className="inline-block w-4 h-4"
-                                    onMouseOver={() =>
-                                        isDown && setData("stars", index + 1)
-                                    }
-                                    onMouseDown={() =>
-                                        setData("stars", index + 1)
-                                    }
-                                    key={index}
+        <Form {...form}>
+            <form
+                onSubmit={form.handleSubmit(handleSubmit)}
+                className="space-y-3"
+            >
+                <FormField
+                    name="stars"
+                    control={form.control}
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Rating</FormLabel>
+                            <FormControl>
+                                <RatingInput
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    size={6}
                                 />
-                            ))}
-                        </div>
-                    </div>
-                    <div className="grid w-full gap-1">
-                        <Label htmlFor="message">Comment</Label>
-                        <Textarea
-                            id="message"
-                            placeholder="Write your review here..."
-                            rows={3}
-                            value={data.message}
-                            onChange={(e) => {
-                                setData("message", e.target.value);
-                                clearErrors("message");
-                            }}
-                        />
-                        {errors.message ? (
-                            <p className="text-[0.8rem] font-medium text-red-500">
-                                {errors.message}
-                            </p>
-                        ) : (
-                            <p className="text-xs text-gray-500 dark:text-gray-400">
-                                Your review will be public. Please avoid sharing
-                                sensitive information.
-                            </p>
-                        )}
-                    </div>
-                </CardContent>
-                <CardFooter>
-                    <Button disabled={processing} type="submit">
-                        Post Review
-                    </Button>
-                </CardFooter>
-            </Card>
-        </form>
+                            </FormControl>
+                            <FormMessage>{errors.stars}</FormMessage>
+                        </FormItem>
+                    )}
+                />
+
+                <FormInput
+                    name="message"
+                    control={form.control}
+                    error={errors.message}
+                    textarea
+                />
+
+                <Button type="submit">{buttonText}</Button>
+            </form>
+        </Form>
     );
 }

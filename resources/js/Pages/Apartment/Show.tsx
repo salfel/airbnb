@@ -1,14 +1,20 @@
-import AuthenticatedLayout from "@/layouts/AuthenticatedLayout";
+import Layout from "@/layouts/Layout";
 import React, { ReactNode, useState } from "react";
 import { Apartment, PageProps, Review as ReviewType } from "@/types";
 import { Head } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { LuBath, LuBed } from "react-icons/lu";
 import UserAvatar from "@/components/UserAvatar";
 import { formatDistanceToNow } from "date-fns";
-import Review from "@/components/Review";
+import Review from "@/Pages/Apartment/Show/Review";
 import ReviewForm from "./Show/ReviewForm";
 import AttributesCard from "./Show/AttributesCard";
 import Rating from "@/Pages/Apartment/Show/Rating";
@@ -126,19 +132,21 @@ export default function Show({
                 <AttributesCard attributes={apartment.attributes} />
             </section>
             <section className="mt-12 space-y-8">
-                <ReviewForm apartment={apartment} />
+                <CreateReview apartmentId={apartment.id} />
 
-                <div>
-                    <h3 className="mb-3 font-semibold text-lg">
-                        Most recent Reviews
-                    </h3>
+                {reviews.length > 0 && (
+                    <div>
+                        <h3 className="mb-3 font-semibold text-lg">
+                            Most recent Reviews
+                        </h3>
 
-                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-12">
-                        {reviews.map((review) => (
-                            <Review review={review} key={review.id} />
-                        ))}
+                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-12">
+                            {reviews.map((review) => (
+                                <Review review={review} key={review.id} />
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {reviews.length !== apartment.reviews_count && (
                     <MoreReviewsButton apartmentId={apartment.id} />
@@ -148,6 +156,27 @@ export default function Show({
     );
 }
 
-Show.layout = (page: ReactNode) => (
-    <AuthenticatedLayout>{page}</AuthenticatedLayout>
-);
+Show.layout = (page: ReactNode) => <Layout>{page}</Layout>;
+
+function CreateReview({ apartmentId }: { apartmentId: number }) {
+    return (
+        <Card className="space-y-2">
+            <CardHeader>
+                <div className="flex items-center justify-between">
+                    <CardTitle>Write a Review</CardTitle>
+                </div>
+                <CardDescription>
+                    Share your experience about this apartment. Your review will
+                    help others make informed decisions.
+                </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+                <ReviewForm
+                    url={route("apartments.reviews.store", [apartmentId])}
+                    method="post"
+                    buttonText="Create Review"
+                />
+            </CardContent>
+        </Card>
+    );
+}

@@ -14,7 +14,7 @@ import {
     CommandInput,
     CommandItem,
 } from "@/components/ui/command";
-import { countries } from "@/lib/constants";
+import countries from "@/constants/countries";
 import { MdCheck } from "react-icons/md";
 import { FormValues } from "@/Pages/Apartment/Create";
 import {

@@ -5,39 +5,50 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReviewRequest;
 use App\Models\Apartment;
 use App\Models\Review;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class ReviewController extends Controller
 {
-    public function index(Apartment $apartment)
-    {
-
-    }
-
     public function store(Apartment $apartment, ReviewRequest $request)
     {
-        $response = Gate::inspect('create', $apartment);
+        $response = Gate::inspect('create', Review::class);
 
-        if (!$response->allowed()) {
-            return redirect()->back()->withErrors(['auth' => 'You have to be logged in to leave a review.']);
+        if (! $response->allowed()) {
+            session()->flash('message', [
+                'title' => 'Not authorized',
+                'message' => 'Please login to post a review for this apartment',
+                'action' => 'login',
+                'type' => 'destructive',
+            ]);
+
+            return redirect()->back();
         }
 
         Review::create([
             'user_id' => Auth::id(),
             'apartment_id' => $apartment->id,
-            ...$request->validated()
+            ...$request->validated(),
         ]);
 
         return redirect()->back();
     }
 
-    public function update(Request $request, Review $review)
+    public function update(ReviewRequest $request, Review $review)
     {
+        Gate::inspect('update', $review);
+
+        $review->update($request->validated());
+
+        return redirect()->back();
     }
 
     public function destroy(Review $review)
     {
+        Gate::inspect('delete', $review);
+
+        $review->delete();
+
+        return redirect()->back();
     }
 }
