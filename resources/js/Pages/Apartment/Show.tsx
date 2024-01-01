@@ -1,5 +1,5 @@
 import Layout from "@/layouts/Layout";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import { Apartment, Host, PageProps, Review as ReviewType } from "@/types";
 import { Head } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,13 @@ import ReviewForm from "./Show/ReviewForm";
 import AttributesCard from "./Show/AttributesCard";
 import Rating from "@/Pages/Apartment/Show/Rating";
 import MoreReviewsButton from "@/Pages/Apartment/Show/MoreReviewsButton";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default function Show({
     apartment,
@@ -27,60 +34,37 @@ export default function Show({
     apartment: Apartment;
     reviews: ReviewType[];
 }) {
-    const [image, setImage] = useState(apartment.images[0]);
-
     return (
         <>
             <Head title={apartment.title} />
 
-            <section className="grid grid-cols-3 gap-x-12">
-                <div className="col-span-2">
-                    <img
-                        src={image || "/placeholder.svg"}
-                        alt={apartment.title}
-                        className="aspect-video object-cover"
-                    />
+            <ImageCarousel apartment={apartment} />
 
-                    <div className="flex flex-wrap gap-6 mt-6">
-                        {apartment.images.map((image, index) => (
-                            <button onClick={() => setImage(image)} key={index}>
-                                <img
-                                    src={image || "/placeholder.svg"}
-                                    alt="placeholder"
-                                    className="h-20 aspect-video"
-                                />
-                            </button>
-                        ))}
-                    </div>
+            <div className="space-y-6 mt-12">
+                <div>
+                    <h1 className="text-2xl font-semibold">
+                        {apartment.title}
+                    </h1>
+                    <p className="mt-2 text-gray-800 text-sm">
+                        {apartment.description}
+                    </p>
                 </div>
 
-                <div className="flex flex-col justify-between space-y-4">
-                    <div>
-                        <h1 className="text-2xl font-semibold">
-                            {apartment.title}
-                        </h1>
-                        <p className="mt-2 text-gray-800 text-sm">
-                            {apartment.description}
-                        </p>
-                    </div>
+                <p className="text-2xl font-semibold">
+                    {apartment.price}€
+                    <span className="text-base font-normal"> per Night</span>
+                </p>
 
-                    <p className="text-2xl font-semibold">
-                        {apartment.price}€
-                        <span className="text-base font-normal">
-                            {" "}
-                            per Night
-                        </span>
-                    </p>
-
+                <div className="flex gap-12">
                     <RoomsCard apartment={apartment} />
 
                     <UserCard host={apartment.host} />
-
-                    <Button className="w-full" size="lg">
-                        Start Renting
-                    </Button>
                 </div>
-            </section>
+
+                <Button size="lg" className="text-lg font-semibold">
+                    Start Renting
+                </Button>
+            </div>
             <section className="mt-12">
                 <Rating
                     stars={apartment.stars}
@@ -116,6 +100,30 @@ export default function Show({
 
 Show.layout = (page: ReactNode) => <Layout>{page}</Layout>;
 
+function ImageCarousel({ apartment }: { apartment: Apartment }) {
+    return (
+        <section>
+            <Carousel opts={{ loop: true }}>
+                <CarouselContent>
+                    {apartment.images.map((image, index) => (
+                        <CarouselItem key={index}>
+                            <img
+                                src={image || "/placeholder.svg"}
+                                alt="placeholder"
+                                className="aspect-video w-full basis-1"
+                            />
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+                <div className="absolute bottom-10 flex items-center justify-center w-full gap-12">
+                    <CarouselPrevious className="static" />
+                    <CarouselNext className="static" />
+                </div>
+            </Carousel>
+        </section>
+    );
+}
+
 function CreateReview({ apartmentId }: { apartmentId: number }) {
     return (
         <Card className="space-y-2">
@@ -141,7 +149,7 @@ function CreateReview({ apartmentId }: { apartmentId: number }) {
 
 function UserCard({ host }: { host: Host }) {
     return (
-        <Card className="p-3">
+        <Card className="p-3 w-full">
             <div className="flex items-center gap-3">
                 <UserAvatar user={host.user} />
                 <div>
@@ -161,19 +169,19 @@ function UserCard({ host }: { host: Host }) {
 
 function RoomsCard({ apartment }: { apartment: Apartment }) {
     return (
-        <Card>
+        <Card className="w-full">
             <Table>
                 <TableBody>
                     <TableRow>
                         <TableCell className="flex items-center gap-3">
-                            <LuBed className="w-10" />
+                            <LuBed className="w-10 h-5" />
                             <span className="font-medium">Bedrooms</span>
                         </TableCell>
                         <TableCell>{apartment.beds}</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="flex items-center gap-3">
-                            <LuBath className="w-10" />
+                            <LuBath className="w-10 h-5" />
                             <span className="font-medium">Bathrooms</span>
                         </TableCell>
                         <TableCell>{apartment.baths}</TableCell>
