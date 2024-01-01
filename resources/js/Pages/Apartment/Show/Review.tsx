@@ -17,7 +17,7 @@ export default function Review({ review }: Props) {
 
     const page = usePage<PageProps>();
     return (
-        <Card className="relative p-3">
+        <Card className="relative">
             <CardHeader>
                 <div className="flex items-center space-x-4">
                     <UserAvatar user={review.user} />
@@ -34,7 +34,22 @@ export default function Review({ review }: Props) {
             </CardHeader>
             <CardContent>
                 {edit ? (
-                    <ReviewForm review={review} url={route("reviews.update")} />
+                    <>
+                        <ReviewForm
+                            review={review}
+                            url={route("reviews.update", [review.id])}
+                            method="put"
+                            buttonText="Update Review"
+                            onSuccess={() => setEdit(false)}
+                        />
+                        <Button
+                            className="absolute right-3 top-3"
+                            onClick={() => setEdit(false)}
+                            variant="ghost"
+                        >
+                            Cancel
+                        </Button>
+                    </>
                 ) : (
                     <>
                         <AverageStars stars={review.stars} size={6} />

@@ -46,6 +46,7 @@ export interface Review extends Model {
     stars: number;
     message: string;
     user: User;
+    apartment_id: number;
 }
 
 export interface Pagination<T extends Object> {
