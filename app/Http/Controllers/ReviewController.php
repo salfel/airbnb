@@ -36,6 +36,8 @@ class ReviewController extends Controller
 
     public function update(ReviewRequest $request, Review $review)
     {
+        Gate::inspect('update', $review);
+
         $review->update($request->validated());
 
         return redirect()->back();
