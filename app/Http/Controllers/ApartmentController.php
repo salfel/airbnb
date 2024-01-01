@@ -21,15 +21,15 @@ class ApartmentController extends Controller
     public function index()
     {
         return Inertia::render('Home', [
-            'apartments' => Apartment::latest()->paginate(12)
+            'apartments' => Apartment::latest()->paginate(12),
         ]);
     }
 
     public function show(Apartment $apartment, Request $request)
     {
         return Inertia::render('Apartment/Show', [
-            'apartment' => fn() => Apartment::with(['host.user' => fn($user) => Log::info('test', [$user])])->withCount('reviews')->findOrFail($apartment->id),
-            'reviews' => $apartment->reviews()->with('user')->take($request->get('page', 1) * 6)->latest()->get()
+            'apartment' => fn () => Apartment::with(['host.user' => fn ($user) => Log::info('test', [$user])])->withCount('reviews')->findOrFail($apartment->id),
+            'reviews' => $apartment->reviews()->with('user')->take($request->get('page', 1) * 6)->latest()->get(),
         ]);
     }
 
@@ -46,18 +46,18 @@ class ApartmentController extends Controller
         $host = $user->host ?? Host::create(['user_id' => $user->id]);
 
         $validated = array_map(function ($value) {
-            if (!is_array($value) || (!count($value) || !($value[0] instanceof \Illuminate\Http\UploadedFile))) {
+            if (! is_array($value) || (! count($value) || ! ($value[0] instanceof \Illuminate\Http\UploadedFile))) {
                 return $value ?? [];
             }
 
             return array_map(function ($image) {
-                return '/storage/' . Storage::disk('public')->putFile('apartments', $image);
+                return '/storage/'.Storage::disk('public')->putFile('apartments', $image);
             }, $value);
         }, $request->validated());
 
         $apartment = Apartment::create([
             'host_id' => $host->id,
-            ...$validated
+            ...$validated,
         ]);
 
         return redirect()->route('apartments.show', $apartment);
