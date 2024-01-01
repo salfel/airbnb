@@ -95,6 +95,7 @@ export default function Create() {
                                 error={errors.description}
                                 description="The description should provide a detailed overview of your apartment. This is your opportunity to convince potential renters that your apartment is the right choice for them."
                                 textarea
+                                rows={4}
                             />
 
                             <FormInput
