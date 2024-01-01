@@ -1,4 +1,4 @@
-import GuestLayout from "@/layouts/GuestLayout";
+import AuthLayout from "@/layouts/AuthLayout";
 import { ReactNode } from "react";
 import {
     CardContent,
@@ -6,7 +6,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { Head, Link, usePage, router } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import FormInput from "@/components/FormInput";
 import { useForm } from "react-hook-form";
@@ -82,4 +82,4 @@ export default function Login() {
     );
 }
 
-Login.layout = (page: ReactNode) => <GuestLayout>{page}</GuestLayout>;
+Login.layout = (page: ReactNode) => <AuthLayout>{page}</AuthLayout>;
