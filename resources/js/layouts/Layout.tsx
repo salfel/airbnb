@@ -2,7 +2,7 @@ import { Link, usePage } from "@inertiajs/react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import route from "ziggy-js";
 import { PageProps } from "@/types";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -14,12 +14,28 @@ import {
 import { Toaster } from "@/components/ui/toaster";
 import UserAvatar from "@/components/UserAvatar";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import { toastActions } from "@/constants/toast";
 
 interface Props {
     children: ReactNode;
 }
 
 export default function Layout({ children }: Props) {
+    const page = usePage<PageProps>();
+    const { toast } = useToast();
+
+    useEffect(() => {
+        if (page.props.flash) {
+            toast({
+                title: page.props.flash.title,
+                description: page.props.flash.message,
+                variant: page.props.flash.type,
+                action: toastActions[page.props.flash.action],
+            });
+        }
+    }, [page.props.flash]);
+
     return (
         <>
             <header className="max-w-7xl mx-auto flex items-center justify-between py-2 gap-8 px-6">

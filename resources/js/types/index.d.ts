@@ -1,5 +1,6 @@
 import { Config } from "ziggy-js";
 import { IconType } from "react-icons";
+import { toastActions } from "@/constants/toast";
 
 interface Model {
     id: number;
@@ -76,4 +77,10 @@ export type PageProps<
         user: User;
     };
     ziggy: Config & { location: string };
+    flash: {
+        message: string;
+        title: string;
+        action: keyof typeof toastActions;
+        type: "default" | "destructive" | null;
+    };
 };
