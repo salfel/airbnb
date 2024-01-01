@@ -10,33 +10,18 @@ class ReviewPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user): bool
-    {
-        return true;
-    }
-
-    public function view(User $user, Review $review): bool
-    {
-        return true;
-    }
-
-    public function create(User $user): bool
+    public function create(): bool
     {
         return true;
     }
 
     public function update(User $user, Review $review): bool
     {
-        return true;
+        return $user->id === $review->user_id;
     }
 
     public function delete(User $user, Review $review): bool
     {
-        return true;
-    }
-
-    public function restore(User $user, Review $review): bool
-    {
-        return true;
+        return $user->id === $review->user_id;
     }
 }
