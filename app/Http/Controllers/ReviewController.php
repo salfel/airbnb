@@ -45,5 +45,10 @@ class ReviewController extends Controller
 
     public function destroy(Review $review)
     {
+        Gate::inspect('delete', $review);
+
+        $review->delete();
+
+        return redirect()->back();
     }
 }

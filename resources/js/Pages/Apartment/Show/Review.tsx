@@ -3,10 +3,11 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import AverageStars from "@/components/AverageStars";
 import UserAvatar from "@/components/UserAvatar";
 import { formatDistanceToNow } from "date-fns";
-import { usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import ReviewForm from "./ReviewForm";
+import { Trash2 } from "lucide-react";
 
 interface Props {
     review: ReviewType;
@@ -62,14 +63,30 @@ export default function Review({ review }: Props) {
             {page.props.auth.user &&
                 page.props.auth.user.id === review.user.id &&
                 !edit && (
-                    <Button
-                        variant="ghost"
-                        className="absolute top-3 right-3"
-                        size="sm"
-                        onClick={() => setEdit(true)}
-                    >
-                        Edit
-                    </Button>
+                    <div className="absolute top-3 right-3 space-x-2">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setEdit(true)}
+                        >
+                            Edit
+                        </Button>
+
+                        <Button
+                            variant="ghost"
+                            className="bg-red-500 text-white hover:bg-red-600 hover:text-gray-100"
+                            size="sm"
+                            asChild
+                        >
+                            <Link
+                                href={route("reviews.destroy", [review.id])}
+                                method="delete"
+                                preserveScroll
+                            >
+                                <Trash2 className="w-2.5 h-2.5" />
+                            </Link>
+                        </Button>
+                    </div>
                 )}
         </Card>
     );
