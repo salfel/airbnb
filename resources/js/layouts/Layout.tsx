@@ -30,16 +30,11 @@ export default function Layout({ children }: Props) {
 
                 <nav className="flex-1">
                     <ul className="flex items-center justify-end">
-                        <li>
-                            <Link href={route("dashboard")}>
-                                <Button variant="ghost">Dashboard</Button>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href={route("apartments.create")}>
-                                <Button variant="ghost">Become a Host</Button>
-                            </Link>
-                        </li>
+                        <NavLink url={route("dashboard")} label="Dashboard" />
+                        <NavLink
+                            url={route("apartments.create")}
+                            label="Become a Host"
+                        />
                     </ul>
                 </nav>
 
@@ -49,6 +44,16 @@ export default function Layout({ children }: Props) {
             <footer className="h-8"></footer>
             <Toaster />
         </>
+    );
+}
+
+function NavLink({ url, label }: { url: string; label: string }) {
+    return (
+        <li>
+            <Link href={url}>
+                <Button variant="ghost">{label}</Button>
+            </Link>
+        </li>
     );
 }
 
