@@ -1,4 +1,4 @@
-import AverageStars from "@/components/AverageStars";
+import AverageStars from "@/Pages/Apartment/Show/AverageStars";
 import React from "react";
 
 interface RatingProps {
