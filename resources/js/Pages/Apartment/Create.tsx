@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import AuthenticatedLayout from "@/layouts/AuthenticatedLayout";
+import Layout from "@/layouts/Layout";
 import { Head, router, usePage } from "@inertiajs/react";
 import {
     Card,
@@ -157,6 +157,4 @@ export default function Create() {
     );
 }
 
-Create.layout = (page: ReactNode) => (
-    <AuthenticatedLayout>{page}</AuthenticatedLayout>
-);
+Create.layout = (page: ReactNode) => <Layout>{page}</Layout>;

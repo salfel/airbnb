@@ -1,5 +1,5 @@
 import { Apartment, PageProps, Pagination } from "@/types";
-import AuthenticatedLayout from "@/layouts/AuthenticatedLayout";
+import Layout from "@/layouts/Layout";
 import { Head } from "@inertiajs/react";
 import React, { ReactNode } from "react";
 import Paginator from "@/components/Paginator";
@@ -26,6 +26,4 @@ export default function Home({
     );
 }
 
-Home.layout = (page: ReactNode) => (
-    <AuthenticatedLayout>{page}</AuthenticatedLayout>
-);
+Home.layout = (page: ReactNode) => <Layout>{page}</Layout>;

@@ -1,4 +1,4 @@
-import AuthenticatedLayout from "@/layouts/AuthenticatedLayout";
+import Layout from "@/layouts/Layout";
 import React, { ReactNode, useState } from "react";
 import { Apartment, PageProps, Review as ReviewType } from "@/types";
 import { Head } from "@inertiajs/react";
@@ -150,6 +150,4 @@ export default function Show({
     );
 }
 
-Show.layout = (page: ReactNode) => (
-    <AuthenticatedLayout>{page}</AuthenticatedLayout>
-);
+Show.layout = (page: ReactNode) => <Layout>{page}</Layout>;

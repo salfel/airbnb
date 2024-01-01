@@ -19,7 +19,7 @@ interface Props {
     children: ReactNode;
 }
 
-export default function AuthenticatedLayout({ children }: Props) {
+export default function Layout({ children }: Props) {
     return (
         <>
             <header className="max-w-7xl mx-auto flex items-center justify-between py-2 gap-8 px-6">
