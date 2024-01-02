@@ -25,6 +25,7 @@ class ApartmentFactory extends Factory
             'description' => $this->faker->paragraph(),
             'beds' => $this->faker->randomNumber(1),
             'baths' => $this->faker->randomNumber(1),
+            'guests' => $this->faker->randomNumber(1),
             'images' => array_fill(0, 3, null),
             'attributes' => $attributes,
             'start' => Carbon::now(),

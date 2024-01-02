@@ -28,6 +28,7 @@ export interface Apartment extends Model {
 	description: string;
 	beds: number;
 	baths: number;
+	guests: number;
 	start: string;
 	end: string;
 	host: Host;
