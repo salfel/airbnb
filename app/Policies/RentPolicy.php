@@ -15,7 +15,7 @@ class RentPolicy
         return $user->id == $rent->user->id || $user->id == $rent->apartment->host->user_id;
     }
 
-    public function create(User $user): bool
+    public function create(): bool
     {
         return true;
     }
