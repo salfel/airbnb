@@ -25,7 +25,7 @@ interface ReviewFormProps {
 	review?: ReviewType;
 	url: string;
 	buttonText: string;
-	method?: Method;
+	method: Method;
 	onSuccess?: () => void;
 }
 
