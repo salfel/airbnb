@@ -46,7 +46,6 @@ export default function ReviewForm({
 	const errors = useErrors(errorBag);
 
 	function handleSubmit(values: ReviewFormValues) {
-		// @ts-ignore
 		router.visit(url, {
 			data: values,
 			preserveScroll: true,
