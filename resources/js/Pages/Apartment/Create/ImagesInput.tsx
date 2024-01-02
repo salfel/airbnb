@@ -32,7 +32,7 @@ export default function ImagesInput({ control, error }: Props) {
 								onChange={(e) =>
 									field.onChange([
 										...field.value,
-										//@ts-ignore
+										// @ts-expect-error typescript doesn't understand that fileList is iterable
 										...e.target.files
 									])
 								}
