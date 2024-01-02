@@ -4,12 +4,12 @@ import route from "ziggy-js";
 import { PageProps } from "@/types";
 import { ReactNode, useEffect } from "react";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Toaster } from "@/components/ui/toaster";
 import UserAvatar from "@/components/UserAvatar";
@@ -18,110 +18,108 @@ import { useToast } from "@/components/ui/use-toast";
 import { toastActions } from "@/constants/toast";
 
 interface Props {
-    children: ReactNode;
+	children: ReactNode;
 }
 
 export default function Layout({ children }: Props) {
-    const page = usePage<PageProps>();
-    const { toast } = useToast();
+	const page = usePage<PageProps>();
+	const { toast } = useToast();
 
-    useEffect(() => {
-        if (page.props.flash) {
-            toast({
-                title: page.props.flash.title,
-                description: page.props.flash.message,
-                variant: page.props.flash.type,
-                action: toastActions[page.props.flash.action],
-            });
-        }
-    }, [page.props.flash]);
+	useEffect(() => {
+		if (page.props.flash) {
+			toast({
+				title: page.props.flash.title,
+				description: page.props.flash.message,
+				variant: page.props.flash.type,
+				action: toastActions[page.props.flash.action]
+			});
+		}
+	}, [page.props.flash]);
 
-    return (
-        <>
-            <header className="max-w-7xl mx-auto flex items-center justify-between py-2 gap-8 px-6">
-                <Link href={route("home")} className="flex items-center gap-3">
-                    <img src="/airbnb.svg" alt="Logo" className="w-12 h-12" />
-                    <span className="text-2xl font-bold">Airbnb</span>
-                </Link>
+	return (
+		<>
+			<header className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-6 py-2">
+				<Link href={route("home")} className="flex items-center gap-3">
+					<img src="/airbnb.svg" alt="Logo" className="h-12 w-12" />
+					<span className="text-2xl font-bold">Airbnb</span>
+				</Link>
 
-                <nav className="flex-1">
-                    <ul className="flex items-center justify-end">
-                        <NavLink url={route("dashboard")} label="Dashboard" />
-                        <NavLink
-                            url={route("apartments.create")}
-                            label="Become a Host"
-                        />
-                    </ul>
-                </nav>
+				<nav className="flex-1">
+					<ul className="flex items-center justify-end">
+						<NavLink url={route("dashboard")} label="Dashboard" />
+						<NavLink
+							url={route("apartments.create")}
+							label="Become a Host"
+						/>
+					</ul>
+				</nav>
 
-                <Dropdown />
-            </header>
-            <main className="max-w-7xl mx-auto mt-6 px-6">{children}</main>
-            <footer className="h-8"></footer>
-            <Toaster />
-        </>
-    );
+				<Dropdown />
+			</header>
+			<main className="mx-auto mt-6 max-w-7xl px-6">{children}</main>
+			<footer className="h-8"></footer>
+			<Toaster />
+		</>
+	);
 }
 
 function NavLink({ url, label }: { url: string; label: string }) {
-    return (
-        <li>
-            <Link href={url}>
-                <Button variant="ghost">{label}</Button>
-            </Link>
-        </li>
-    );
+	return (
+		<li>
+			<Link href={url}>
+				<Button variant="ghost">{label}</Button>
+			</Link>
+		</li>
+	);
 }
 
 function Dropdown() {
-    const page = usePage<PageProps>();
-    return page.props.auth.user ? (
-        <DropdownMenu>
-            <DropdownMenuTrigger>
-                <UserAvatar user={page.props.auth.user} />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-40">
-                <DropdownMenuLabel>
-                    {page.props.auth.user.name}
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                    <Link href={route("dashboard")}>Dashboard</Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                    className="text-red-500 hover:!text-red-500"
-                    asChild
-                >
-                    <Link
-                        method="post"
-                        href={route("logout")}
-                        as="button"
-                        className="w-full"
-                    >
-                        Logout
-                    </Link>
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
-    ) : (
-        <DropdownMenu>
-            <DropdownMenuTrigger>
-                <Avatar className="w-8 h-8">
-                    <AvatarFallback>G</AvatarFallback>
-                </Avatar>
-                <DropdownMenuContent className="w-40">
-                    <DropdownMenuLabel>Guest</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
+	const page = usePage<PageProps>();
+	return page.props.auth.user ?
+			<DropdownMenu>
+				<DropdownMenuTrigger>
+					<UserAvatar user={page.props.auth.user} />
+				</DropdownMenuTrigger>
+				<DropdownMenuContent className="w-40">
+					<DropdownMenuLabel>
+						{page.props.auth.user.name}
+					</DropdownMenuLabel>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem asChild>
+						<Link href={route("dashboard")}>Dashboard</Link>
+					</DropdownMenuItem>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem
+						className="text-red-500 hover:!text-red-500"
+						asChild
+					>
+						<Link
+							method="post"
+							href={route("logout")}
+							as="button"
+							className="w-full"
+						>
+							Logout
+						</Link>
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		:	<DropdownMenu>
+				<DropdownMenuTrigger>
+					<Avatar className="h-8 w-8">
+						<AvatarFallback>G</AvatarFallback>
+					</Avatar>
+					<DropdownMenuContent className="w-40">
+						<DropdownMenuLabel>Guest</DropdownMenuLabel>
+						<DropdownMenuSeparator />
 
-                    <DropdownMenuItem asChild>
-                        <Link href={route("login")}>Login</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                        <Link href={route("register")}>Register</Link>
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenuTrigger>
-        </DropdownMenu>
-    );
+						<DropdownMenuItem asChild>
+							<Link href={route("login")}>Login</Link>
+						</DropdownMenuItem>
+						<DropdownMenuItem asChild>
+							<Link href={route("register")}>Register</Link>
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenuTrigger>
+			</DropdownMenu>;
 }

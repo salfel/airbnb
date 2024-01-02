@@ -4,27 +4,27 @@ import React from "react";
 import { useSearchParams } from "@/lib/hooks";
 
 interface MoreReviewsButtonProps {
-    apartmentId: number;
+	apartmentId: number;
 }
 
 export default function MoreReviewsButton({
-    apartmentId,
+	apartmentId
 }: MoreReviewsButtonProps) {
-    const searchParams = useSearchParams();
-    return (
-        <Button asChild variant="link">
-            <Link
-                href={route("apartments.show", {
-                    apartment: apartmentId,
-                    _query: {
-                        page: parseInt(searchParams.get("page") || "1") + 1,
-                    },
-                })}
-                preserveScroll
-                only={["reviews"]}
-            >
-                View more
-            </Link>
-        </Button>
-    );
+	const searchParams = useSearchParams();
+	return (
+		<Button asChild variant="link">
+			<Link
+				href={route("apartments.show", {
+					apartment: apartmentId,
+					_query: {
+						page: parseInt(searchParams.get("page") || "1") + 1
+					}
+				})}
+				preserveScroll
+				only={["reviews"]}
+			>
+				View more
+			</Link>
+		</Button>
+	);
 }

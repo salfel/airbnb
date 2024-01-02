@@ -4,11 +4,11 @@ import { Apartment, Host, PageProps, Review as ReviewType } from "@/types";
 import { Head } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle
 } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { LuBath, LuBed } from "react-icons/lu";
@@ -20,174 +20,174 @@ import AttributesCard from "./Show/AttributesCard";
 import Rating from "@/Pages/Apartment/Show/Rating";
 import MoreReviewsButton from "@/Pages/Apartment/Show/MoreReviewsButton";
 import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
+	Carousel,
+	CarouselContent,
+	CarouselItem,
+	CarouselNext,
+	CarouselPrevious
 } from "@/components/ui/carousel";
 
 export default function Show({
-    apartment,
-    reviews,
+	apartment,
+	reviews
 }: PageProps & {
-    apartment: Apartment;
-    reviews: ReviewType[];
+	apartment: Apartment;
+	reviews: ReviewType[];
 }) {
-    return (
-        <>
-            <Head title={apartment.title} />
+	return (
+		<>
+			<Head title={apartment.title} />
 
-            <ImageCarousel apartment={apartment} />
+			<ImageCarousel apartment={apartment} />
 
-            <div className="space-y-6 mt-12">
-                <div>
-                    <h1 className="text-2xl font-semibold">
-                        {apartment.title}
-                    </h1>
-                    <p className="mt-2 text-gray-800 text-sm">
-                        {apartment.description}
-                    </p>
-                </div>
+			<div className="mt-12 space-y-6">
+				<div>
+					<h1 className="text-2xl font-semibold">
+						{apartment.title}
+					</h1>
+					<p className="mt-2 text-sm text-gray-800">
+						{apartment.description}
+					</p>
+				</div>
 
-                <p className="text-2xl font-semibold">
-                    {apartment.price}€
-                    <span className="text-base font-normal"> per Night</span>
-                </p>
+				<p className="text-2xl font-semibold">
+					{apartment.price}€
+					<span className="text-base font-normal"> per Night</span>
+				</p>
 
-                <div className="flex gap-12">
-                    <RoomsCard apartment={apartment} />
+				<div className="flex gap-12">
+					<RoomsCard apartment={apartment} />
 
-                    <UserCard host={apartment.host} />
-                </div>
+					<UserCard host={apartment.host} />
+				</div>
 
-                <Button size="lg" className="text-lg font-semibold">
-                    Start Renting
-                </Button>
-            </div>
-            <section className="mt-12">
-                <Rating
-                    stars={apartment.stars}
-                    reviews_count={apartment.reviews_count}
-                />
+				<Button size="lg" className="text-lg font-semibold">
+					Start Renting
+				</Button>
+			</div>
+			<section className="mt-12">
+				<Rating
+					stars={apartment.stars}
+					reviews_count={apartment.reviews_count}
+				/>
 
-                <AttributesCard attributes={apartment.attributes} />
-            </section>
-            <section className="mt-12 space-y-8">
-                <CreateReview apartmentId={apartment.id} />
+				<AttributesCard attributes={apartment.attributes} />
+			</section>
+			<section className="mt-12 space-y-8">
+				<CreateReview apartmentId={apartment.id} />
 
-                {reviews.length > 0 && (
-                    <div>
-                        <h3 className="mb-3 font-semibold text-lg">
-                            Most recent Reviews
-                        </h3>
+				{reviews.length > 0 && (
+					<div>
+						<h3 className="mb-3 text-lg font-semibold">
+							Most recent Reviews
+						</h3>
 
-                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-12">
-                            {reviews.map((review) => (
-                                <Review review={review} key={review.id} />
-                            ))}
-                        </div>
-                    </div>
-                )}
+						<div className="grid grid-cols-2 gap-12 lg:grid-cols-3">
+							{reviews.map((review) => (
+								<Review review={review} key={review.id} />
+							))}
+						</div>
+					</div>
+				)}
 
-                {reviews.length !== apartment.reviews_count && (
-                    <MoreReviewsButton apartmentId={apartment.id} />
-                )}
-            </section>
-        </>
-    );
+				{reviews.length !== apartment.reviews_count && (
+					<MoreReviewsButton apartmentId={apartment.id} />
+				)}
+			</section>
+		</>
+	);
 }
 
 Show.layout = (page: ReactNode) => <Layout>{page}</Layout>;
 
 function ImageCarousel({ apartment }: { apartment: Apartment }) {
-    return (
-        <section>
-            <Carousel opts={{ loop: true }}>
-                <CarouselContent>
-                    {apartment.images.map((image, index) => (
-                        <CarouselItem key={index}>
-                            <img
-                                src={image || "/placeholder.svg"}
-                                alt="placeholder"
-                                className="aspect-video w-full basis-1"
-                            />
-                        </CarouselItem>
-                    ))}
-                </CarouselContent>
-                <div className="absolute bottom-10 flex items-center justify-center w-full gap-12">
-                    <CarouselPrevious className="static" />
-                    <CarouselNext className="static" />
-                </div>
-            </Carousel>
-        </section>
-    );
+	return (
+		<section>
+			<Carousel opts={{ loop: true }}>
+				<CarouselContent>
+					{apartment.images.map((image, index) => (
+						<CarouselItem key={index}>
+							<img
+								src={image || "/placeholder.svg"}
+								alt="placeholder"
+								className="aspect-video w-full basis-1"
+							/>
+						</CarouselItem>
+					))}
+				</CarouselContent>
+				<div className="absolute bottom-10 flex w-full items-center justify-center gap-12">
+					<CarouselPrevious className="static" />
+					<CarouselNext className="static" />
+				</div>
+			</Carousel>
+		</section>
+	);
 }
 
 function CreateReview({ apartmentId }: { apartmentId: number }) {
-    return (
-        <Card className="space-y-2">
-            <CardHeader>
-                <div className="flex items-center justify-between">
-                    <CardTitle>Write a Review</CardTitle>
-                </div>
-                <CardDescription>
-                    Share your experience about this apartment. Your review will
-                    help others make informed decisions.
-                </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-                <ReviewForm
-                    url={route("apartments.reviews.store", [apartmentId])}
-                    method="post"
-                    buttonText="Create Review"
-                />
-            </CardContent>
-        </Card>
-    );
+	return (
+		<Card className="space-y-2">
+			<CardHeader>
+				<div className="flex items-center justify-between">
+					<CardTitle>Write a Review</CardTitle>
+				</div>
+				<CardDescription>
+					Share your experience about this apartment. Your review will
+					help others make informed decisions.
+				</CardDescription>
+			</CardHeader>
+			<CardContent className="space-y-3">
+				<ReviewForm
+					url={route("apartments.reviews.store", [apartmentId])}
+					method="post"
+					buttonText="Create Review"
+				/>
+			</CardContent>
+		</Card>
+	);
 }
 
 function UserCard({ host }: { host: Host }) {
-    return (
-        <Card className="p-3 w-full">
-            <div className="flex items-center gap-3">
-                <UserAvatar user={host.user} />
-                <div>
-                    <div>
-                        <span>Your host is: </span>
-                        <span className="font-semibold tracking-tight">
-                            {host.user.name}
-                        </span>
-                    </div>
+	return (
+		<Card className="w-full p-3">
+			<div className="flex items-center gap-3">
+				<UserAvatar user={host.user} />
+				<div>
+					<div>
+						<span>Your host is: </span>
+						<span className="font-semibold tracking-tight">
+							{host.user.name}
+						</span>
+					</div>
 
-                    <p>Host since {formatDistanceToNow(host.created_at)}</p>
-                </div>
-            </div>
-        </Card>
-    );
+					<p>Host since {formatDistanceToNow(host.created_at)}</p>
+				</div>
+			</div>
+		</Card>
+	);
 }
 
 function RoomsCard({ apartment }: { apartment: Apartment }) {
-    return (
-        <Card className="w-full">
-            <Table>
-                <TableBody>
-                    <TableRow>
-                        <TableCell className="flex items-center gap-3">
-                            <LuBed className="w-10 h-5" />
-                            <span className="font-medium">Bedrooms</span>
-                        </TableCell>
-                        <TableCell>{apartment.beds}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className="flex items-center gap-3">
-                            <LuBath className="w-10 h-5" />
-                            <span className="font-medium">Bathrooms</span>
-                        </TableCell>
-                        <TableCell>{apartment.baths}</TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
-        </Card>
-    );
+	return (
+		<Card className="w-full">
+			<Table>
+				<TableBody>
+					<TableRow>
+						<TableCell className="flex items-center gap-3">
+							<LuBed className="h-5 w-10" />
+							<span className="font-medium">Bedrooms</span>
+						</TableCell>
+						<TableCell>{apartment.beds}</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell className="flex items-center gap-3">
+							<LuBath className="h-5 w-10" />
+							<span className="font-medium">Bathrooms</span>
+						</TableCell>
+						<TableCell>{apartment.baths}</TableCell>
+					</TableRow>
+				</TableBody>
+			</Table>
+		</Card>
+	);
 }
