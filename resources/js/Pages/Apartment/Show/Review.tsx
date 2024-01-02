@@ -1,3 +1,4 @@
+import React from "react";
 import { PageProps, Review as ReviewType } from "@/types";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import AverageStars from "@/Pages/Apartment/Show/AverageStars";

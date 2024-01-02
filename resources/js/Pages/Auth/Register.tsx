@@ -1,3 +1,4 @@
+import React from "react";
 import AuthLayout from "@/layouts/AuthLayout";
 import { ReactNode } from "react";
 import {

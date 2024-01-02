@@ -1,3 +1,4 @@
+import React from "react";
 import { Link, usePage } from "@inertiajs/react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import route from "ziggy-js";
