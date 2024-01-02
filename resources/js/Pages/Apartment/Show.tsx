@@ -11,7 +11,7 @@ import {
 	CardTitle
 } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { LuBath, LuBed } from "react-icons/lu";
+import { Bath, Bed } from "lucide-react";
 import UserAvatar from "@/components/UserAvatar";
 import { formatDistanceToNow } from "date-fns";
 import Review from "@/Pages/Apartment/Show/Review";
@@ -174,14 +174,14 @@ function RoomsCard({ apartment }: { apartment: Apartment }) {
 				<TableBody>
 					<TableRow>
 						<TableCell className="flex items-center gap-3">
-							<LuBed className="h-5 w-10" />
+							<Bed className="h-5 w-10" />
 							<span className="font-medium">Bedrooms</span>
 						</TableCell>
 						<TableCell>{apartment.beds}</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell className="flex items-center gap-3">
-							<LuBath className="h-5 w-10" />
+							<Bath className="h-5 w-10" />
 							<span className="font-medium">Bathrooms</span>
 						</TableCell>
 						<TableCell>{apartment.baths}</TableCell>
