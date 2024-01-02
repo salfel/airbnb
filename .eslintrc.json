@@ -14,6 +14,9 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
+    "ignorePatterns": [
+        "resources/js/components/ui/**"
+    ],
     "plugins": [
         "@typescript-eslint",
         "react"
