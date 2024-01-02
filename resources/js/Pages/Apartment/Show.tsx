@@ -11,7 +11,7 @@ import {
 	CardTitle
 } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Bath, Bed } from "lucide-react";
+import { Bath, Bed, Users } from "lucide-react";
 import UserAvatar from "@/components/UserAvatar";
 import { formatDistanceToNow } from "date-fns";
 import Review from "@/Pages/Apartment/Show/Review";
@@ -154,6 +154,13 @@ function AccommodationDetails({ apartment }: { apartment: Apartment }) {
 		<Card className="w-full">
 			<Table>
 				<TableBody>
+					<TableRow>
+						<TableCell className="flex items-center gap-3">
+							<Users className="h-5 w-10" />
+							<span className="font-medium">Guests</span>
+						</TableCell>
+						<TableCell>{apartment.guests}</TableCell>
+					</TableRow>
 					<TableRow>
 						<TableCell className="flex items-center gap-3">
 							<Bed className="h-5 w-10" />
