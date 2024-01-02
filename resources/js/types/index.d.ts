@@ -50,7 +50,7 @@ export interface Review extends Model {
 	apartment_id: number;
 }
 
-export interface Pagination<T extends Object> {
+export interface Pagination<T> {
 	current_page: number;
 	data: T[];
 	first_page_url: string;
