@@ -131,7 +131,7 @@ function CreateReview({ apartmentId }: { apartmentId: number }) {
 
 function HostInfo({ host }: { host: Host }) {
 	return (
-		<Card className="p-3">
+		<Card className="w-80 p-3">
 			<div className="flex items-center gap-3">
 				<UserAvatar user={host.user} />
 				<div>
