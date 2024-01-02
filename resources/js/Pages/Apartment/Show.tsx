@@ -151,7 +151,7 @@ function HostInfo({ host }: { host: Host }) {
 
 function AccommodationDetails({ apartment }: { apartment: Apartment }) {
 	return (
-		<Card className="w-full">
+		<Card className="w-80">
 			<Table>
 				<TableBody>
 					<TableRow>
