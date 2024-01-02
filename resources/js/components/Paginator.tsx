@@ -2,24 +2,17 @@ import type { PageProps, Pagination as PaginationType } from "@/types";
 import {
 	Pagination,
 	PaginationContent,
-	PaginationItem,
 	PaginationLink,
 	PaginationNext,
 	PaginationPrevious
 } from "@/components/ui/pagination";
-import { usePage } from "@inertiajs/react";
 import { decode } from "html-entities";
 
-export default function Paginator({
+export default function Paginator<T>({
 	pagination
 }: {
-	pagination: PaginationType<any>;
+	pagination: PaginationType<T>;
 }) {
-	const {
-		props: {
-			ziggy: { url }
-		}
-	} = usePage<PageProps>();
 	return (
 		<Pagination className="my-8">
 			<PaginationContent>
