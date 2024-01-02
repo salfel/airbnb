@@ -82,7 +82,7 @@ export default function Review({ review }: Props) {
 							as="button"
 							preserveScroll
 						>
-							<Trash2 className="h-2.5 w-2.5" />
+							<Trash2 className="h-3 w-3" />
 						</Link>
 					</Button>
 				</div>
