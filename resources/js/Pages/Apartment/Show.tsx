@@ -55,9 +55,9 @@ export default function Show({
 					<span className="text-base font-normal"> per Night</span>
 				</p>
 
-				<RoomsCard apartment={apartment} />
+				<AccommodationDetails apartment={apartment} />
 
-				<UserCard host={apartment.host} />
+				<HostInfo host={apartment.host} />
 
 				<Button size="lg" className="text-lg font-semibold">
 					Start Renting
@@ -129,7 +129,7 @@ function CreateReview({ apartmentId }: { apartmentId: number }) {
 	);
 }
 
-function UserCard({ host }: { host: Host }) {
+function HostInfo({ host }: { host: Host }) {
 	return (
 		<Card className="p-3">
 			<div className="flex items-center gap-3">
@@ -149,7 +149,7 @@ function UserCard({ host }: { host: Host }) {
 	);
 }
 
-function RoomsCard({ apartment }: { apartment: Apartment }) {
+function AccommodationDetails({ apartment }: { apartment: Apartment }) {
 	return (
 		<Card className="w-full">
 			<Table>
