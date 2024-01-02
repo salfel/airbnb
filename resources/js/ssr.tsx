@@ -1,3 +1,4 @@
+import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { createInertiaApp } from "@inertiajs/react";
 import createServer from "@inertiajs/react/server";
@@ -20,9 +21,9 @@ createServer((page) =>
 		setup: ({ App, props }) => {
 			global.route<RouteName> = (name, params, absolute) =>
 				route(name, params, absolute, {
-					// @ts-expect-error
+					// @ts-expect-error The Ziggy type definition does not include 'location'
 					...page.props.ziggy,
-					// @ts-expect-error
+					// @ts-expect-error The Ziggy type definition does not include 'location'
 					location: new URL(page.props.ziggy.location)
 				});
 
