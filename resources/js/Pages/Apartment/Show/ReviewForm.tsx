@@ -37,7 +37,7 @@ export default function ReviewForm({
 }: ReviewFormProps) {
 	const form = useForm<ReviewFormValues>({
 		defaultValues: {
-			stars: review?.stars ?? 1,
+			stars: review?.stars ?? 5,
 			message: review?.message ?? ""
 		}
 	});
