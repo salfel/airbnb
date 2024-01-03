@@ -1,5 +1,5 @@
 import { Attribute } from "@/types";
-import { AirVent, Bus, Cctv, UtensilsCrossed } from "lucide-react";
+import { Baby, Bus, Cctv, UtensilsCrossed } from "lucide-react";
 import {
 	MdAccessible,
 	MdApartment,
@@ -35,7 +35,7 @@ const attributes: Attribute[] = [
 	{ name: "First Aid", category: "Safety", icon: MdMedicalServices },
 	{ name: "Public Transport", category: "Location", icon: Bus },
 	{ name: "Pets Allowed", category: "Rules", icon: MdPets },
-	{ name: "Kid Friendly", category: "Rules", icon: AirVent },
+	{ name: "Kid Friendly", category: "Rules", icon: Baby },
 	{ name: "Air Conditioning", category: "Amenities", icon: MdHeatPump },
 	{ name: "Smoking Allowed", category: "Rules", icon: MdSmokingRooms }
 ];
