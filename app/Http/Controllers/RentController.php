@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RentRequest;
+use App\Models\Apartment;
 use App\Models\Rent;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class RentController extends Controller
 {
@@ -14,11 +17,29 @@ class RentController extends Controller
         return Rent::all();
     }
 
-    public function store(RentRequest $request)
+    public function store(Apartment $apartment, RentRequest $request)
     {
-        $this->authorize('create', Rent::class);
+        $response = Gate::inspect('create', Rent::class);
 
-        return Rent::create($request->validated());
+        if (! $response->allowed()) {
+            session()->flash('message', [
+                'title' => 'Not authorized',
+                'message' => 'Please login to post a review for this apartment',
+                'action' => 'login',
+                'type' => 'destructive',
+            ]);
+
+            return redirect()->back();
+        }
+
+        // will later on redirect to dashboard with rent
+        Rent::create([
+            'user_id' => Auth::id(),
+            'apartment_id' => $apartment->id,
+            ...$request->validated(),
+        ]);
+
+        return redirect()->back();
     }
 
     public function show(Rent $rent)

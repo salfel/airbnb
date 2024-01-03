@@ -1,7 +1,7 @@
 import Layout from "@/layouts/Layout";
 import React, { ReactNode } from "react";
 import { Apartment, Host, PageProps, Review as ReviewType } from "@/types";
-import { Head } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -26,6 +26,17 @@ import {
 	CarouselNext,
 	CarouselPrevious
 } from "@/components/ui/carousel";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormMessage
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { Calendar } from "@/components/ui/calendar";
+import { DateRange } from "react-day-picker";
+import { useErrors } from "@/lib/hooks";
 
 export default function Show({
 	apartment,
@@ -205,5 +216,57 @@ function Reviews({
 				<MoreReviewsButton apartmentId={apartment.id} />
 			)}
 		</>
+	);
+}
+
+function RentForm({ apartment }: { apartment: Apartment }) {
+	const errors = useErrors();
+
+	const form = useForm({
+		defaultValues: {
+			date: {
+				from: new Date(apartment.start),
+				to: new Date(apartment.end)
+			}
+		}
+	});
+
+	function handleSubmit({ date: { from, to } }: { date: DateRange }) {
+		const data = {
+			start: from?.toISOString(),
+			end: to?.toISOString()
+		};
+
+		router.post(route("apartments.rents.store", [apartment.id]), data);
+	}
+
+	return (
+		<Form {...form}>
+			<form
+				onSubmit={form.handleSubmit(handleSubmit)}
+				className="space-y-3"
+			>
+				<FormField
+					name="date"
+					control={form.control}
+					render={({ field }) => (
+						<FormItem>
+							<FormControl>
+								<Calendar
+									mode="range"
+									selected={field.value}
+									onSelect={field.onChange}
+								/>
+							</FormControl>
+							<FormMessage>
+								{errors.start || errors.end}
+							</FormMessage>
+						</FormItem>
+					)}
+				/>
+
+				<Button type="submit">Rent Apartment</Button>
+			</form>
+		</Form>
 	);
 }
