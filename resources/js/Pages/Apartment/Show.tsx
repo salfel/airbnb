@@ -62,16 +62,14 @@ export default function Show({
 				<Button size="lg" className="text-lg font-semibold">
 					Start Renting
 				</Button>
+				<AttributesCard attributes={apartment.attributes} />
 			</div>
-			<section className="mt-12">
+			<section className="mt-12 space-y-8">
 				<Rating
 					stars={apartment.stars}
 					reviews_count={apartment.reviews_count}
 				/>
 
-				<AttributesCard attributes={apartment.attributes} />
-			</section>
-			<section className="mt-12 space-y-8">
 				<CreateReview apartmentId={apartment.id} />
 
 				<Reviews reviews={reviews} apartment={apartment} />
