@@ -7,7 +7,6 @@ use App\Models\Apartment;
 use App\Models\Host;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -28,7 +27,7 @@ class ApartmentController extends Controller
     public function show(Apartment $apartment, Request $request)
     {
         return Inertia::render('Apartment/Show', [
-            'apartment' => fn () => Apartment::with(['host.user' => fn ($user) => Log::info('test', [$user])])->withCount('reviews')->findOrFail($apartment->id),
+            'apartment' => fn () => Apartment::with(['host.user'])->withCount('reviews')->findOrFail($apartment->id),
             'reviews' => $apartment->reviews()->with('user')->take($request->get('page', 1) * 6)->latest()->get(),
         ]);
     }
