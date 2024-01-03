@@ -23,18 +23,19 @@ class Apartment extends Model
         'attributes',
         'beds',
         'baths',
-        'host_id'
+        'guests',
+        'host_id',
     ];
 
     protected $appends = [
-        'stars'
+        'stars',
     ];
 
     protected $casts = [
         'start' => 'datetime',
         'end' => 'datetime',
         'images' => 'array',
-        'attributes' => 'array'
+        'attributes' => 'array',
     ];
 
     public function host(): BelongsTo

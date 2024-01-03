@@ -12,9 +12,11 @@ class ApartmentFactory extends Factory
 
     public function definition(): array
     {
+        $baseAttributes = config('constants.apartment.attributes');
         $attributes = [];
         for ($i = 0; $i < 10; $i++) {
-            $attributes[$i] = $this->faker->randomElement(config('constants.apartment.attributes'));
+            $attributes[$i] = $this->faker->randomElement($baseAttributes);
+            unset($baseAttributes[array_search($attributes[$i], $baseAttributes)]);
         }
 
         return [
@@ -25,6 +27,7 @@ class ApartmentFactory extends Factory
             'description' => $this->faker->paragraph(),
             'beds' => $this->faker->randomNumber(1),
             'baths' => $this->faker->randomNumber(1),
+            'guests' => $this->faker->randomNumber(1),
             'images' => array_fill(0, 3, null),
             'attributes' => $attributes,
             'start' => Carbon::now(),

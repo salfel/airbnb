@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApartmentController;
+use App\Http\Controllers\RentController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,9 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ApartmentController::class, 'index'])->name('home');
 Route::resource('apartments', ApartmentController::class)->except(['index']);
-Route::apiResource('apartments.reviews', ReviewController::class)->except(['show'])->shallow();
+Route::apiResource('apartments.reviews', ReviewController::class)->shallow();
+Route::apiResource('apartments.rents', RentController::class);
 
 Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

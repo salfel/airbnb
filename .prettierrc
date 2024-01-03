@@ -1,3 +1,9 @@
 {
-    "singleQuote": false
+    "singleQuote": false,
+    "experimentalTernaries": true,
+    "trailingComma": "none",
+    "useTabs": true,
+    "plugins": [
+        "prettier-plugin-tailwindcss"
+    ]
 }

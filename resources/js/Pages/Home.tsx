@@ -6,24 +6,24 @@ import Paginator from "@/components/Paginator";
 import ApartmentPreview from "@/components/ApartmentPreview";
 
 export default function Home({
-    apartments,
+	apartments
 }: PageProps & { apartments: Pagination<Apartment> }) {
-    return (
-        <>
-            <Head title="Home" />
+	return (
+		<>
+			<Head title="Home" />
 
-            <div className="grid sm:grid-cols-3 grid-cols-2 gap-12">
-                {apartments.data.map((apartment) => (
-                    <ApartmentPreview
-                        apartment={apartment}
-                        key={apartment.id}
-                    />
-                ))}
-            </div>
+			<div className="grid grid-cols-2 gap-12 sm:grid-cols-3">
+				{apartments.data.map((apartment) => (
+					<ApartmentPreview
+						apartment={apartment}
+						key={apartment.id}
+					/>
+				))}
+			</div>
 
-            <Paginator pagination={apartments} />
-        </>
-    );
+			<Paginator pagination={apartments} />
+		</>
+	);
 }
 
 Home.layout = (page: ReactNode) => <Layout>{page}</Layout>;
