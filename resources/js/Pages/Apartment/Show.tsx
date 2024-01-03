@@ -33,10 +33,11 @@ import {
 	FormItem,
 	FormMessage
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
+import { Control, useForm } from "react-hook-form";
 import { Calendar } from "@/components/ui/calendar";
 import { DateRange } from "react-day-picker";
 import { useErrors } from "@/lib/hooks";
+import FormInput from "@/components/FormInput";
 
 export default function Show({
 	apartment,
@@ -219,54 +220,113 @@ function Reviews({
 	);
 }
 
-function RentForm({ apartment }: { apartment: Apartment }) {
+interface RentFormValues {
+	date: DateRange;
+	guests: number;
+	description: string;
+}
+
+interface RentFormProps {
+	apartment: Apartment;
+}
+
+function RentForm({ apartment }: RentFormProps) {
 	const errors = useErrors();
 
-	const form = useForm({
+	const form = useForm<RentFormValues>({
 		defaultValues: {
 			date: {
 				from: new Date(apartment.start),
 				to: new Date(apartment.end)
-			}
+			},
+			guests: 1,
+			description: ""
 		}
 	});
 
-	function handleSubmit({ date: { from, to } }: { date: DateRange }) {
+	function handleSubmit(values: { date: DateRange }) {
 		const data = {
-			start: from?.toISOString(),
-			end: to?.toISOString()
+			start: values.date.from?.toISOString(),
+			end: values.date.to?.toISOString(),
+			...values
 		};
 
-		router.post(route("apartments.rents.store", [apartment.id]), data);
+		router.post(route("apartments.rents.store", [apartment.id]), data, {
+			preserveScroll: true,
+			onSuccess: () => form.reset()
+		});
 	}
 
 	return (
-		<Form {...form}>
-			<form
-				onSubmit={form.handleSubmit(handleSubmit)}
-				className="space-y-3"
-			>
-				<FormField
-					name="date"
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormControl>
-								<Calendar
-									mode="range"
-									selected={field.value}
-									onSelect={field.onChange}
-								/>
-							</FormControl>
-							<FormMessage>
-								{errors.start || errors.end}
-							</FormMessage>
-						</FormItem>
-					)}
-				/>
+		<Card>
+			<CardHeader>
+				<CardTitle>Rent this Apartment</CardTitle>
+				<CardDescription>
+					Looking for a vacation getaway? Fill out the details below
+					to book this apartment for your holiday. We&apos;re excited
+					to be a part of your vacation experience!
+				</CardDescription>
+			</CardHeader>
+			<CardContent>
+				<Form {...form}>
+					<form
+						onSubmit={form.handleSubmit(handleSubmit)}
+						className="flex gap-12"
+					>
+						<CalendarInput
+							control={form.control}
+							error={errors.start || errors.end}
+						/>
 
-				<Button type="submit">Rent Apartment</Button>
-			</form>
-		</Form>
+						<div className="flex-1 space-y-4">
+							<FormInput
+								name="guests"
+								type="number"
+								control={form.control}
+								error={errors.guests}
+								description="How many people will be staying?"
+							/>
+
+							<FormInput
+								name="description"
+								control={form.control}
+								error={errors.description}
+								description="Please tell us why you're here and what you will be doing during your stay"
+								textarea
+							/>
+
+							<Button type="submit">Rent</Button>
+						</div>
+					</form>
+				</Form>
+			</CardContent>
+		</Card>
+	);
+}
+
+function CalendarInput({
+	control,
+	error
+}: {
+	control: Control<RentFormValues>;
+	error?: string;
+}) {
+	return (
+		<FormField
+			name="date"
+			control={control}
+			render={({ field }) => (
+				<FormItem>
+					<FormControl>
+						<Calendar
+							mode="range"
+							selected={field.value}
+							onSelect={field.onChange}
+						/>
+					</FormControl>
+					<FormMessage>{error}</FormMessage>
+				</FormItem>
+			)}
+		/>
 	);
 }
