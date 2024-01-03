@@ -15,9 +15,4 @@ class RentRequest extends FormRequest
             'end' => ['required', 'date'],
         ];
     }
-
-    public function authorize(): bool
-    {
-        return true;
-    }
 }
