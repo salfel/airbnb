@@ -59,10 +59,9 @@ export default function Show({
 
 				<HostInfo host={apartment.host} />
 
-				<Button size="lg" className="text-lg font-semibold">
-					Start Renting
-				</Button>
 				<AttributesCard attributes={apartment.attributes} />
+
+				<RentForm apartment={apartment} />
 			</div>
 			<section className="mt-12 space-y-8">
 				<Rating
