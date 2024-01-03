@@ -32,10 +32,10 @@ export default function AttributesCard({ attributes }: AttributesCardProps) {
 
 							return getIndex(a) - getIndex(b);
 						})
-						.map((attribute, index) => {
+						.map((attribute) => {
 							return (
 								<div
-									key={index}
+									key={attribute.name}
 									className="flex items-center gap-6"
 								>
 									<attribute.icon className="h-6 w-6" />
