@@ -28,11 +28,11 @@ export default function ApartmentPreview({ apartment }: Props) {
 			<CardContent>
 				<CardTitle>
 					<Link href={route("apartments.show", [apartment.id])}>
-						{apartment.city}, {apartment.country}
+						{apartment.title}
 					</Link>
 				</CardTitle>
 				<CardDescription className="mt-1 capitalize">
-					{apartment.title}
+					{apartment.city}, {apartment.country}
 				</CardDescription>
 				<p className="mt-1">
 					{formatDateRange(apartment.start, apartment.end)}
