@@ -7,7 +7,6 @@ import {
 	PaginationNext,
 	PaginationPrevious
 } from "@/components/ui/pagination";
-import { decode } from "html-entities";
 
 export default function Paginator<T>({
 	pagination
@@ -30,7 +29,7 @@ export default function Paginator<T>({
 							href={link.url as string}
 							isActive={link.active}
 						>
-							{decode(link.label)}
+							{link.label}
 						</PaginationLink>
 				)}
 			</PaginationContent>
