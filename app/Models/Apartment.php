@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Scout\Searchable;
 
 class Apartment extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = [
         'city',
@@ -37,6 +38,16 @@ class Apartment extends Model
         'images' => 'array',
         'attributes' => 'array',
     ];
+
+    public function searchableAs(): string
+    {
+        return 'apartments_index';
+    }
+
+    public function toSearchableArray(): array
+    {
+        return $this->only(['title', 'description', 'city', 'country', 'attributes']);
+    }
 
     public function host(): BelongsTo
     {
