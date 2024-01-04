@@ -17,10 +17,12 @@ class ApartmentController extends Controller
         $this->middleware('auth')->except(['index', 'show']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $apartments = $request->has('search') ? Apartment::search($request->get('search')) : Apartment::latest();
+
         return Inertia::render('Home', [
-            'apartments' => Apartment::latest()->paginate(12),
+            'apartments' => $apartments->paginate(12),
         ]);
     }
 
