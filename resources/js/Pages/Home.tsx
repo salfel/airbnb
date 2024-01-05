@@ -16,16 +16,18 @@ export default function Home({
 		<>
 			<Head title="Home" />
 
-			<div className="flex min-h-full flex-col">
-				<SearchBar />
+			<div className="flex flex-1 flex-col items-start justify-between">
+				<div>
+					<SearchBar />
 
-				<div className="grid flex-1 grid-cols-2 gap-12 sm:grid-cols-3">
-					{apartments.data.map((apartment) => (
-						<ApartmentPreview
-							apartment={apartment}
-							key={apartment.id}
-						/>
-					))}
+					<div className="grid grid-cols-2 gap-12 sm:grid-cols-3">
+						{apartments.data.map((apartment) => (
+							<ApartmentPreview
+								apartment={apartment}
+								key={apartment.id}
+							/>
+						))}
+					</div>
 				</div>
 
 				<Paginator pagination={apartments} />

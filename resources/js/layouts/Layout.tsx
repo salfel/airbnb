@@ -57,7 +57,7 @@ export default function Layout({ children }: Props) {
 
 				<Dropdown />
 			</header>
-			<main className="mx-auto mt-6 min-h-[calc(100vh-6rem)] max-w-7xl px-6">
+			<main className="mx-auto mt-6 flex min-h-[calc(100vh-8rem)] max-w-7xl flex-col px-6">
 				{children}
 			</main>
 			<footer className="h-8"></footer>
