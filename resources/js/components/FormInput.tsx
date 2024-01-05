@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 type FormInputProps<T extends object, U extends boolean> = {
 	name: Path<T>;
+	label?: string;
 	control: Control<T>;
 	error?: string;
 	textarea?: U;
@@ -26,6 +27,7 @@ type FormInputProps<T extends object, U extends boolean> = {
 
 export default function FormInput<T extends object, U extends boolean>({
 	name,
+	label,
 	control,
 	error,
 	textarea,
@@ -46,7 +48,7 @@ export default function FormInput<T extends object, U extends boolean>({
 								htmlFor={name}
 								className="font-medium capitalize"
 							>
-								{name}
+								{label || name}
 							</FormLabel>
 						)}
 						<FormControl>
