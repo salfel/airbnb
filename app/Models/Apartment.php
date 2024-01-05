@@ -16,6 +16,7 @@ class Apartment extends Model
         'city',
         'country',
         'price',
+        'square_meters',
         'start',
         'end',
         'images',

@@ -23,6 +23,7 @@ class ApartmentFactory extends Factory
             'city' => $this->faker->city(),
             'country' => $this->faker->country(),
             'price' => $this->faker->randomNumber(3, true),
+            'square_meters' => $this->faker->randomNumber(2, true),
             'title' => $this->faker->sentence(),
             'description' => $this->faker->paragraph(),
             'beds' => $this->faker->randomNumber(1),

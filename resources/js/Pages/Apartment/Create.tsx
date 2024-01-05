@@ -41,10 +41,12 @@ export default function Create() {
 			title: "",
 			description: "",
 			price: 0,
+			square_meters: 0,
 			city: "",
 			country: "",
 			beds: 0,
 			baths: 0,
+			guests: 0,
 			date: { from: new Date(), to: tomorrow() },
 			attributes: [],
 			images: []
@@ -97,12 +99,22 @@ export default function Create() {
 								textarea
 							/>
 
-							<FormInput
-								name="price"
-								control={form.control}
-								type="number"
-								error={errors.price}
-							/>
+							<div className="flex items-center gap-6">
+								<FormInput
+									name="price"
+									control={form.control}
+									type="number"
+									error={errors.price}
+								/>
+
+								<FormInput
+									name="square_meters"
+									label="Square Meters"
+									control={form.control}
+									type="number"
+									error={errors.square_meters}
+								/>
+							</div>
 
 							<Calendar
 								control={form.control}
@@ -135,6 +147,13 @@ export default function Create() {
 									name="baths"
 									control={form.control}
 									error={errors.baths}
+								/>
+
+								<FormInput
+									name="guests"
+									type="number"
+									control={form.control}
+									error={errors.guests}
 								/>
 							</div>
 

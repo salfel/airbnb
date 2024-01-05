@@ -16,8 +16,10 @@ class ApartmentRequest extends FormRequest
             'city' => ['required'],
             'country' => ['required', Rule::in(config('constants.countries'))],
             'price' => ['required', 'integer', 'min:1'],
+            'square_meters' => ['required', 'integer', 'min:1'],
             'baths' => ['required', 'integer', 'min:1'],
             'beds' => ['required', 'integer', 'min:1'],
+            'guests' => ['required', 'integer', 'min:1'],
             'start' => ['required', 'date'],
             'end' => ['required', 'date'],
             'images' => ['required', 'array', 'min:1'],
@@ -31,8 +33,10 @@ class ApartmentRequest extends FormRequest
     {
         return [
             'price.min' => 'The :attribute field must be positive',
+            'square_meters.min' => 'The :attribute field must be positive',
             'baths.min' => 'The :attribute field must be positive',
             'beds.min' => 'The :attribute field must be positive',
+            'guests.min' => 'The :attribute field must be positive',
         ];
     }
 

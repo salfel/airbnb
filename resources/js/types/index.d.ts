@@ -23,6 +23,7 @@ export interface Apartment extends Model {
 	city: string;
 	country: string;
 	price: number;
+	square_meters: number;
 	images: string[];
 	title: string;
 	description: string;
