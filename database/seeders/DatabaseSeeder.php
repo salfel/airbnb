@@ -15,11 +15,15 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Felix Salcher',
             'email' => 'felix.salcher@gmail.com',
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         User::factory(10)->create();
 
-        $this->run(ApartmentSeeder::class);
+        $this->call([
+            HostSeeder::class,
+            ApartmentSeeder::class,
+            ReviewSeeder::class,
+        ]);
     }
 }
