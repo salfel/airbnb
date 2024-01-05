@@ -19,6 +19,7 @@ type FormInputProps<T extends object, U extends boolean> = {
 	type?: string;
 	className?: string;
 	description?: string;
+	hideLabel?: boolean;
 	rows?: number;
 } & React.InputHTMLAttributes<
 	U extends true ? HTMLTextAreaElement : HTMLInputElement
@@ -32,6 +33,7 @@ export default function FormInput<T extends object, U extends boolean>({
 	type,
 	className,
 	description,
+	hideLabel = false,
 	rows
 }: FormInputProps<T, U>) {
 	return (
@@ -41,22 +43,24 @@ export default function FormInput<T extends object, U extends boolean>({
 			render={({ field }) => (
 				<>
 					<FormItem className="w-full">
-						<FormLabel
-							htmlFor={name}
-							className="font-medium capitalize"
-						>
-							{name}
-						</FormLabel>
+						{!hideLabel && (
+							<FormLabel
+								htmlFor={name}
+								className="font-medium capitalize"
+							>
+								{name}
+							</FormLabel>
+						)}
 						<FormControl>
 							{textarea ?
 								<Textarea
-									id={name}
+									id={hideLabel ? name : undefined}
 									{...field}
 									rows={rows}
 									className={className}
 								/>
 							:	<Input
-									id={name}
+									id={hideLabel ? name : undefined}
 									type={type}
 									{...field}
 									className={className}

@@ -25,6 +25,7 @@ interface ReviewFormProps {
 	review?: ReviewType;
 	url: string;
 	buttonText: string;
+	labels?: boolean;
 	method: Method;
 	onSuccess?: () => void;
 }
@@ -32,6 +33,7 @@ interface ReviewFormProps {
 export default function ReviewForm({
 	review,
 	url,
+	labels = false,
 	buttonText,
 	onSuccess,
 	method
@@ -67,7 +69,7 @@ export default function ReviewForm({
 					control={form.control}
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Rating</FormLabel>
+							{labels && <FormLabel>Rating</FormLabel>}
 							<FormControl>
 								<RatingInput
 									value={field.value}
@@ -85,6 +87,7 @@ export default function ReviewForm({
 					control={form.control}
 					error={errors.message}
 					textarea
+					hideLabel={!labels}
 				/>
 
 				<Button type="submit">{buttonText}</Button>

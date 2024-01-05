@@ -120,6 +120,7 @@ function CreateReview({ apartmentId }: { apartmentId: number }) {
 					url={route("apartments.reviews.store", [apartmentId])}
 					method="post"
 					buttonText="Create Review"
+					labels
 				/>
 			</CardContent>
 		</Card>
