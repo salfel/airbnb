@@ -65,7 +65,11 @@ function SearchBar() {
 				<div className="absolute left-5 top-0 flex h-full items-center">
 					<Search className="h-5 w-5" />
 				</div>
-				<div className="absolute right-5 top-0 hidden h-full items-center group-hover:flex peer-focus:flex">
+				<div
+					className={`${
+						search === "" ? "!hidden" : ""
+					} absolute right-5 top-0 hidden h-full items-center group-hover:flex peer-focus:flex`}
+				>
 					<button onClick={() => setSearch("")} type="button">
 						<X className="h-3 w-3" />
 					</button>
