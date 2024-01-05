@@ -20,7 +20,6 @@ type FormInputProps<T extends object, U extends boolean> = {
 	className?: string;
 	description?: string;
 	hideLabel?: boolean;
-	rows?: number;
 } & React.InputHTMLAttributes<
 	U extends true ? HTMLTextAreaElement : HTMLInputElement
 >;
@@ -33,8 +32,7 @@ export default function FormInput<T extends object, U extends boolean>({
 	type,
 	className,
 	description,
-	hideLabel = false,
-	rows
+	hideLabel = false
 }: FormInputProps<T, U>) {
 	return (
 		<FormField
@@ -56,8 +54,7 @@ export default function FormInput<T extends object, U extends boolean>({
 								<Textarea
 									id={hideLabel ? name : undefined}
 									{...field}
-									rows={rows}
-									className={className}
+									className={`min-h-24 ${className}`}
 								/>
 							:	<Input
 									id={hideLabel ? name : undefined}
