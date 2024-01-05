@@ -8,7 +8,7 @@ import {
 	FormLabel,
 	FormMessage
 } from "@/components/ui/form";
-import { Control, ControllerRenderProps, Path } from "react-hook-form";
+import { Control, Path } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 
 type FormInputProps<T extends object, U extends boolean> = {
@@ -76,8 +76,3 @@ export default function FormInput<T extends object, U extends boolean>({
 		/>
 	);
 }
-
-export type ForwardRefProps<
-	T,
-	U extends object
-> = React.InputHTMLAttributes<T> & ControllerRenderProps<U, Path<U>>;
