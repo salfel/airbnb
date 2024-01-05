@@ -14,7 +14,7 @@ export default function Paginator<T>({
 	pagination: PaginationType<T>;
 }) {
 	return (
-		<Pagination className="my-8">
+		<Pagination className="mt-8">
 			<PaginationContent>
 				{pagination.links.map((link) =>
 					link.label.includes("&laquo") ?
