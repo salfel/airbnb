@@ -54,8 +54,11 @@ export default function CalenderInput({ control, error }: Props) {
 									)}
 								>
 									<span>
-										{format(field.value.from, "PP")} -{" "}
-										{format(field.value.to, "PP")}
+										{field.value.from &&
+											format(field.value.from, "PP")}{" "}
+										-{" "}
+										{field.value.to &&
+											format(field.value.to, "PP")}
 									</span>
 									<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
 								</Button>
