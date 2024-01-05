@@ -10,7 +10,7 @@ interface AttributesCardProps {
 export default function AttributesCard({ attributes }: AttributesCardProps) {
 	const [collapsed, setCollapsed] = useState(false);
 	return (
-		<div className="space-y-6">
+		<div className="!my-12 space-y-6">
 			<h2 className="text-xl font-semibold">
 				This Apartment offers you:{" "}
 			</h2>
