@@ -17,6 +17,7 @@ import UserAvatar from "@/components/UserAvatar";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { toastActions } from "@/constants/toast";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Props {
 	children: ReactNode;
@@ -39,29 +40,41 @@ export default function Layout({ children }: Props) {
 
 	return (
 		<>
-			<header className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-6 py-2">
-				<Link href={route("home")} className="flex items-center gap-3">
-					<img src="/airbnb.svg" alt="Logo" className="h-12 w-12" />
-					<span className="text-2xl font-bold">Airbnb</span>
-				</Link>
-
-				<nav className="flex-1">
-					<ul className="flex items-center justify-end">
-						<NavLink url={route("dashboard")} label="Dashboard" />
-						<NavLink
-							url={route("apartments.create")}
-							label="Become a Host"
+			<ScrollArea className="h-screen">
+				<header className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-6 py-2">
+					<Link
+						href={route("home")}
+						className="flex items-center gap-3"
+					>
+						<img
+							src="/airbnb.svg"
+							alt="Logo"
+							className="h-12 w-12"
 						/>
-					</ul>
-				</nav>
+						<span className="text-2xl font-bold">Airbnb</span>
+					</Link>
 
-				<Dropdown />
-			</header>
-			<main className="mx-auto mt-6 flex min-h-[calc(100vh-8rem)] max-w-7xl flex-col px-6">
-				{children}
-			</main>
-			<footer className="h-8"></footer>
-			<Toaster />
+					<nav className="flex-1">
+						<ul className="flex items-center justify-end">
+							<NavLink
+								url={route("dashboard")}
+								label="Dashboard"
+							/>
+							<NavLink
+								url={route("apartments.create")}
+								label="Become a Host"
+							/>
+						</ul>
+					</nav>
+
+					<Dropdown />
+				</header>
+				<main className="mx-auto mt-6 flex min-h-[calc(100vh-8rem)] max-w-7xl flex-col px-6">
+					{children}
+				</main>
+				<footer className="h-8"></footer>
+				<Toaster />
+			</ScrollArea>
 		</>
 	);
 }
