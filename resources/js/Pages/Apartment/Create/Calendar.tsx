@@ -25,7 +25,7 @@ interface Props {
 	error?: string;
 }
 
-export default function CalenderInput({ control, error }: Props) {
+export default function CalendarInput({ control, error }: Props) {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -63,12 +63,17 @@ export default function CalenderInput({ control, error }: Props) {
 									<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
 								</Button>
 							</PopoverTrigger>
-							<PopoverContent>
+							<PopoverContent
+								className="w-auto p-0"
+								align="start"
+							>
 								<Calendar
+									initialFocus
 									mode="range"
 									selected={field.value}
-									min={2}
 									onSelect={field.onChange}
+									defaultMonth={field.value.from}
+									numberOfMonths={2}
 								/>
 							</PopoverContent>
 						</Popover>
