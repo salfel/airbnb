@@ -2,11 +2,6 @@ import React, { ReactNode } from "react";
 import { Link } from "@inertiajs/react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const navLinks = [
-	{ label: "Rentals", href: "dashboard.rentals" },
-	{ label: "Rented", href: "dashboard.rented" }
-];
-
 export default function DashboardLayout({ children }: { children: ReactNode }) {
 	const url = window.location.href;
 	const page = url.split("/")[url.split("/").length - 1];
