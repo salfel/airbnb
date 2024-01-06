@@ -37,6 +37,7 @@ export interface Apartment extends Model {
 	attributes: string[];
 	reviews: Review[];
 	reviews_count: number;
+	mark_count: number;
 }
 
 export interface Attribute {

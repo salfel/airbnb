@@ -19,7 +19,11 @@ class ApartmentController extends Controller
 
     public function index(Request $request)
     {
-        $apartments = $request->has('search') ? Apartment::search($request->get('search')) : Apartment::latest();
+        if ($request->has('search')) {
+            $apartments = Apartment::search($request->get('search'));
+        } else {
+            $apartments = Apartment::withCount(['mark' => fn ($query) => $query->where('user_id', Auth::id())])->orderByDesc('mark_count')->latest();
+        }
 
         return Inertia::render('Home', [
             'apartments' => $apartments->paginate(12),
