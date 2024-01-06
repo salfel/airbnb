@@ -11,14 +11,12 @@ class ReviewSeeder extends Seeder
 {
     public function run(): void
     {
-        foreach (Review::all() as $review) {
-            $review->delete();
-        }
+        $userCount = User::count();
 
         foreach (Apartment::all() as $apartment) {
-            Review::factory(10)->create([
+            Review::factory(20)->create([
                 'apartment_id' => $apartment->id,
-                'user_id' => User::all()->random()->id
+                'user_id' => fn () => rand(1, $userCount),
             ]);
         }
     }

@@ -8,31 +8,33 @@ import {
 	FormLabel,
 	FormMessage
 } from "@/components/ui/form";
-import { Control, ControllerRenderProps, Path } from "react-hook-form";
+import { Control, Path } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 
 type FormInputProps<T extends object, U extends boolean> = {
 	name: Path<T>;
+	label?: string;
 	control: Control<T>;
 	error?: string;
 	textarea?: U;
 	type?: string;
 	className?: string;
 	description?: string;
-	rows?: number;
+	hideLabel?: boolean;
 } & React.InputHTMLAttributes<
 	U extends true ? HTMLTextAreaElement : HTMLInputElement
 >;
 
 export default function FormInput<T extends object, U extends boolean>({
 	name,
+	label,
 	control,
 	error,
 	textarea,
 	type,
 	className,
 	description,
-	rows
+	hideLabel = false
 }: FormInputProps<T, U>) {
 	return (
 		<FormField
@@ -41,22 +43,23 @@ export default function FormInput<T extends object, U extends boolean>({
 			render={({ field }) => (
 				<>
 					<FormItem className="w-full">
-						<FormLabel
-							htmlFor={name}
-							className="font-medium capitalize"
-						>
-							{name}
-						</FormLabel>
+						{!hideLabel && (
+							<FormLabel
+								htmlFor={name}
+								className="font-medium capitalize"
+							>
+								{label || name}
+							</FormLabel>
+						)}
 						<FormControl>
 							{textarea ?
 								<Textarea
-									id={name}
+									id={hideLabel ? name : undefined}
 									{...field}
-									rows={rows}
-									className={className}
+									className={`min-h-24 ${className}`}
 								/>
 							:	<Input
-									id={name}
+									id={hideLabel ? name : undefined}
 									type={type}
 									{...field}
 									className={className}
@@ -72,8 +75,3 @@ export default function FormInput<T extends object, U extends boolean>({
 		/>
 	);
 }
-
-export type ForwardRefProps<
-	T,
-	U extends object
-> = React.InputHTMLAttributes<T> & ControllerRenderProps<U, Path<U>>;

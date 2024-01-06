@@ -7,7 +7,6 @@ import {
 	PaginationNext,
 	PaginationPrevious
 } from "@/components/ui/pagination";
-import { decode } from "html-entities";
 
 export default function Paginator<T>({
 	pagination
@@ -15,22 +14,22 @@ export default function Paginator<T>({
 	pagination: PaginationType<T>;
 }) {
 	return (
-		<Pagination className="my-8">
+		<Pagination className="mt-8">
 			<PaginationContent>
-				{pagination.links.map((link, index) =>
+				{pagination.links.map((link) =>
 					link.label.includes("&laquo") ?
 						<PaginationPrevious
 							href={link.url as string}
-							key={index}
+							key="previous"
 						/>
 					: link.label.includes("&raquo") ?
-						<PaginationNext href={link.url as string} key={index} />
+						<PaginationNext href={link.url as string} key="next" />
 					:	<PaginationLink
-							key={index}
+							key={link.url}
 							href={link.url as string}
 							isActive={link.active}
 						>
-							{decode(link.label)}
+							{link.label}
 						</PaginationLink>
 				)}
 			</PaginationContent>

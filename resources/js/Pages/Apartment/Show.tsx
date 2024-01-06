@@ -10,7 +10,7 @@ import {
 	CardTitle
 } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Bath, Bed, Users } from "lucide-react";
+import { Bath, Bed, Grid2X2, Users } from "lucide-react";
 import UserAvatar from "@/components/UserAvatar";
 import { formatDistanceToNow } from "date-fns";
 import Review from "@/Pages/Apartment/Show/Review";
@@ -120,6 +120,7 @@ function CreateReview({ apartmentId }: { apartmentId: number }) {
 					url={route("apartments.reviews.store", [apartmentId])}
 					method="post"
 					buttonText="Create Review"
+					labels
 				/>
 			</CardContent>
 		</Card>
@@ -171,6 +172,13 @@ function AccommodationDetails({ apartment }: { apartment: Apartment }) {
 							<span className="font-medium">Bathrooms</span>
 						</TableCell>
 						<TableCell>{apartment.baths}</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell className="flex items-center gap-3">
+							<Grid2X2 className="h-5 w-10" />
+							<span className="font-medium">Square Meters</span>
+						</TableCell>
+						<TableCell>{apartment.square_meters}</TableCell>
 					</TableRow>
 				</TableBody>
 			</Table>
