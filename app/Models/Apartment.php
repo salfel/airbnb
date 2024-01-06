@@ -63,7 +63,7 @@ class Apartment extends Model
 
     public function mark(): HasOne
     {
-        return $this->hasOne(Mark::class, 'apartment_id');
+        return $this->hasOne(Mark::class, 'apartment_id')->where('user_id', auth()->id())
     }
 
     protected function getStarsAttribute(): float
