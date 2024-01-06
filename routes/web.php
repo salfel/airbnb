@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\DashboardRentalsController;
 use App\Http\Controllers\DashboardRentedController;
+use App\Http\Controllers\MarkController;
 use App\Http\Controllers\RentController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,7 @@ Route::get('/', [ApartmentController::class, 'index'])->name('home');
 Route::resource('apartments', ApartmentController::class)->except(['index']);
 Route::apiResource('apartments.reviews', ReviewController::class)->shallow();
 Route::apiResource('apartments.rents', RentController::class);
+Route::apiResource('apartments.marks', MarkController::class)->only(['store', 'destroy'])->shallow();
 
 Route::get('dashboard/rentals', DashboardRentalsController::class)
     ->middleware(['auth', 'verified'])

@@ -52,6 +52,11 @@ export interface Review extends Model {
 	apartment_id: number;
 }
 
+export interface Mark extends Model {
+	apartment_id: number;
+	user_id: number;
+}
+
 export interface Pagination<T> {
 	current_page: number;
 	data: T[];

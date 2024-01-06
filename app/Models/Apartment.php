@@ -60,6 +60,11 @@ class Apartment extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function marks(): HasMany
+    {
+        return $this->hasMany(Mark::class, 'apartment_id');
+    }
+
     protected function getStarsAttribute(): float
     {
         return round($this->reviews()->avg('stars'), 1);
