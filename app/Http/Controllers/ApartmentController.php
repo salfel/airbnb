@@ -31,7 +31,7 @@ class ApartmentController extends Controller
         return Inertia::render('Apartment/Show', [
             'apartment' => fn () => Apartment::with(['host.user'])->withCount('reviews')->findOrFail($apartment->id),
             'reviews' => $apartment->reviews()->with('user')->take($request->get('page', 1) * 6)->latest()->get(),
-            'mark' => $apartment->marks()->where('user_id', Auth::id())->first(),
+            'mark' => $apartment->mark()->where('user_id', Auth::id())->get(),
         ]);
     }
 
