@@ -6,7 +6,8 @@ import DashboardLayout from "@/layouts/DashboardLayout";
 export default function DashboardMarked() {
 	return (
 		<>
-			<Head title="Dashboard" />
+			<Head title="Dashboard Marked" />
+
 			<div>
 				<h1>Marked</h1>
 			</div>

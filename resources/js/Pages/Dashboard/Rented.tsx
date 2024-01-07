@@ -6,7 +6,8 @@ import DashboardLayout from "@/layouts/DashboardLayout";
 export default function DashboardRented() {
 	return (
 		<>
-			<Head title="Dashboard" />
+			<Head title="Dashboard Rented" />
+
 			<div>
 				<h1>Rented</h1>
 			</div>
