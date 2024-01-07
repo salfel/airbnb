@@ -1,31 +1,64 @@
 import React, { ReactNode } from "react";
 import { Link } from "@inertiajs/react";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Building2, UserCheck, Star, LucideIcon } from "lucide-react";
+
+const navLinks: { label: string; route: string; icon: LucideIcon }[] = [
+	{
+		label: "Rentals",
+		route: "dashboard.rentals",
+		icon: UserCheck
+	},
+	{
+		label: "Rented",
+		route: "dashboard.rented",
+		icon: Building2
+	},
+	{
+		label: "Marked",
+		route: "dashboard.marked",
+		icon: Star
+	}
+];
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
-	const url = window.location.href;
-	const page = url.split("/")[url.split("/").length - 1];
-
 	return (
-		<>
-			<h1 className="text-2xl font-semibold">Dashboard</h1>
-
-			<Tabs defaultValue={page} className="my-3">
-				<TabsList>
-					<TabsTrigger value="rentals" asChild>
-						<Link href={route("dashboard.rentals")}>
-							Your Rentals
-						</Link>
-					</TabsTrigger>
-					<TabsTrigger value="rented" asChild>
-						<Link href={route("dashboard.rented")}>
-							Rented Apartments
-						</Link>
-					</TabsTrigger>
-				</TabsList>
-			</Tabs>
+		<div className="grid grid-cols-[15rem_1fr]">
+			<SideBar />
 
 			{children}
-		</>
+		</div>
+	);
+}
+
+function SideBar() {
+	return (
+		<aside className="border-r border-gray-200">
+			<div className="mb-3 flex h-20 items-center justify-center border-b border-gray-200">
+				<h1 className="text-2xl font-semibold">Dashboard</h1>
+			</div>
+			<nav className="flex flex-col gap-1 px-3">
+				{navLinks.map((link) => (
+					<Link
+						href={route(link.route)}
+						className={cn(
+							buttonVariants({
+								variant:
+									route().current(link.route) ?
+										"default"
+									:	"ghost"
+							}),
+							"justify-start gap-3"
+						)}
+						key={link.route}
+					>
+						<link.icon className="h-5 w-5" />
+
+						{link.label}
+					</Link>
+				))}
+			</nav>
+		</aside>
 	);
 }
