@@ -3,7 +3,7 @@ import Layout from "@/layouts/Layout";
 import { Head } from "@inertiajs/react";
 import DashboardLayout from "@/layouts/DashboardLayout";
 
-export default function Dashboard() {
+export default function DashboardRentals() {
 	return (
 		<>
 			<Head title="Dashboard" />
@@ -14,8 +14,8 @@ export default function Dashboard() {
 	);
 }
 
-Dashboard.layout = (page: ReactNode) => (
-	<Layout>
-		<DashboardLayout>{page}</DashboardLayout>
-	</Layout>
+DashboardRentals.layout = (page: ReactNode) => (
+	<DashboardLayout>
+		<Layout>{page}</Layout>
+	</DashboardLayout>
 );
