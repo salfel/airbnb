@@ -54,24 +54,26 @@ export default function Layout({ children }: Props) {
 
 function Header() {
 	return (
-		<header className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-6 py-2">
-			<Link href={route("home")} className="flex items-center gap-3">
-				<img src="/airbnb.svg" alt="Logo" className="h-12 w-12" />
-				<span className="text-2xl font-bold">Airbnb</span>
-			</Link>
+		<div className="shadow-md">
+			<header className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-6 py-4">
+				<Link href={route("home")} className="flex items-center gap-3">
+					<img src="/airbnb.svg" alt="Logo" className="h-12 w-12" />
+					<span className="text-2xl font-bold">Airbnb</span>
+				</Link>
 
-			<nav className="flex-1">
-				<ul className="flex items-center justify-end">
-					<NavLink url={route("dashboard")} label="Dashboard" />
-					<NavLink
-						url={route("apartments.create")}
-						label="Become a Host"
-					/>
-				</ul>
-			</nav>
+				<nav className="flex-1">
+					<ul className="flex items-center justify-end">
+						<NavLink url={route("dashboard")} label="Dashboard" />
+						<NavLink
+							url={route("apartments.create")}
+							label="Become a Host"
+						/>
+					</ul>
+				</nav>
 
-			<Dropdown />
-		</header>
+				<Dropdown />
+			</header>
+		</div>
 	);
 }
 
