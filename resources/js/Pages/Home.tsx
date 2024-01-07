@@ -4,7 +4,7 @@ import { Head, Link, router } from "@inertiajs/react";
 import React, { FormEvent, ReactNode, useState } from "react";
 import Paginator from "@/components/Paginator";
 import { Input } from "@/components/ui/input";
-import { Search, Star, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { useSearchParams } from "@/lib/hooks";
 import { Button } from "@/components/ui/button";
 import {
@@ -94,7 +94,7 @@ function SearchBar() {
 
 function ApartmentPreview({ apartment }: { apartment: Apartment }) {
 	return (
-		<Card className="relative">
+		<Card>
 			<CardHeader>
 				<img
 					src={apartment.images[0] || "/placeholder.svg"}
@@ -119,9 +119,6 @@ function ApartmentPreview({ apartment }: { apartment: Apartment }) {
 					<Button>Details</Button>
 				</Link>
 			</CardContent>
-			{!!apartment.mark_count && (
-				<Star className="absolute right-8 top-8 h-6 w-5 fill-yellow-500 stroke-yellow-500 opacity-75" />
-			)}
 		</Card>
 	);
 }
