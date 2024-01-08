@@ -17,6 +17,7 @@ type Data = {
 	name: string;
 	email: string;
 	password: string;
+	password_confirmation: string;
 };
 
 export default function Login() {
@@ -28,7 +29,8 @@ export default function Login() {
 		defaultValues: {
 			name: "",
 			email: "",
-			password: ""
+			password: "",
+			password_confirmation: ""
 		}
 	});
 
@@ -66,11 +68,20 @@ export default function Login() {
 							control={form.control}
 							error={errors.email}
 						/>
+
 						<FormInput
 							type="password"
 							name="password"
 							control={form.control}
 							error={errors.password}
+						/>
+
+						<FormInput
+							type="password"
+							name="password_confirmation"
+							label="Confirm Password"
+							control={form.control}
+							error={errors.password_confirmation}
 						/>
 
 						<Button type="submit" className="w-full">
