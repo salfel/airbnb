@@ -32,14 +32,4 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(func
     Route::get('marked', DashboardMarkedController::class)->name('marked');
 });
 
-Route::get('dashboard/rentals', DashboardRentalsController::class)
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard.rentals');
-
-Route::get('dashboard/rented', DashboardRentedController::class)
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard.rented');
-
-Route::get('dashboard', fn () => redirect()->route('dashboard.rentals'))->name('dashboard');
-
 require __DIR__.'/auth.php';
