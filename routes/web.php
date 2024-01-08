@@ -26,7 +26,7 @@ Route::apiResource('apartments.reviews', ReviewController::class)->shallow();
 Route::apiResource('apartments.rents', RentController::class);
 Route::apiResource('apartments.marks', MarkController::class)->only(['store', 'destroy'])->shallow();
 
-Route::prefix('dashboard')->name('dashboard.')->group(function () {
+Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(function () {
     Route::get('rentals', DashboardRentalsController::class)->name('rentals');
     Route::get('rented', DashboardRentedController::class)->name('rented');
     Route::get('marked', DashboardMarkedController::class)->name('marked');
