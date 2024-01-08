@@ -5,11 +5,12 @@ import { getAvatarFallbackName } from "@/lib/utils";
 
 interface Props {
 	user: User;
+	className?: string;
 }
 
-export default function UserAvatar({ user }: Props) {
+export default function UserAvatar({ user, className }: Props) {
 	return (
-		<Avatar>
+		<Avatar className={className}>
 			<AvatarImage src={user.image} alt={user.name} />
 			<AvatarFallback>{getAvatarFallbackName(user.name)}</AvatarFallback>
 		</Avatar>
