@@ -63,7 +63,10 @@ function Header() {
 
 				<nav className="flex-1">
 					<ul className="flex items-center justify-end">
-						<NavLink url={route("dashboard")} label="Dashboard" />
+						<NavLink
+							url={route("dashboard.rented")}
+							label="Dashboard"
+						/>
 						<NavLink
 							url={route("apartments.create")}
 							label="Become a Host"

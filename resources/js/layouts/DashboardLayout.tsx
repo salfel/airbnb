@@ -6,14 +6,14 @@ import { Building2, UserCheck, Star, LucideIcon } from "lucide-react";
 
 const navLinks: { label: string; route: string; icon: LucideIcon }[] = [
 	{
-		label: "Rentals",
-		route: "dashboard.rentals",
-		icon: UserCheck
-	},
-	{
 		label: "Rented",
 		route: "dashboard.rented",
 		icon: Building2
+	},
+	{
+		label: "Rentals",
+		route: "dashboard.rentals",
+		icon: UserCheck
 	},
 	{
 		label: "Marked",
@@ -34,7 +34,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
 function SideBar() {
 	const page = usePage<{ showRentals: boolean }>();
-	console.log(page.props.showRentals);
 	return (
 		<aside className="border-r border-gray-200">
 			<div className="mb-3 flex h-20 items-center justify-center border-b border-gray-200">
