@@ -38,11 +38,13 @@ import { cn } from "@/lib/utils";
 export default function Show({
 	apartment,
 	reviews,
-	mark
+	mark,
+	stars
 }: PageProps & {
 	apartment: Apartment;
 	reviews: ReviewType[];
 	mark: Mark | null;
+	stars: number;
 }) {
 	return (
 		<>
@@ -99,10 +101,7 @@ export default function Show({
 				<RentForm apartment={apartment} />
 			</div>
 			<section className="mt-12 space-y-8">
-				<Rating
-					stars={apartment.stars}
-					reviews_count={apartment.reviews_count}
-				/>
+				<Rating stars={stars} reviews_count={apartment.reviews_count} />
 
 				<CreateReview apartmentId={apartment.id} />
 

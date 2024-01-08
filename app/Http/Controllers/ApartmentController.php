@@ -32,6 +32,7 @@ class ApartmentController extends Controller
             'apartment' => fn () => Apartment::with(['host.user'])->withCount('reviews')->findOrFail($apartment->id),
             'reviews' => $apartment->reviews()->with('user')->take($request->get('page', 1) * 6)->latest()->get(),
             'mark' => $apartment->mark()->where('user_id', Auth::id())->first(),
+            'stars' => $apartment->stars,
         ]);
     }
 

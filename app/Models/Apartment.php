@@ -30,10 +30,6 @@ class Apartment extends Model
         'host_id',
     ];
 
-    protected $appends = [
-        'stars',
-    ];
-
     protected $casts = [
         'start' => 'datetime',
         'end' => 'datetime',

@@ -33,7 +33,6 @@ export interface Apartment extends Model {
 	start: string;
 	end: string;
 	host: Host;
-	stars: number;
 	attributes: string[];
 	reviews: Review[];
 	reviews_count: number;
