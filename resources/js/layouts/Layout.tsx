@@ -103,7 +103,7 @@ function Dropdown() {
 					</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem asChild>
-						<Link href={route("dashboard")}>Dashboard</Link>
+						<Link href={route("dashboard.rented")}>Dashboard</Link>
 					</DropdownMenuItem>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem
