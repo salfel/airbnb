@@ -57,6 +57,15 @@ export interface Mark extends Model {
 	user_id: number;
 }
 
+export interface Rent extends Model {
+	apartment_id: number;
+	user_id: number;
+	start: string;
+	end: string;
+	apartment: Apartment;
+	user: User;
+}
+
 export interface Pagination<T> {
 	current_page: number;
 	data: T[];

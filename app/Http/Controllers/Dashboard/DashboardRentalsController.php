@@ -12,7 +12,7 @@ class DashboardRentalsController extends Controller
     {
         return Inertia::render('Dashboard/Rentals', [
             'showRentals' => Auth::user()->host()->exists(),
-            'rentals' => Auth::user()->through('apartments')->has('rents')->with('apartment')->orderBy('start')->get(),
+            'rentals' => Auth::user()->through('apartments')->has('rents')->with(['apartment', 'user'])->orderBy('start')->get(),
         ]);
     }
 }
