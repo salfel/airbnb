@@ -33,10 +33,10 @@ export interface Apartment extends Model {
 	start: string;
 	end: string;
 	host: Host;
-	stars: number;
 	attributes: string[];
 	reviews: Review[];
 	reviews_count: number;
+	mark_count: number;
 }
 
 export interface Attribute {
@@ -50,6 +50,20 @@ export interface Review extends Model {
 	message: string;
 	user: User;
 	apartment_id: number;
+}
+
+export interface Mark extends Model {
+	apartment_id: number;
+	user_id: number;
+}
+
+export interface Rent extends Model {
+	apartment_id: number;
+	user_id: number;
+	start: string;
+	end: string;
+	apartment: Apartment;
+	user: User;
 }
 
 export interface Pagination<T> {

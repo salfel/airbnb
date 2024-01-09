@@ -124,6 +124,8 @@ function CalendarInput({
 							mode="range"
 							selected={field.value}
 							onSelect={field.onChange}
+							numberOfMonths={2}
+							defaultMonth={field.value.from}
 						/>
 					</FormControl>
 					<FormMessage>{error}</FormMessage>

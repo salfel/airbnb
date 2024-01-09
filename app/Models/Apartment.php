@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Scout\Searchable;
 
 class Apartment extends Model
@@ -27,10 +28,6 @@ class Apartment extends Model
         'baths',
         'guests',
         'host_id',
-    ];
-
-    protected $appends = [
-        'stars',
     ];
 
     protected $casts = [
@@ -58,6 +55,16 @@ class Apartment extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function mark(): HasOne
+    {
+        return $this->hasOne(Mark::class, 'apartment_id')->where('user_id', auth()->id());
+    }
+
+    public function rents(): HasMany
+    {
+        return $this->hasMany(Rent::class);
     }
 
     protected function getStarsAttribute(): float

@@ -1,7 +1,13 @@
 import Layout from "@/layouts/Layout";
 import React, { ReactNode } from "react";
-import { Apartment, Host, PageProps, Review as ReviewType } from "@/types";
-import { Head } from "@inertiajs/react";
+import {
+	Apartment,
+	Host,
+	Mark,
+	PageProps,
+	Review as ReviewType
+} from "@/types";
+import { Head, Link } from "@inertiajs/react";
 import {
 	Card,
 	CardContent,
@@ -10,7 +16,7 @@ import {
 	CardTitle
 } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Bath, Bed, Grid2X2, Users } from "lucide-react";
+import { Bath, Bed, Grid2X2, Star, Users } from "lucide-react";
 import UserAvatar from "@/components/UserAvatar";
 import { formatDistanceToNow } from "date-fns";
 import Review from "@/Pages/Apartment/Show/Review";
@@ -26,13 +32,19 @@ import {
 	CarouselNext,
 	CarouselPrevious
 } from "@/components/ui/carousel";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function Show({
 	apartment,
-	reviews
+	reviews,
+	mark,
+	stars
 }: PageProps & {
 	apartment: Apartment;
 	reviews: ReviewType[];
+	mark: Mark | null;
+	stars: number;
 }) {
 	return (
 		<>
@@ -40,7 +52,7 @@ export default function Show({
 
 			<ImageCarousel apartment={apartment} />
 
-			<div className="mt-12 space-y-6">
+			<div className="relative mt-12 space-y-6">
 				<div>
 					<h1 className="text-2xl font-semibold">
 						{apartment.title}
@@ -48,6 +60,31 @@ export default function Show({
 					<p className="mt-2 text-sm text-gray-800">
 						{apartment.description}
 					</p>
+
+					<Button
+						variant="secondary"
+						asChild
+						className="group absolute right-3 top-3"
+					>
+						<Link
+							href={
+								mark?.id ?
+									route("marks.destroy", [mark.id])
+								:	route("apartments.marks.store", [apartment.id])
+							}
+							method={mark?.id ? "delete" : "post"}
+							as="button"
+						>
+							Mark
+							<Star
+								className={cn(
+									"ml-2 h-4 w-4 group-hover:stroke-yellow-500",
+									mark?.id &&
+										"fill-yellow-500 stroke-yellow-500"
+								)}
+							/>
+						</Link>
+					</Button>
 				</div>
 
 				<p className="text-2xl font-semibold">
@@ -64,10 +101,7 @@ export default function Show({
 				<RentForm apartment={apartment} />
 			</div>
 			<section className="mt-12 space-y-8">
-				<Rating
-					stars={apartment.stars}
-					reviews_count={apartment.reviews_count}
-				/>
+				<Rating stars={stars} reviews_count={apartment.reviews_count} />
 
 				<CreateReview apartmentId={apartment.id} />
 

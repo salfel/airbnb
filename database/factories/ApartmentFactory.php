@@ -19,6 +19,8 @@ class ApartmentFactory extends Factory
             unset($baseAttributes[array_search($attributes[$i], $baseAttributes)]);
         }
 
+        $start = rand(0, 1) ? Carbon::now()->subDays(rand(0, 365)) : Carbon::now()->addDays(rand(0, 365));
+
         return [
             'city' => $this->faker->city(),
             'country' => $this->faker->country(),
@@ -31,8 +33,8 @@ class ApartmentFactory extends Factory
             'guests' => $this->faker->randomNumber(1),
             'images' => array_fill(0, 3, null),
             'attributes' => $attributes,
-            'start' => Carbon::now(),
-            'end' => Carbon::now()->addDays($this->faker->randomNumber(2)),
+            'start' => $start,
+            'end' => $start->addDays(rand(1, 14)),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];
