@@ -1,4 +1,4 @@
-import { PrimitiveAtom, useAtom } from "jotai/index";
+import { PrimitiveAtom, useSetAtom } from "jotai/index";
 import React, { useEffect, useState } from "react";
 import { TableCaption } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -13,13 +13,13 @@ export default function TablePaginator<T>({
 	valuesAtom: PrimitiveAtom<T[]>;
 }) {
 	const [page, setPage] = useState(0);
-	const [values, setValues] = useAtom(valuesAtom);
+	const setValues = useSetAtom(valuesAtom);
 
 	useEffect(() => {
 		setValues(initialValues.slice(page * 8, (page + 1) * 8));
 	}, [page]);
 	return (
-		values.length <= 8 && (
+		initialValues.length >= 8 && (
 			<TableCaption>
 				<div className="flex items-center justify-between">
 					<Button
