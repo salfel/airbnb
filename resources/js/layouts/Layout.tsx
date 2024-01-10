@@ -51,6 +51,7 @@ export default function Layout({ children }: Props) {
 }
 
 function Header() {
+	const page = usePage<PageProps>();
 	return (
 		<div className="shadow-md">
 			<header className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-6 py-4">
@@ -67,7 +68,11 @@ function Header() {
 						/>
 						<NavLink
 							url={route("apartments.create")}
-							label="Become a Host"
+							label={
+								page.props.auth.host === null ?
+									"Become a Host"
+								:	"List new Apartment"
+							}
 						/>
 					</ul>
 				</nav>

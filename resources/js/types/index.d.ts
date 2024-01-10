@@ -91,6 +91,7 @@ export type PageProps<
 > = T & {
 	auth: {
 		user: User;
+		host: Host;
 	};
 	ziggy: Config & { location: string };
 	flash: {
