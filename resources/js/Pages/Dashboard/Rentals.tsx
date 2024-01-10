@@ -64,33 +64,37 @@ function RentalTable({ rentals }: { rentals: Rent[] }) {
 	const [page, setPage] = useState(0);
 	return (
 		<Table>
-			<TableCaption>
-				<div className="flex items-center justify-between">
-					<Button
-						variant="outline"
-						onClick={() => setPage(page - 1)}
-						disabled={page === 0}
-					>
-						Previous
-					</Button>
+			{rentals.length <= 8 && (
+				<TableCaption>
+					<div className="flex items-center justify-between">
+						<Button
+							variant="outline"
+							onClick={() => setPage(page - 1)}
+							disabled={page === 0}
+						>
+							Previous
+						</Button>
 
-					<span className="text-sm text-gray-600">
-						Showing {page * pageLength} to{" "}
-						{(page + 1) * pageLength - 1} of {rentals.length}{" "}
-						results
-					</span>
+						<span className="text-sm text-gray-600">
+							Showing {page * pageLength} to{" "}
+							{(page + 1) * pageLength - 1} of {rentals.length}{" "}
+							results
+						</span>
 
-					<Button
-						variant="outline"
-						onClick={() => setPage(page + 1)}
-						disabled={
-							page === Math.ceil(rentals.length / pageLength) - 1
-						}
-					>
-						Next
-					</Button>
-				</div>
-			</TableCaption>
+						<Button
+							variant="outline"
+							onClick={() => setPage(page + 1)}
+							disabled={
+								page ===
+								Math.ceil(rentals.length / pageLength) - 1
+							}
+						>
+							Next
+						</Button>
+					</div>
+				</TableCaption>
+			)}
+
 			<TableHeader>
 				<TableRow>
 					<TableHead>Name</TableHead>
