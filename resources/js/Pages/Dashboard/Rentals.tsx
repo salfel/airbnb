@@ -104,17 +104,19 @@ function RentalTable({ rentals }: { rentals: Rent[] }) {
 					<TableHead>User</TableHead>
 				</TableRow>
 			</TableHeader>
-			<TableBody>
-				{rentals.slice(page * 8, (page + 1) * 8).map((rent) => (
-					<ApartmentTableRow
-						apartment={rent.apartment}
-						start={rent.start}
-						end={rent.end}
-						user={rent.user}
-						key={rent.id}
-					/>
-				))}
-			</TableBody>
+			{rentals.length !== 0 ?
+				<TableBody>
+					{rentals.slice(page * 8, (page + 1) * 8).map((rent) => (
+						<ApartmentTableRow
+							apartment={rent.apartment}
+							start={rent.start}
+							end={rent.end}
+							user={rent.user}
+							key={rent.id}
+						/>
+					))}
+				</TableBody>
+			:	<p>No Rentals yet</p>}
 		</Table>
 	);
 }
