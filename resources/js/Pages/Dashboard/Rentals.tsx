@@ -11,7 +11,7 @@ import {
 	TableRow
 } from "@/components/ui/table";
 import ApartmentTableRow from "@/components/ApartmentTableRow";
-import { atom, useAtomValue, PrimitiveAtom } from "jotai";
+import { atom, useAtomValue } from "jotai";
 import TablePaginator from "@/components/TablePaginator";
 
 export default function DashboardRentals({ rentals }: { rentals: Rent[] }) {
