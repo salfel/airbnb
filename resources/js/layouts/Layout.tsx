@@ -39,16 +39,14 @@ export default function Layout({ children }: Props) {
 	}, [page.props.flash]);
 
 	return (
-		<>
-			<ScrollArea className="h-screen">
-				<Header />
-				<main className="relative mx-auto mt-6 flex min-h-[calc(100vh-8rem)] max-w-7xl flex-col px-6">
-					{children}
-				</main>
-				<footer className="h-8"></footer>
-				<Toaster />
-			</ScrollArea>
-		</>
+		<ScrollArea className="h-screen">
+			<Header />
+			<main className="relative mx-auto mt-6 flex min-h-[calc(100vh-8rem)] max-w-7xl flex-col px-6">
+				{children}
+			</main>
+			<footer className="h-8"></footer>
+			<Toaster />
+		</ScrollArea>
 	);
 }
 
