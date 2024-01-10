@@ -10,12 +10,14 @@ export default function ApartmentTableRow({
 	apartment,
 	start,
 	end,
-	user
+	user,
+	children
 }: {
 	apartment: Apartment;
 	start: string;
 	end: string;
 	user: User;
+	children?: React.ReactNode;
 }) {
 	return (
 		<TableRow>
@@ -38,6 +40,7 @@ export default function ApartmentTableRow({
 				<UserAvatar user={user} className="scale-75" />
 				{user.name}{" "}
 			</TableCell>
+			{children}
 		</TableRow>
 	);
 }
