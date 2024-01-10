@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
+import { atom, PrimitiveAtom } from "jotai";
 
 export function useSearchParams() {
 	const [searchParams, setSearchParams] = useState(

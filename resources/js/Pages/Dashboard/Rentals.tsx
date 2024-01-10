@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import Layout from "@/layouts/Layout";
 import { Head } from "@inertiajs/react";
 import DashboardLayout from "@/layouts/DashboardLayout";
@@ -11,10 +11,13 @@ import {
 	TableRow
 } from "@/components/ui/table";
 import ApartmentTableRow from "@/components/ApartmentTableRow";
-import { atom, useAtomValue } from "jotai";
+import { atom, useAtomValue, PrimitiveAtom } from "jotai";
 import TablePaginator from "@/components/TablePaginator";
 
 export default function DashboardRentals({ rentals }: { rentals: Rent[] }) {
+	const [currentRentalsAtom] = useState(atom(rentals));
+	const [previousRentalsAtom] = useState(atom(rentals));
+
 	return (
 		<>
 			<Head title="Dashboard Rentals" />
@@ -30,6 +33,7 @@ export default function DashboardRentals({ rentals }: { rentals: Rent[] }) {
 								new Date(rental.end).getTime() >
 								new Date().getTime()
 						)}
+						atom={currentRentalsAtom}
 					/>
 				</div>
 
@@ -41,9 +45,10 @@ export default function DashboardRentals({ rentals }: { rentals: Rent[] }) {
 					<RentalTable
 						rentals={rentals.filter(
 							(rental) =>
-								new Date(rental.end).getTime() >
+								new Date(rental.end).getTime() <=
 								new Date().getTime()
 						)}
+						atom={previousRentalsAtom}
 					/>
 				</div>
 			</div>
@@ -57,17 +62,21 @@ DashboardRentals.layout = (page: ReactNode) => (
 	</DashboardLayout>
 );
 
-const rentalsAtom = atom<Rent[]>([]);
-
-function RentalTable({ rentals }: { rentals: Rent[] }) {
-	const values = useAtomValue(rentalsAtom);
+function RentalTable({
+	rentals,
+	atom
+}: {
+	rentals: Rent[];
+	atom: PrimitiveAtom<Rent[]>;
+}) {
+	const values = useAtomValue(atom);
 
 	return (
 		<Table>
 			<TablePaginator
 				initialValues={rentals}
 				pageLength={8}
-				valuesAtom={rentalsAtom}
+				valuesAtom={atom}
 			/>
 			<TableHeader>
 				<TableRow>
