@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import Layout from "@/layouts/Layout";
 import { Head } from "@inertiajs/react";
 import DashboardLayout from "@/layouts/DashboardLayout";
@@ -6,19 +6,18 @@ import { Rent } from "@/types";
 import {
 	Table,
 	TableBody,
-	TableCaption,
 	TableHead,
 	TableHeader,
 	TableRow
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import ApartmentTableRow from "@/components/ApartmentTableRow";
+import { atom, useAtomValue } from "jotai";
+import TablePaginator from "@/components/TablePaginator";
 
 export default function DashboardRentals({ rentals }: { rentals: Rent[] }) {
 	return (
 		<>
 			<Head title="Dashboard Rentals" />
-
 			<div className="space-y-8">
 				<div>
 					<h2 className="mb-6 text-xl font-semibold">
@@ -58,43 +57,18 @@ DashboardRentals.layout = (page: ReactNode) => (
 	</DashboardLayout>
 );
 
-const pageLength = 8;
+const rentalsAtom = atom<Rent[]>([]);
 
 function RentalTable({ rentals }: { rentals: Rent[] }) {
-	const [page, setPage] = useState(0);
+	const values = useAtomValue(rentalsAtom);
+
 	return (
 		<Table>
-			{rentals.length <= 8 && (
-				<TableCaption>
-					<div className="flex items-center justify-between">
-						<Button
-							variant="outline"
-							onClick={() => setPage(page - 1)}
-							disabled={page === 0}
-						>
-							Previous
-						</Button>
-
-						<span className="text-sm text-gray-600">
-							Showing {page * pageLength} to{" "}
-							{(page + 1) * pageLength - 1} of {rentals.length}{" "}
-							results
-						</span>
-
-						<Button
-							variant="outline"
-							onClick={() => setPage(page + 1)}
-							disabled={
-								page ===
-								Math.ceil(rentals.length / pageLength) - 1
-							}
-						>
-							Next
-						</Button>
-					</div>
-				</TableCaption>
-			)}
-
+			<TablePaginator
+				initialValues={rentals}
+				pageLength={8}
+				valuesAtom={rentalsAtom}
+			/>
 			<TableHeader>
 				<TableRow>
 					<TableHead>Name</TableHead>
@@ -106,7 +80,7 @@ function RentalTable({ rentals }: { rentals: Rent[] }) {
 			</TableHeader>
 			{rentals.length !== 0 ?
 				<TableBody>
-					{rentals.slice(page * 8, (page + 1) * 8).map((rent) => (
+					{values.map((rent) => (
 						<ApartmentTableRow
 							apartment={rent.apartment}
 							start={rent.start}
