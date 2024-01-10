@@ -15,9 +15,6 @@ import { atom, useAtomValue, PrimitiveAtom } from "jotai";
 import TablePaginator from "@/components/TablePaginator";
 
 export default function DashboardRentals({ rentals }: { rentals: Rent[] }) {
-	const [currentRentalsAtom] = useState(atom(rentals));
-	const [previousRentalsAtom] = useState(atom(rentals));
-
 	return (
 		<>
 			<Head title="Dashboard Rentals" />
@@ -33,7 +30,6 @@ export default function DashboardRentals({ rentals }: { rentals: Rent[] }) {
 								new Date(rental.end).getTime() >
 								new Date().getTime()
 						)}
-						atom={currentRentalsAtom}
 					/>
 				</div>
 
@@ -48,7 +44,6 @@ export default function DashboardRentals({ rentals }: { rentals: Rent[] }) {
 								new Date(rental.end).getTime() <=
 								new Date().getTime()
 						)}
-						atom={previousRentalsAtom}
 					/>
 				</div>
 			</div>
@@ -62,21 +57,16 @@ DashboardRentals.layout = (page: ReactNode) => (
 	</DashboardLayout>
 );
 
-function RentalTable({
-	rentals,
-	atom
-}: {
-	rentals: Rent[];
-	atom: PrimitiveAtom<Rent[]>;
-}) {
-	const values = useAtomValue(atom);
+function RentalTable({ rentals }: { rentals: Rent[] }) {
+	const [_atom] = useState(atom(rentals));
+	const values = useAtomValue(_atom);
 
 	return (
 		<Table>
 			<TablePaginator
 				initialValues={rentals}
 				pageLength={8}
-				valuesAtom={atom}
+				valuesAtom={_atom}
 			/>
 			<TableHeader>
 				<TableRow>
