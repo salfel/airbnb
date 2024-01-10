@@ -1,20 +1,18 @@
 import React, { ReactNode, useState } from "react";
 import Layout from "@/layouts/Layout";
-import { Head, Link } from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import { Rent } from "@/types";
 import {
 	Table,
 	TableBody,
 	TableCaption,
-	TableCell,
 	TableHead,
 	TableHeader,
 	TableRow
 } from "@/components/ui/table";
-import UserAvatar from "@/components/UserAvatar";
-import { format } from "date-fns";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import ApartmentTableRow from "@/components/ApartmentTableRow";
 
 export default function DashboardRentals({ rentals }: { rentals: Rent[] }) {
 	return (
@@ -99,29 +97,13 @@ function RentalTable({ rentals }: { rentals: Rent[] }) {
 			</TableHeader>
 			<TableBody>
 				{rentals.slice(page * 8, (page + 1) * 8).map((rent) => (
-					<TableRow key={rent.id}>
-						<TableCell>
-							<Link
-								href={route("apartments.show", [
-									rent.apartment.id
-								])}
-								className={buttonVariants({
-									variant: "link"
-								})}
-							>
-								{rent.apartment.title}
-							</Link>
-						</TableCell>
-						<TableCell>
-							{rent.apartment.city}, {rent.apartment.country}
-						</TableCell>
-						<TableCell>{format(rent.start, "PP")}</TableCell>
-						<TableCell>{format(rent.end, "PP")}</TableCell>
-						<TableCell className="flex items-center gap-2">
-							<UserAvatar user={rent.user} className="scale-75" />
-							{rent.user.name}{" "}
-						</TableCell>
-					</TableRow>
+					<ApartmentTableRow
+						apartment={rent.apartment}
+						start={rent.start}
+						end={rent.end}
+						user={rent.user}
+						key={rent.id}
+					/>
 				))}
 			</TableBody>
 		</Table>
