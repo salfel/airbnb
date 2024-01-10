@@ -89,7 +89,7 @@ function RentalTable({ rentals }: { rentals: Rent[] }) {
 						/>
 					))}
 				</TableBody>
-			:	<p>No Rentals yet</p>}
+			:	<p className="mt-6 text-lg font-medium">No Rentals yet</p>}
 		</Table>
 	);
 }
