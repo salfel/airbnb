@@ -58,6 +58,8 @@ DashboardRentals.layout = (page: ReactNode) => (
 	</DashboardLayout>
 );
 
+const pageLength = 8;
+
 function RentalTable({ rentals }: { rentals: Rent[] }) {
 	const [page, setPage] = useState(0);
 	return (
@@ -73,14 +75,17 @@ function RentalTable({ rentals }: { rentals: Rent[] }) {
 					</Button>
 
 					<span className="text-sm text-gray-600">
-						Showing {page * 8} to {(page + 1) * 8 - 1} of{" "}
-						{rentals.length} results
+						Showing {page * pageLength} to{" "}
+						{(page + 1) * pageLength - 1} of {rentals.length}{" "}
+						results
 					</span>
 
 					<Button
 						variant="outline"
 						onClick={() => setPage(page + 1)}
-						disabled={page === Math.ceil(rentals.length / 8) - 1}
+						disabled={
+							page === Math.ceil(rentals.length / pageLength) - 1
+						}
 					>
 						Next
 					</Button>
