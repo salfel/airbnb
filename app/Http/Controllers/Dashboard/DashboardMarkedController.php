@@ -12,6 +12,7 @@ class DashboardMarkedController extends Controller
     {
         return Inertia::render('Dashboard/Marked', [
             'showRentals' => Auth::user()->host()->exists(),
+            'marks' => Auth::user()->marks()->with("apartment.host.user")->get()
         ]);
     }
 }

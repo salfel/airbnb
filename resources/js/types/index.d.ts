@@ -55,6 +55,7 @@ export interface Review extends Model {
 export interface Mark extends Model {
 	apartment_id: number;
 	user_id: number;
+	apartment: Apartment;
 }
 
 export interface Rent extends Model {

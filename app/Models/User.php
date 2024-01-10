@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->hasManyThrough(Apartment::class, Host::class);
     }
+
+    public function marks(): HasMany
+    {
+        return $this->hasMany(Mark::class);
+    }
 }
