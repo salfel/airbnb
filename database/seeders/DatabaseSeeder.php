@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             ApartmentSeeder::class,
             ReviewSeeder::class,
             RentSeeder::class,
+            MarkSeeder::class,
         ]);
     }
 }
