@@ -13,7 +13,7 @@ import CountryInput from "@/Pages/Apartment/Create/CountryInput";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { Apartment, Model } from "@/types";
+import { Apartment, Model, PageProps } from "@/types";
 import Calendar from "./Create/Calendar";
 import { objectToFormData, tomorrow } from "@/lib/utils";
 import AttributesInput from "@/Pages/Apartment/Create/AttributesInput";
@@ -34,8 +34,11 @@ export type FormValues = Omit<
 
 export default function Create() {
 	const {
-		props: { errors }
-	} = usePage();
+		props: {
+			errors,
+			auth: { host }
+		}
+	} = usePage<PageProps>();
 	const form = useForm<FormValues>({
 		defaultValues: {
 			title: "",
@@ -71,9 +74,13 @@ export default function Create() {
 
 			<Card>
 				<CardHeader>
-					<CardTitle>Start renting your first apartment</CardTitle>
+					<CardTitle>
+						Start renting
+						{host === null ? " a new " : " your first "}
+						apartment
+					</CardTitle>
 					<CardDescription>
-						This form allows you to list your first apartment on our
+						This form allows you to list an apartment on our
 						platform. Please provide as much detail as possible to
 						attract potential renters.
 					</CardDescription>
