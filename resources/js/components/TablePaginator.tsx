@@ -1,4 +1,3 @@
-import { PrimitiveAtom, useSetAtom } from "jotai/index";
 import React, { useEffect, useState } from "react";
 import { TableCaption } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -16,7 +15,7 @@ export default function TablePaginator<T>({
 
 	useEffect(() => {
 		setValues(values.slice(page * 8, (page + 1) * 8));
-	}, [page]);
+	}, [page, values]);
 	return (
 		values.length >= 8 && (
 			<TableCaption>
