@@ -44,65 +44,72 @@ function MarkedTable({ marks }: { marks: Mark[] }) {
 	const [_atom] = useState(atom(marks));
 	const values = useAtomValue(_atom);
 	return (
-		<Table>
-			<TablePaginator
-				initialValues={marks}
-				pageLength={8}
-				valuesAtom={_atom}
-			/>
-			<TableHeader>
-				<TableRow>
-					<TableHead>Name</TableHead>
-					<TableHead>Location</TableHead>
-					<TableHead>Start</TableHead>
-					<TableHead>End</TableHead>
-					<TableHead>User</TableHead>
-				</TableRow>
-			</TableHeader>
-			{marks.length !== 0 ?
-				<TableBody>
-					{values.map((mark) => (
-						<ApartmentTableRow
-							apartment={mark.apartment}
-							start={mark.apartment.start}
-							end={mark.apartment.end}
-							user={mark.apartment.host.user}
-							key={mark.id}
-						>
-							<TableCell>
-								<Button
-									variant="outline"
-									size="icon"
-									className="group"
-									asChild
-								>
-									<Link
-										href={
-											mark?.id ?
-												route("marks.destroy", [
-													mark.id
-												])
-											:	route("apartments.marks.store", [
-													mark.apartment.id
-												])
-										}
-										method={mark?.id ? "delete" : "post"}
-										as="button"
+		<>
+			<Table>
+				<TablePaginator
+					initialValues={marks}
+					pageLength={8}
+					valuesAtom={_atom}
+				/>
+				<TableHeader>
+					<TableRow>
+						<TableHead>Name</TableHead>
+						<TableHead>Location</TableHead>
+						<TableHead>Start</TableHead>
+						<TableHead>End</TableHead>
+						<TableHead>User</TableHead>
+					</TableRow>
+				</TableHeader>
+				{marks.length !== 0 && (
+					<TableBody>
+						{values.map((mark) => (
+							<ApartmentTableRow
+								apartment={mark.apartment}
+								start={mark.apartment.start}
+								end={mark.apartment.end}
+								user={mark.apartment.host.user}
+								key={mark.id}
+							>
+								<TableCell>
+									<Button
+										variant="outline"
+										size="icon"
+										className="group"
+										asChild
 									>
-										<Star
-											className={cn(
-												"h-4 w-4 group-hover:stroke-yellow-500",
-												mark?.id &&
-													"fill-yellow-500 stroke-yellow-500"
-											)}
-										/>
-									</Link>
-								</Button>
-							</TableCell>
-						</ApartmentTableRow>
-					))}
-				</TableBody>
-			:	<div className="mt-6 flex items-center gap-8 text-lg font-medium">
+										<Link
+											href={
+												mark?.id ?
+													route("marks.destroy", [
+														mark.id
+													])
+												:	route(
+														"apartments.marks.store",
+														[mark.apartment.id]
+													)
+											}
+											method={
+												mark?.id ? "delete" : "post"
+											}
+											as="button"
+										>
+											<Star
+												className={cn(
+													"h-4 w-4 group-hover:stroke-yellow-500",
+													mark?.id &&
+														"fill-yellow-500 stroke-yellow-500"
+												)}
+											/>
+										</Link>
+									</Button>
+								</TableCell>
+							</ApartmentTableRow>
+						))}
+					</TableBody>
+				)}
+			</Table>
+			{marks.length > 0 && (
+				<div className="mt-6 flex items-center gap-8 text-lg font-medium">
 					<span>No Apartments marked yet</span>
 					<Link
 						href={route("home")}
@@ -114,7 +121,7 @@ function MarkedTable({ marks }: { marks: Mark[] }) {
 						Find Apartments
 					</Link>
 				</div>
-			}
-		</Table>
+			)}
+		</>
 	);
 }
