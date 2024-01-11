@@ -17,7 +17,7 @@ export default function TablePaginator<T>({
 		setValues(values.slice(page * 8, (page + 1) * 8));
 	}, [page, values]);
 	return (
-		values.length >= 8 && (
+		values.length > 8 && (
 			<TableCaption>
 				<div className="flex items-center justify-between">
 					<Button
@@ -29,8 +29,9 @@ export default function TablePaginator<T>({
 					</Button>
 
 					<span className="text-sm text-gray-600">
-						Showing {page * pageLength} to{" "}
-						{Math.min((page + 1) * pageLength - 1, values.length)}{" "}
+						Showing {page * pageLength + 1} to{" "}
+						{Math.min((page + 1) * pageLength - 1, values.length) +
+							1}{" "}
 						of {values.length} results
 					</span>
 
