@@ -11,7 +11,7 @@ class DashboardRentedController extends Controller
     public function __invoke()
     {
         return Inertia::render('Dashboard/Rented', [
-            'showRentals' => Auth::user()->host()->exists(),
+            'showListed' => Auth::user()->host()->exists(),
         ]);
     }
 }

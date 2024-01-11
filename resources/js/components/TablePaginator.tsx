@@ -1,25 +1,23 @@
-import { PrimitiveAtom, useSetAtom } from "jotai/index";
 import React, { useEffect, useState } from "react";
 import { TableCaption } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 
 export default function TablePaginator<T>({
 	pageLength,
-	valuesAtom,
-	initialValues
+	values,
+	setValues
 }: {
 	pageLength: number;
-	initialValues: T[];
-	valuesAtom: PrimitiveAtom<T[]>;
+	values: T[];
+	setValues: (values: T[]) => void;
 }) {
 	const [page, setPage] = useState(0);
-	const setValues = useSetAtom(valuesAtom);
 
 	useEffect(() => {
-		setValues(initialValues.slice(page * 8, (page + 1) * 8));
-	}, [page]);
+		setValues(values.slice(page * 8, (page + 1) * 8));
+	}, [page, values]);
 	return (
-		initialValues.length >= 8 && (
+		values.length > 8 && (
 			<TableCaption>
 				<div className="flex items-center justify-between">
 					<Button
@@ -31,20 +29,16 @@ export default function TablePaginator<T>({
 					</Button>
 
 					<span className="text-sm text-gray-600">
-						Showing {page * pageLength} to{" "}
-						{Math.min(
-							(page + 1) * pageLength - 1,
-							initialValues.length
-						)}{" "}
-						of {initialValues.length} results
+						Showing {page * pageLength + 1} to{" "}
+						{Math.min((page + 1) * pageLength, values.length)} of{" "}
+						{values.length} results
 					</span>
 
 					<Button
 						variant="outline"
 						onClick={() => setPage(page + 1)}
 						disabled={
-							page ===
-							Math.ceil(initialValues.length / pageLength) - 1
+							page === Math.ceil(values.length / pageLength) - 1
 						}
 					>
 						Next

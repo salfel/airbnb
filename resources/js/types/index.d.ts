@@ -63,6 +63,7 @@ export interface Rent extends Model {
 	user_id: number;
 	start: string;
 	end: string;
+	status: string;
 	apartment: Apartment;
 	user: User;
 }

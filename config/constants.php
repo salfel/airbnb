@@ -22,6 +22,14 @@ return [
             "Smoking Allowed",
         ]
     ],
+    "rent" => [
+        "status" => [
+            "pending",
+            "approved",
+            "denied",
+            "expired"
+        ]
+    ],
     "countries" => [
         "Afghanistan",
         "Albania",

@@ -11,8 +11,8 @@ const navLinks: { label: string; route: string; icon: LucideIcon }[] = [
 		icon: Building2
 	},
 	{
-		label: "Rentals",
-		route: "dashboard.rentals",
+		label: "Listed",
+		route: "dashboard.listed",
 		icon: UserCheck
 	},
 	{
@@ -33,7 +33,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 }
 
 function SideBar() {
-	const page = usePage<{ showRentals: boolean }>();
+	const page = usePage<{ showListed: boolean }>();
 	return (
 		<aside className="border-r border-gray-200">
 			<div className="mb-3 flex h-20 items-center justify-center border-b border-gray-200">
@@ -43,7 +43,7 @@ function SideBar() {
 				{navLinks.map(
 					(link) =>
 						(link.route !== "dashboard.rentals" ||
-							page.props.showRentals) && (
+							page.props.showListed) && (
 							<Link
 								href={route(link.route)}
 								className={cn(

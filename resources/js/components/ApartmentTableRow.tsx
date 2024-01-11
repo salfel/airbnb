@@ -16,7 +16,7 @@ export default function ApartmentTableRow({
 	apartment: Apartment;
 	start: string;
 	end: string;
-	user: User;
+	user: User | null;
 	children?: React.ReactNode;
 }) {
 	return (
@@ -36,10 +36,13 @@ export default function ApartmentTableRow({
 			</TableCell>
 			<TableCell>{format(start, "PP")}</TableCell>
 			<TableCell>{format(end, "PP")}</TableCell>
-			<TableCell className="flex items-center gap-2">
-				<UserAvatar user={user} className="scale-75" />
-				{user.name}{" "}
-			</TableCell>
+			{user && (
+				<TableCell className="flex items-center gap-2">
+					<UserAvatar user={user} className="scale-75" />
+					{user.name}{" "}
+				</TableCell>
+			)}
+
 			{children}
 		</TableRow>
 	);

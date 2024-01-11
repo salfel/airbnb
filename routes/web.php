@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\ApartmentController;
+use App\Http\Controllers\Dashboard\DashboardListedController;
 use App\Http\Controllers\Dashboard\DashboardMarkedController;
-use App\Http\Controllers\Dashboard\DashboardRentalsController;
 use App\Http\Controllers\Dashboard\DashboardRentedController;
 use App\Http\Controllers\MarkController;
 use App\Http\Controllers\RentController;
+use App\Http\Controllers\RentStatusController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,8 +27,10 @@ Route::apiResource('apartments.reviews', ReviewController::class)->shallow();
 Route::apiResource('apartments.rents', RentController::class);
 Route::apiResource('apartments.marks', MarkController::class)->only(['store', 'destroy'])->shallow();
 
+Route::put('rents/{rent}/status', RentStatusController::class)->name('rents.status')->middleware('auth');
+
 Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(function () {
-    Route::get('rentals', DashboardRentalsController::class)->name('rentals');
+    Route::get('listed', DashboardListedController::class)->name('listed');
     Route::get('rented', DashboardRentedController::class)->name('rented');
     Route::get('marked', DashboardMarkedController::class)->name('marked');
 });

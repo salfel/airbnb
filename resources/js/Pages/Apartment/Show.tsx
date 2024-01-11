@@ -53,19 +53,17 @@ export default function Show({
 			<ImageCarousel apartment={apartment} />
 
 			<div className="relative mt-12 space-y-6">
-				<div>
-					<h1 className="text-2xl font-semibold">
-						{apartment.title}
-					</h1>
-					<p className="mt-2 text-sm text-gray-800">
-						{apartment.description}
-					</p>
+				<div className="flex gap-5">
+					<div className="flex-1">
+						<h1 className="text-2xl font-semibold">
+							{apartment.title}
+						</h1>
+						<p className="mt-2 text-sm text-gray-800">
+							{apartment.description}
+						</p>
+					</div>
 
-					<Button
-						variant="secondary"
-						asChild
-						className="group absolute right-3 top-3"
-					>
+					<Button variant="secondary" asChild className="group">
 						<Link
 							href={
 								mark?.id ?

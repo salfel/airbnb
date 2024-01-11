@@ -12,11 +12,19 @@ import {
 	TableHeader,
 	TableRow
 } from "@/components/ui/table";
-import ApartmentTableRow from "@/components/ApartmentTableRow";
-import { atom, useAtomValue } from "jotai";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Star } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { MoreHorizontal } from "lucide-react";
+import { format } from "date-fns";
+import UserAvatar from "@/components/UserAvatar";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 
 export default function DashboardMarked({ marks }: { marks: Mark[] }) {
 	return (
@@ -41,80 +49,112 @@ DashboardMarked.layout = (page: ReactNode) => (
 );
 
 function MarkedTable({ marks }: { marks: Mark[] }) {
-	const [_atom] = useState(atom(marks));
-	const values = useAtomValue(_atom);
+	const [values, setValues] = useState(marks);
 	return (
-		<Table>
-			<TablePaginator
-				initialValues={marks}
-				pageLength={8}
-				valuesAtom={_atom}
-			/>
-			<TableHeader>
-				<TableRow>
-					<TableHead>Name</TableHead>
-					<TableHead>Location</TableHead>
-					<TableHead>Start</TableHead>
-					<TableHead>End</TableHead>
-					<TableHead>User</TableHead>
-				</TableRow>
-			</TableHeader>
-			{marks.length !== 0 ?
-				<TableBody>
-					{values.map((mark) => (
-						<ApartmentTableRow
-							apartment={mark.apartment}
-							start={mark.apartment.start}
-							end={mark.apartment.end}
-							user={mark.apartment.host.user}
-							key={mark.id}
-						>
-							<TableCell>
-								<Button
-									variant="outline"
-									size="icon"
-									className="group"
-									asChild
-								>
+		<>
+			<Table>
+				<TablePaginator
+					values={marks}
+					pageLength={8}
+					setValues={setValues}
+				/>
+				<TableHeader>
+					<TableRow>
+						<TableHead>Name</TableHead>
+						<TableHead>Location</TableHead>
+						<TableHead>Start</TableHead>
+						<TableHead>End</TableHead>
+						<TableHead>User</TableHead>
+					</TableRow>
+				</TableHeader>
+				{marks.length !== 0 && (
+					<TableBody>
+						{values.map((mark) => (
+							<TableRow key={mark.id}>
+								<TableCell>
 									<Link
-										href={
-											mark?.id ?
-												route("marks.destroy", [
-													mark.id
-												])
-											:	route("apartments.marks.store", [
-													mark.apartment.id
-												])
-										}
-										method={mark?.id ? "delete" : "post"}
-										as="button"
+										href={route("apartments.show", [
+											mark.apartment.id
+										])}
+										className={buttonVariants({
+											variant: "link"
+										})}
 									>
-										<Star
-											className={cn(
-												"h-4 w-4 group-hover:stroke-yellow-500",
-												mark?.id &&
-													"fill-yellow-500 stroke-yellow-500"
-											)}
-										/>
+										{mark.apartment.title}
 									</Link>
-								</Button>
-							</TableCell>
-						</ApartmentTableRow>
-					))}
-				</TableBody>
-			:	<div className="mt-6 flex items-center gap-8 text-lg font-medium">
+								</TableCell>
+								<TableCell>
+									{mark.apartment.city},{" "}
+									{mark.apartment.country}
+								</TableCell>
+								<TableCell>
+									{format(mark.apartment.start, "PP")}
+								</TableCell>
+								<TableCell>
+									{format(mark.apartment.end, "PP")}
+								</TableCell>
+								<TableCell className="flex items-center gap-2">
+									<UserAvatar
+										user={mark.apartment.host.user}
+										className="scale-75"
+									/>
+									{mark.apartment.host.user.name}{" "}
+								</TableCell>
+								<Options mark={mark} />
+							</TableRow>
+						))}
+					</TableBody>
+				)}
+			</Table>
+			{marks.length === 0 && (
+				<div className="mt-6 flex items-center gap-8 text-lg font-medium">
 					<span>No Apartments marked yet</span>
 					<Link
 						href={route("home")}
 						className={buttonVariants({
-							variant: "default",
-							size: "lg"
+							variant: "outline"
 						})}
 					>
 						Find Apartments
 					</Link>
 				</div>
-			}
-		</Table>
+			)}
+		</>
+	);
+}
+
+function Options({ mark }: { mark: Mark }) {
+	return (
+		<TableCell>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button variant="outline" className="p-2">
+						<MoreHorizontal className="size-4" />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent>
+					<DropdownMenuLabel>Options</DropdownMenuLabel>
+					<DropdownMenuSeparator />
+					<DropdownMenuGroup>
+						<DropdownMenuItem asChild>
+							<Link
+								href={
+									mark?.id ?
+										route("marks.destroy", [mark.id])
+									:	route("apartments.marks.store", [
+											mark.apartment.id
+										])
+								}
+								method={mark?.id ? "delete" : "post"}
+								className="w-full"
+								as="button"
+							>
+								Unmark
+							</Link>
+						</DropdownMenuItem>
+					</DropdownMenuGroup>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		</TableCell>
 	);
 }
