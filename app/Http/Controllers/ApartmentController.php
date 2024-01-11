@@ -29,7 +29,7 @@ class ApartmentController extends Controller
     public function show(Apartment $apartment, Request $request)
     {
         return Inertia::render('Apartment/Show', [
-            'apartment' => fn () => Apartment::with(['host.user'])->withCount('reviews')->findOrFail($apartment->id),
+            'apartment' => fn() => Apartment::with(['host.user'])->withCount('reviews')->findOrFail($apartment->id),
             'reviews' => $apartment->reviews()->with('user')->take($request->get('page', 1) * 6)->latest()->get(),
             'mark' => $apartment->mark()->where('user_id', Auth::id())->first(),
             'stars' => $apartment->stars,
@@ -49,7 +49,7 @@ class ApartmentController extends Controller
         $host = $user->host ?? Host::create(['user_id' => $user->id]);
 
         $validated = array_map(function ($value) {
-            if (! is_array($value) || (! count($value) || ! ($value[0] instanceof \Illuminate\Http\UploadedFile))) {
+            if (!is_array($value) || (!count($value) || !($value[0] instanceof \Illuminate\Http\UploadedFile))) {
                 return $value ?? [];
             }
 
@@ -79,7 +79,7 @@ class ApartmentController extends Controller
 
         $apartment->update($request->validated());
 
-        return $apartment;
+        return to_route('apartments.show', [$apartment->id]);
     }
 
     public function destroy(Apartment $apartment)
@@ -88,6 +88,6 @@ class ApartmentController extends Controller
 
         $apartment->delete();
 
-        return response()->json();
+        return redirect()->back();
     }
 }

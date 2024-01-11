@@ -15,11 +15,13 @@ class ApartmentPolicy
         return true;
     }
 
-    public function update(User $user, Apartment $apartment)
+    public function update(User $user, Apartment $apartment): bool
     {
+        return $user->id === $apartment->host->user_id;
     }
 
-    public function delete(User $user, Apartment $apartment)
+    public function delete(User $user, Apartment $apartment): bool
     {
+        return $user->id === $apartment->host->user_id;
     }
 }
