@@ -112,7 +112,7 @@ function MarkedTable({ marks }: { marks: Mark[] }) {
 					<Link
 						href={route("home")}
 						className={buttonVariants({
-							variant: "default"
+							variant: "outline"
 						})}
 					>
 						Find Apartments
