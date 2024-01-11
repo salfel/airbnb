@@ -50,15 +50,14 @@ DashboardMarked.layout = (page: ReactNode) => (
 );
 
 function MarkedTable({ marks }: { marks: Mark[] }) {
-	const [_atom] = useState(atom(marks));
-	const values = useAtomValue(_atom);
+	const [values, setValues] = useState(marks);
 	return (
 		<>
 			<Table>
 				<TablePaginator
-					initialValues={marks}
+					values={marks}
 					pageLength={8}
-					valuesAtom={_atom}
+					setValues={setValues}
 				/>
 				<TableHeader>
 					<TableRow>
