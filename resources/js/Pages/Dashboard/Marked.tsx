@@ -55,7 +55,7 @@ function MarkedTable({ marks }: { marks: Mark[] }) {
 			<Table>
 				<TablePaginator
 					values={marks}
-					pageLength={8}
+					pageLength={12}
 					setValues={setValues}
 				/>
 				<TableHeader>
