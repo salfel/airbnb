@@ -15,6 +15,7 @@ class Rent extends Model
         'apartment_id',
         'start',
         'end',
+        'status'
     ];
 
     protected $casts = [
