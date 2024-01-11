@@ -25,7 +25,9 @@ return [
     "rent" => [
         "status" => [
             "pending",
-            "approved"
+            "approved",
+            "denied",
+            "expired"
         ]
     ],
     "countries" => [
