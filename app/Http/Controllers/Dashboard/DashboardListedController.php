@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -12,9 +13,11 @@ class DashboardListedController extends Controller
     {
         return Inertia::render('Dashboard/Listed', [
             'showListed' => Auth::user()->host()->exists(),
-            'listed' => Auth::user()->through('apartments')->has('rents')->with([
+            'rents' => Auth::user()->through('apartments')->has('rents')->with([
                 'apartment', 'user',
-            ])->orderBy('start')->get(),
+            ])->orderByDesc('start')->get(),
+            'apartments' => Auth::user()->apartments()->with('host.user')->whereDate('end', '>',
+                Carbon::now())->orderBy('start')->get(),
         ]);
     }
 }
