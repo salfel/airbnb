@@ -149,7 +149,6 @@ function Options({ mark }: { mark: Mark }) {
 								method={mark?.id ? "delete" : "post"}
 								className="w-full"
 								as="button"
-								onSuccess={() => console.log("success")}
 							>
 								Unmark
 							</Link>
