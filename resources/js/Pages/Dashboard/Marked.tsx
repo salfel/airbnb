@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useState } from "react";
 import Layout from "@/layouts/Layout";
 import { Head, Link } from "@inertiajs/react";
 import DashboardLayout from "@/layouts/DashboardLayout";
@@ -12,7 +12,6 @@ import {
 	TableHeader,
 	TableRow
 } from "@/components/ui/table";
-import { atom, useAtomValue } from "jotai";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { format } from "date-fns";
