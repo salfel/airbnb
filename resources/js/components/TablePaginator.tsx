@@ -14,10 +14,10 @@ export default function TablePaginator<T>({
 	const [page, setPage] = useState(0);
 
 	useEffect(() => {
-		setValues(values.slice(page * 8, (page + 1) * 8));
+		setValues(values.slice(page * pageLength, (page + 1) * pageLength));
 	}, [page, values]);
 	return (
-		values.length > 8 && (
+		values.length > pageLength && (
 			<TableCaption>
 				<div className="flex items-center justify-between">
 					<Button
