@@ -30,9 +30,8 @@ export default function TablePaginator<T>({
 
 					<span className="text-sm text-gray-600">
 						Showing {page * pageLength + 1} to{" "}
-						{Math.min((page + 1) * pageLength - 1, values.length) +
-							1}{" "}
-						of {values.length} results
+						{Math.min((page + 1) * pageLength, values.length)} of{" "}
+						{values.length} results
 					</span>
 
 					<Button
