@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import Layout from "@/layouts/Layout";
 import { Head, Link } from "@inertiajs/react";
 import DashboardLayout from "@/layouts/DashboardLayout";
@@ -12,11 +12,20 @@ import {
 	TableHeader,
 	TableRow
 } from "@/components/ui/table";
-import ApartmentTableRow from "@/components/ApartmentTableRow";
 import { atom, useAtomValue } from "jotai";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Star } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { MoreHorizontal } from "lucide-react";
+import { format } from "date-fns";
+import UserAvatar from "@/components/UserAvatar";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 
 export default function DashboardMarked({ marks }: { marks: Mark[] }) {
 	return (
@@ -63,47 +72,38 @@ function MarkedTable({ marks }: { marks: Mark[] }) {
 				{marks.length !== 0 && (
 					<TableBody>
 						{values.map((mark) => (
-							<ApartmentTableRow
-								apartment={mark.apartment}
-								start={mark.apartment.start}
-								end={mark.apartment.end}
-								user={mark.apartment.host.user}
-								key={mark.id}
-							>
+							<TableRow key={mark.id}>
 								<TableCell>
-									<Button
-										variant="outline"
-										size="icon"
-										className="group"
-										asChild
+									<Link
+										href={route("apartments.show", [
+											mark.apartment.id
+										])}
+										className={buttonVariants({
+											variant: "link"
+										})}
 									>
-										<Link
-											href={
-												mark?.id ?
-													route("marks.destroy", [
-														mark.id
-													])
-												:	route(
-														"apartments.marks.store",
-														[mark.apartment.id]
-													)
-											}
-											method={
-												mark?.id ? "delete" : "post"
-											}
-											as="button"
-										>
-											<Star
-												className={cn(
-													"h-4 w-4 group-hover:stroke-yellow-500",
-													mark?.id &&
-														"fill-yellow-500 stroke-yellow-500"
-												)}
-											/>
-										</Link>
-									</Button>
+										{mark.apartment.title}
+									</Link>
 								</TableCell>
-							</ApartmentTableRow>
+								<TableCell>
+									{mark.apartment.city},{" "}
+									{mark.apartment.country}
+								</TableCell>
+								<TableCell>
+									{format(mark.apartment.start, "PP")}
+								</TableCell>
+								<TableCell>
+									{format(mark.apartment.end, "PP")}
+								</TableCell>
+								<TableCell className="flex items-center gap-2">
+									<UserAvatar
+										user={mark.apartment.host.user}
+										className="scale-75"
+									/>
+									{mark.apartment.host.user.name}{" "}
+								</TableCell>
+								<Options mark={mark} />
+							</TableRow>
 						))}
 					</TableBody>
 				)}
@@ -123,5 +123,42 @@ function MarkedTable({ marks }: { marks: Mark[] }) {
 				</div>
 			)}
 		</>
+	);
+}
+
+function Options({ mark }: { mark: Mark }) {
+	return (
+		<TableCell>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button variant="outline" className="p-2">
+						<MoreHorizontal className="size-4" />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent>
+					<DropdownMenuLabel>Options</DropdownMenuLabel>
+					<DropdownMenuSeparator />
+					<DropdownMenuGroup>
+						<DropdownMenuItem asChild>
+							<Link
+								href={
+									mark?.id ?
+										route("marks.destroy", [mark.id])
+									:	route("apartments.marks.store", [
+											mark.apartment.id
+										])
+								}
+								method={mark?.id ? "delete" : "post"}
+								className="w-full"
+								as="button"
+								onSuccess={() => console.log("success")}
+							>
+								Unmark
+							</Link>
+						</DropdownMenuItem>
+					</DropdownMenuGroup>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		</TableCell>
 	);
 }
