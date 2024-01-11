@@ -108,7 +108,7 @@ function MarkedTable({ marks }: { marks: Mark[] }) {
 					</TableBody>
 				)}
 			</Table>
-			{marks.length > 0 && (
+			{marks.length === 0 && (
 				<div className="mt-6 flex items-center gap-8 text-lg font-medium">
 					<span>No Apartments marked yet</span>
 					<Link
