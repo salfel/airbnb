@@ -14,7 +14,7 @@ import ApartmentTableRow from "@/components/ApartmentTableRow";
 import { atom, useAtomValue } from "jotai";
 import TablePaginator from "@/components/TablePaginator";
 
-export default function DashboardRentals({ rentals }: { rentals: Rent[] }) {
+export default function DashboardListed({ listed }: { listed: Rent[] }) {
 	return (
 		<>
 			<Head title="Dashboard Rentals" />
@@ -24,8 +24,8 @@ export default function DashboardRentals({ rentals }: { rentals: Rent[] }) {
 						Current Rentals
 					</h2>
 
-					<RentalTable
-						rentals={rentals.filter(
+					<ListedTable
+						listed={listed.filter(
 							(rental) =>
 								new Date(rental.end).getTime() >
 								new Date().getTime()
@@ -38,8 +38,8 @@ export default function DashboardRentals({ rentals }: { rentals: Rent[] }) {
 						Previous Rentals
 					</h2>
 
-					<RentalTable
-						rentals={rentals.filter(
+					<ListedTable
+						listed={listed.filter(
 							(rental) =>
 								new Date(rental.end).getTime() <=
 								new Date().getTime()
@@ -51,20 +51,20 @@ export default function DashboardRentals({ rentals }: { rentals: Rent[] }) {
 	);
 }
 
-DashboardRentals.layout = (page: ReactNode) => (
+DashboardListed.layout = (page: ReactNode) => (
 	<DashboardLayout>
 		<Layout>{page}</Layout>
 	</DashboardLayout>
 );
 
-function RentalTable({ rentals }: { rentals: Rent[] }) {
-	const [_atom] = useState(atom(rentals));
+function ListedTable({ listed }: { listed: Rent[] }) {
+	const [_atom] = useState(atom(listed));
 	const values = useAtomValue(_atom);
 
 	return (
 		<Table>
 			<TablePaginator
-				initialValues={rentals}
+				initialValues={listed}
 				pageLength={8}
 				valuesAtom={_atom}
 			/>
@@ -77,7 +77,7 @@ function RentalTable({ rentals }: { rentals: Rent[] }) {
 					<TableHead>User</TableHead>
 				</TableRow>
 			</TableHeader>
-			{rentals.length !== 0 ?
+			{listed.length !== 0 ?
 				<TableBody>
 					{values.map((rent) => (
 						<ApartmentTableRow
