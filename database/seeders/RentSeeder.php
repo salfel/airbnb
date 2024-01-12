@@ -13,11 +13,14 @@ class RentSeeder extends Seeder
     {
         $userCount = User::count();
         foreach (Apartment::all() as $apartment) {
+            $diff = $apartment->start->diffInDays($apartment->end);
+            $startDiff = rand(0, min($diff, 6));
+            $start = $apartment->start->addDays($startDiff);
             Rent::factory(5)->create([
                 'apartment_id' => $apartment->id,
                 'user_id' => fn () => rand(1, $userCount),
-                'start' => fn () => $apartment->start->addDays(rand(0, 6)),
-                'end' => fn () => $apartment->end->subDays(rand(0, 6)),
+                'start' => fn () => $start,
+                'end' => fn () => $start->addDays(rand(1, $diff - $startDiff)),
             ]);
         }
     }
