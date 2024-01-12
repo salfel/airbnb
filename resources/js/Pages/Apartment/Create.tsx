@@ -30,7 +30,7 @@ export type FormValues = Omit<
 	| "start"
 	| "end"
 	| "images"
-> & { date: { from: Date; to: Date }; images: File[] };
+> & { start: Date; end: Date; images: File[] };
 
 export default function Create() {
 	const {
@@ -50,19 +50,18 @@ export default function Create() {
 			beds: 0,
 			baths: 0,
 			guests: 0,
-			date: { from: new Date(), to: tomorrow() },
+			start: new Date(),
+			end: tomorrow(),
 			attributes: [],
 			images: []
 		}
 	});
 
 	function handleSubmit(values: FormValues) {
-		const { date, ...tmp } = values;
-
 		const data = {
-			start: date.from.toISOString(),
-			end: date.to.toISOString(),
-			...tmp
+			...values,
+			start: values.start.toISOString(),
+			end: values.end.toISOString()
 		};
 
 		router.post(route("apartments.store"), objectToFormData(data));
@@ -123,10 +122,15 @@ export default function Create() {
 								/>
 							</div>
 
-							<Calendar
-								control={form.control}
-								error={errors.begin || errors.end}
-							/>
+							<div className="flex items-center gap-6">
+								<Calendar
+									control={form.control}
+									errors={{
+										start: errors.start,
+										end: errors.end
+									}}
+								/>
+							</div>
 
 							<div className="flex items-center gap-6">
 								<FormInput

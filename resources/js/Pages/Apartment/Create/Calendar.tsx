@@ -1,5 +1,5 @@
 import React from "react";
-import { Control } from "react-hook-form";
+import { Control, FieldPath } from "react-hook-form";
 import {
 	FormControl,
 	FormField,
@@ -7,7 +7,6 @@ import {
 	FormLabel,
 	FormMessage
 } from "@/components/ui/form";
-import { FormValues } from "@/Pages/Apartment/Create";
 import {
 	Popover,
 	PopoverContent,
@@ -20,46 +19,71 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
 
-interface Props {
-	control: Control<FormValues>;
-	error?: string;
+type FormValues = {
+	start: Date;
+	end: Date;
+};
+
+interface Props<T extends FormValues> {
+	control: Control<T>;
+	errors: { start?: string; end?: string };
 }
 
-export default function CalendarInput({ control, error }: Props) {
-	const [open, setOpen] = useState(false);
+export default function CalendarInput<T extends FormValues>({
+	control,
+	errors
+}: Props<T>) {
+	return (
+		<>
+			<CalendarControl
+				errors={errors}
+				control={control}
+				name={"start" as FieldPath<T>}
+			/>
+			<CalendarControl
+				errors={errors}
+				control={control}
+				name={"end" as FieldPath<T>}
+			/>
+		</>
+	);
+}
 
+function CalendarControl<T extends FormValues>({
+	errors,
+	control,
+	name
+}: {
+	errors: { start?: string; end?: string };
+	control: Control<T>;
+	name: FieldPath<T>;
+}) {
+	const [open, setOpen] = useState(false);
 	return (
 		<FormField
-			name="date"
+			name={name}
 			control={control}
 			render={({ field }) => (
-				<FormItem>
+				<FormItem className="w-full">
 					<FormLabel
-						htmlFor="calendar"
-						className="block"
+						htmlFor={name}
+						className="block capitalize"
 						onClick={() => setOpen(true)}
 					>
-						Begin - End
+						{name}
 					</FormLabel>
 					<FormControl>
 						<Popover open={open} onOpenChange={setOpen}>
 							<PopoverTrigger asChild>
 								<Button
-									id="calendar"
+									id={name}
 									variant="outline"
 									className={cn(
-										"w-[240px] pl-3 text-left font-normal",
-										!(field.value.to || field.value.from) &&
-											"text-muted-foreground"
+										"w-full pl-3 text-left font-normal",
+										!field.value && "text-muted-foreground"
 									)}
 								>
-									<span>
-										{field.value.from &&
-											format(field.value.from, "PP")}{" "}
-										-{" "}
-										{field.value.to &&
-											format(field.value.to, "PP")}
-									</span>
+									<span>{format(field.value, "PPP")}</span>
 									<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
 								</Button>
 							</PopoverTrigger>
@@ -69,16 +93,14 @@ export default function CalendarInput({ control, error }: Props) {
 							>
 								<Calendar
 									initialFocus
-									mode="range"
+									mode="single"
 									selected={field.value}
 									onSelect={field.onChange}
-									defaultMonth={field.value.from}
-									numberOfMonths={2}
 								/>
 							</PopoverContent>
 						</Popover>
 					</FormControl>
-					<FormMessage>{error}</FormMessage>
+					<FormMessage>{errors[name]}</FormMessage>
 				</FormItem>
 			)}
 		/>
