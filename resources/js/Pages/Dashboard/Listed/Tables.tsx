@@ -13,11 +13,7 @@ import { Link } from "@inertiajs/react";
 import { buttonVariants } from "@/components/ui/button";
 import { format } from "date-fns";
 import UserAvatar from "@/components/UserAvatar";
-import {
-	ApartmentOptions,
-	RentOptions
-} from "@/Pages/Dashboard/Listed/Options";
-import ApartmentTableRow from "@/components/ApartmentTableRow";
+import { ApartmentOptions } from "@/Pages/Dashboard/Listed/Options";
 
 export function RentsTable({ rents }: { rents: Rent[] }) {
 	const [values, setValues] = useState(rents);
@@ -32,9 +28,9 @@ export function RentsTable({ rents }: { rents: Rent[] }) {
 			<TableHeader>
 				<TableRow>
 					<TableHead>Name</TableHead>
+					<TableHead>Location</TableHead>
 					<TableHead>Start</TableHead>
 					<TableHead>End</TableHead>
-					<TableHead>Status</TableHead>
 					<TableHead>Host</TableHead>
 				</TableRow>
 			</TableHeader>
@@ -54,11 +50,11 @@ export function RentsTable({ rents }: { rents: Rent[] }) {
 									{rent.apartment.title}
 								</Link>
 							</TableCell>
+							<TableCell>
+								{rent.apartment.city}, {rent.apartment.country}
+							</TableCell>
 							<TableCell>{format(rent.start, "PP")}</TableCell>
 							<TableCell>{format(rent.end, "PP")}</TableCell>
-							<TableCell className="capitalize">
-								{rent.status}
-							</TableCell>
 							<TableCell className="flex items-center gap-2">
 								<UserAvatar
 									user={rent.user}
@@ -66,7 +62,6 @@ export function RentsTable({ rents }: { rents: Rent[] }) {
 								/>
 								{rent.user.name}{" "}
 							</TableCell>
-							<RentOptions rent={rent} />
 						</TableRow>
 					))}
 				</TableBody>
