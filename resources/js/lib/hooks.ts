@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
-import { atom, PrimitiveAtom } from "jotai";
+import { Errors } from "@inertiajs/core";
 
 export function useSearchParams() {
 	const [searchParams, setSearchParams] = useState(
@@ -24,7 +24,7 @@ export function useErrors<T extends PageProps>(errorBag?: string | null) {
 	const page = usePage<T>();
 
 	if (errorBag) {
-		return page.props.errors[errorBag] ?? {};
+		return (page.props.errors[errorBag] as Errors) ?? {};
 	}
 	return page.props.errors;
 }
