@@ -16,7 +16,7 @@ import UserAvatar from "@/components/UserAvatar";
 import { ApartmentOptions } from "@/Pages/Dashboard/Listed/Options";
 
 export function RentsTable({ rents }: { rents: Rent[] }) {
-	const [values, setValues] = useState(rents);
+	const [values, setValues] = useState(rents.slice(0, 8));
 
 	return (
 		<Table>
@@ -74,7 +74,7 @@ export function RentsTable({ rents }: { rents: Rent[] }) {
 }
 
 export function ApartmentsTable({ apartments }: { apartments: Apartment[] }) {
-	const [values, setValues] = useState(apartments);
+	const [values, setValues] = useState(apartments.slice(0, 8));
 
 	return (
 		<Table>

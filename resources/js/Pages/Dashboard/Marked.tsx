@@ -49,7 +49,7 @@ DashboardMarked.layout = (page: ReactNode) => (
 );
 
 function MarkedTable({ marks }: { marks: Mark[] }) {
-	const [values, setValues] = useState(marks);
+	const [values, setValues] = useState(marks.slice(0, 12));
 	return (
 		<>
 			<Table>

@@ -59,7 +59,7 @@ DashboardRented.layout = (page: ReactNode) => (
 );
 
 function RentsTable({ rents }: { rents: Rent[] }) {
-	const [values, setValues] = useState(rents);
+	const [values, setValues] = useState(rents.slice(0, 12));
 
 	return (
 		<Table>
