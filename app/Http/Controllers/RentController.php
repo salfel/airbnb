@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RentRequest;
 use App\Models\Apartment;
 use App\Models\Rent;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -39,6 +40,20 @@ class RentController extends Controller
         ]);
 
         return to_route('dashboard.rented');
+    }
+
+    public function update(Request $request, Rent $rent)
+    {
+        $this->authorize('update', $rent);
+
+        $validated = $request->validate([
+            'start' => ['required', 'date'],
+            'end' => ['required', 'date', 'after:start'],
+        ]);
+
+        $rent->update($validated);
+
+        return redirect()->back();
     }
 
     public function destroy(Rent $rent)

@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from "react";
 import Layout from "@/layouts/Layout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import { Rent } from "@/types";
 import TablePaginator from "@/components/TablePaginator";
@@ -25,6 +25,18 @@ import {
 	DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger
+} from "@/components/ui/dialog";
+import { useForm } from "react-hook-form";
+import { Form } from "@/components/ui/form";
+import Calendar from "@/components/Calendar";
+import { useErrors } from "@/lib/hooks";
 
 export default function DashboardRented({ rents }: { rents: Rent[] }) {
 	return (
@@ -84,12 +96,8 @@ function RentsTable({ rents }: { rents: Rent[] }) {
 							<TableCell>
 								{rent.apartment.city}, {rent.apartment.country}
 							</TableCell>
-							<TableCell>
-								{format(rent.apartment.start, "PP")}
-							</TableCell>
-							<TableCell>
-								{format(rent.apartment.end, "PP")}
-							</TableCell>
+							<TableCell>{format(rent.start, "PP")}</TableCell>
+							<TableCell>{format(rent.end, "PP")}</TableCell>
 							<TableCell className="flex items-center gap-2">
 								<UserAvatar
 									user={rent.apartment.host.user}
@@ -107,31 +115,81 @@ function RentsTable({ rents }: { rents: Rent[] }) {
 }
 
 function Options({ rent }: { rent: Rent }) {
+	const [open, setOpen] = useState(false);
 	return (
 		<TableCell>
-			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
-					<Button variant="outline" className="p-2">
-						<MoreHorizontal className="size-4" />
-					</Button>
-				</DropdownMenuTrigger>
-				<DropdownMenuContent>
-					<DropdownMenuLabel>Options</DropdownMenuLabel>
-					<DropdownMenuSeparator />
-					<DropdownMenuGroup>
-						<DropdownMenuItem asChild>
-							<Link
-								href={route("rents.destroy", [rent.id])}
-								method="delete"
-								className="w-full"
-								as="button"
-							>
-								Cancel
-							</Link>
-						</DropdownMenuItem>
-					</DropdownMenuGroup>
-				</DropdownMenuContent>
-			</DropdownMenu>
+			<Dialog open={open} onOpenChange={setOpen}>
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button variant="outline" className="p-2">
+							<MoreHorizontal className="size-4" />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent>
+						<DropdownMenuLabel>Options</DropdownMenuLabel>
+						<DropdownMenuSeparator />
+						<DropdownMenuGroup>
+							<DialogTrigger asChild>
+								<DropdownMenuItem>Edit</DropdownMenuItem>
+							</DialogTrigger>
+							<DropdownMenuItem asChild>
+								<Link
+									href={route("rents.destroy", [rent.id])}
+									method="delete"
+									className="w-full"
+									as="button"
+								>
+									Cancel
+								</Link>
+							</DropdownMenuItem>
+						</DropdownMenuGroup>
+					</DropdownMenuContent>
+				</DropdownMenu>
+				<EditDialog rent={rent} setOpen={setOpen} />
+			</Dialog>
 		</TableCell>
+	);
+}
+
+function EditDialog({
+	rent,
+	setOpen
+}: {
+	rent: Rent;
+	setOpen: (open: boolean) => void;
+}) {
+	const form = useForm({
+		defaultValues: {
+			start: new Date(rent.start),
+			end: new Date(rent.end)
+		}
+	});
+
+	const errors = useErrors();
+
+	function handleSubmit(values: { start: Date; end: Date }) {
+		router.put(route("rents.update", [rent.id]), values, {
+			onSuccess: () => setOpen(false)
+		});
+	}
+
+	return (
+		<DialogContent>
+			<DialogHeader>
+				<DialogTitle>Edit Rent</DialogTitle>
+				<DialogDescription>
+					Change the start or end of your rent how you like
+				</DialogDescription>
+			</DialogHeader>
+			<Form {...form}>
+				<form
+					onSubmit={form.handleSubmit(handleSubmit)}
+					className="grid gap-6"
+				>
+					<Calendar control={form.control} errors={errors} />
+					<Button type="submit">Update Rent</Button>
+				</form>
+			</Form>
+		</DialogContent>
 	);
 }
