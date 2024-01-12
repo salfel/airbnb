@@ -25,6 +25,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import ApartmentTableRow from "@/components/ApartmentTableRow";
 
 export default function DashboardMarked({ marks }: { marks: Mark[] }) {
 	return (
@@ -70,38 +71,11 @@ function MarkedTable({ marks }: { marks: Mark[] }) {
 				{marks.length !== 0 && (
 					<TableBody>
 						{values.map((mark) => (
-							<TableRow key={mark.id}>
-								<TableCell>
-									<Link
-										href={route("apartments.show", [
-											mark.apartment.id
-										])}
-										className={buttonVariants({
-											variant: "link"
-										})}
-									>
-										{mark.apartment.title}
-									</Link>
-								</TableCell>
-								<TableCell>
-									{mark.apartment.city},{" "}
-									{mark.apartment.country}
-								</TableCell>
-								<TableCell>
-									{format(mark.apartment.start, "PP")}
-								</TableCell>
-								<TableCell>
-									{format(mark.apartment.end, "PP")}
-								</TableCell>
-								<TableCell className="flex items-center gap-2">
-									<UserAvatar
-										user={mark.apartment.host.user}
-										className="scale-75"
-									/>
-									{mark.apartment.host.user.name}{" "}
-								</TableCell>
-								<Options mark={mark} />
-							</TableRow>
+							<ApartmentTableRow
+								apartment={mark.apartment}
+								options={<Options mark={mark} />}
+								key={mark.id}
+							/>
 						))}
 					</TableBody>
 				)}
