@@ -52,9 +52,9 @@ class User extends Authenticatable
         return $this->hasOne(Host::class);
     }
 
-    public function reviews(): HasMany
+    public function rents(): HasMany
     {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(Rent::class);
     }
 
     public function apartments(): HasManyThrough

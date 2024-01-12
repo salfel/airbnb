@@ -32,30 +32,13 @@ class RentController extends Controller
             return redirect()->back();
         }
 
-        // will later on redirect to dashboard with rent
         Rent::create([
             'user_id' => Auth::id(),
             'apartment_id' => $apartment->id,
             ...$request->validated(),
         ]);
 
-        return redirect()->back();
-    }
-
-    public function show(Rent $rent)
-    {
-        $this->authorize('view', $rent);
-
-        return $rent;
-    }
-
-    public function update(RentRequest $request, Rent $rent)
-    {
-        $this->authorize('update', $rent);
-
-        $rent->update($request->validated());
-
-        return $rent;
+        return to_route('dashboard.rented');
     }
 
     public function destroy(Rent $rent)
@@ -64,6 +47,6 @@ class RentController extends Controller
 
         $rent->delete();
 
-        return response()->json();
+        return redirect()->back();
     }
 }

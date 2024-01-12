@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [ApartmentController::class, 'index'])->name('home');
 Route::resource('apartments', ApartmentController::class)->except(['index']);
 Route::apiResource('apartments.reviews', ReviewController::class)->shallow();
-Route::apiResource('apartments.rents', RentController::class);
+Route::apiResource('apartments.rents', RentController::class)->shallow();
 Route::apiResource('apartments.marks', MarkController::class)->only(['store', 'destroy'])->shallow();
 
 Route::put('rents/{rent}/status', RentStatusController::class)->name('rents.status')->middleware('auth');
