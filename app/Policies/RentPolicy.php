@@ -30,7 +30,7 @@ class RentPolicy
         return $user->id == $rent->user->id;
     }
 
-    public function updateStatus(User $user, Rent $rent)
+    public function updateStatus(User $user, Rent $rent): bool
     {
         return $user->id === $rent->apartment->host->user->id;
     }
