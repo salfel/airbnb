@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Apartment, Model, PageProps } from "@/types";
-import Calendar from "./Create/Calendar";
+import Calendar from "../../components/Calendar";
 import { objectToFormData, tomorrow } from "@/lib/utils";
 import AttributesInput from "@/Pages/Apartment/Create/AttributesInput";
 import ImagesInput from "@/Pages/Apartment/Create/ImagesInput";
