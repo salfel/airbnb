@@ -37,6 +37,7 @@ export function RentOptions({ rent }: { rent: Rent }) {
 										data={{ status: "approved" }}
 										as="button"
 										className="w-full"
+										preserveScroll
 									>
 										Approve
 									</Link>
@@ -50,6 +51,7 @@ export function RentOptions({ rent }: { rent: Rent }) {
 										method="put"
 										data={{ status: "denied" }}
 										as="button"
+										preserveScroll
 										className="w-full"
 									>
 										Deny
@@ -97,7 +99,8 @@ export function ApartmentOptions({ apartment }: { apartment: Apartment }) {
 										router.delete(
 											route("apartments.destroy", [
 												apartment.id
-											])
+											]),
+											{ preserveScroll: true }
 										);
 									}
 								}}
