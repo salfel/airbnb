@@ -67,7 +67,7 @@ function CalendarControl<T extends FormValues>({
 				<FormItem className="w-full">
 					<FormLabel
 						htmlFor={name}
-						className="block capitalize"
+						className="lock capitalize"
 						onClick={() => setOpen(true)}
 					>
 						{name}
@@ -96,6 +96,7 @@ function CalendarControl<T extends FormValues>({
 									mode="single"
 									selected={field.value}
 									onSelect={field.onChange}
+									defaultMonth={field.value}
 								/>
 							</PopoverContent>
 						</Popover>
