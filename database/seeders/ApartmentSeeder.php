@@ -11,7 +11,7 @@ class ApartmentSeeder extends Seeder
     public function run(): void
     {
         $hostCount = Host::count();
-        Apartment::factory(100)->create([
+        Apartment::factory(10000)->create([
             'host_id' => fn () => rand(1, $hostCount),
         ]);
     }
