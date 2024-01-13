@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Control } from "react-hook-form";
-import { FormValues } from "@/Pages/Apartment/Create";
+import { Control, FieldPath } from "react-hook-form";
 import {
 	FormControl,
 	FormField,
@@ -29,12 +28,19 @@ import { Attribute } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { FaXmark } from "react-icons/fa6";
 
-interface Props {
-	control: Control<FormValues>;
+interface FormValues {
+	attributes: Attribute[];
+}
+
+interface Props<T extends FormValues> {
+	control: Control<T>;
 	error?: string;
 }
 
-export default function AttributesInput({ control, error }: Props) {
+export default function AttributesInput<T extends FormValues>({
+	control,
+	error
+}: Props<T>) {
 	const [attributes, setAttributes] = useState(
 		groupAttributesByCategory(_attributes)
 	);
@@ -74,7 +80,7 @@ export default function AttributesInput({ control, error }: Props) {
 	return (
 		<FormField
 			control={control}
-			name="attributes"
+			name={"attributes" as FieldPath<T>}
 			render={({ field }) => {
 				return (
 					<FormItem>
@@ -157,7 +163,11 @@ export default function AttributesInput({ control, error }: Props) {
 						</FormControl>
 						<div className="flex flex-wrap items-center gap-3">
 							{selected.map((attribute) => (
-								<Badge variant="outline" key={attribute.name}>
+								<Badge
+									variant="outline"
+									key={attribute.name}
+									className="flex items-center gap-1"
+								>
 									{attribute.name}
 
 									<button
@@ -166,7 +176,7 @@ export default function AttributesInput({ control, error }: Props) {
 											addToAttributes(attribute)
 										}
 									>
-										<FaXmark className="ml-3 h-3 w-3" />
+										<FaXmark className="h-3 w-3" />
 									</button>
 								</Badge>
 							))}
