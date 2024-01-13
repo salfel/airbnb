@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/command";
 import countries from "@/constants/countries";
 import { MdCheck } from "react-icons/md";
-import { FormValues } from "@/Pages/Apartment/Create";
 import {
 	FormControl,
 	FormField,
@@ -24,20 +23,27 @@ import {
 	FormLabel,
 	FormMessage
 } from "@/components/ui/form";
-import { Control } from "react-hook-form";
+import { Control, FieldPath } from "react-hook-form";
 
-interface CountryInputProps {
-	control: Control<FormValues>;
+interface FormValues {
+	country: string;
+}
+
+interface CountryInputProps<T extends FormValues> {
+	control: Control<T>;
 	error?: string;
 }
 
-export default function CountryInput({ control, error }: CountryInputProps) {
+export default function CountryInput<T extends FormValues>({
+	control,
+	error
+}: CountryInputProps<T>) {
 	const [open, setOpen] = useState(false);
 
 	return (
 		<FormField
 			control={control}
-			name="country"
+			name={"country" as FieldPath<T>}
 			render={({ field }) => {
 				function scrollToSelected() {
 					const element = document.getElementById(field.value);
