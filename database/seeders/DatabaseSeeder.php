@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             'password' => 'password',
         ]);
 
-        User::factory(1000)->create();
+        User::factory(10)->create();
 
         $this->call([
             HostSeeder::class,
