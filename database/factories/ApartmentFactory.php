@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Attribute;
 use App\Models\Apartment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
@@ -12,7 +13,7 @@ class ApartmentFactory extends Factory
 
     public function definition(): array
     {
-        $baseAttributes = config('constants.apartment.attributes');
+        $baseAttributes = Attribute::cases();
         $attributes = [];
         for ($i = 0; $i < 10; $i++) {
             $attributes[$i] = $this->faker->randomElement($baseAttributes);
