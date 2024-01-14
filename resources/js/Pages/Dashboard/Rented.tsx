@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-import Calendar from "@/components/Calendar";
+import Calendar from "@/components/input/CalendarInput";
 import { useErrors } from "@/lib/hooks";
 import ApartmentTableRow from "@/components/ApartmentTableRow";
 

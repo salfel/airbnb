@@ -11,11 +11,11 @@ import {
 	FormItem,
 	FormLabel
 } from "@/components/ui/form";
-import FormInput from "@/components/FormInput";
-import CountryInput from "@/components/CountryInput";
-import AttributesInput from "@/components/AttributesInput";
+import FormInput from "@/components/input/FormInput";
+import CountryInput from "@/components/input/CountryInput";
+import AttributesInput from "@/components/input/AttributesInput";
 import React, { useState } from "react";
-import RatingInput from "@/components/RatingInput";
+import RatingInput from "@/components/input/RatingInput";
 
 export default function FilterSheet() {
 	const [open, setOpen] = useState(false);

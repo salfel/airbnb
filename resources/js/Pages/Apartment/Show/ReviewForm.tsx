@@ -12,8 +12,8 @@ import {
 	FormLabel,
 	FormMessage
 } from "@/components/ui/form";
-import RatingInput from "@/components/RatingInput";
-import FormInput from "@/components/FormInput";
+import RatingInput from "@/components/input/RatingInput";
+import FormInput from "@/components/input/FormInput";
 import { Button } from "@/components/ui/button";
 
 type ReviewFormValues = {
