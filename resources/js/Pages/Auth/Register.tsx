@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Head, Link, router, usePage } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
-import FormInput from "@/components/FormInput";
+import FormInput from "@/components/input/FormInput";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 

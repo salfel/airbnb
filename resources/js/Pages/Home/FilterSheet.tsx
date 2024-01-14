@@ -1,7 +1,14 @@
 import { useSearchParams } from "@/lib/hooks";
 import { Control, FieldPath, useForm } from "react-hook-form";
 import { router } from "@inertiajs/react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+	Sheet,
+	SheetContent,
+	SheetDescription,
+	SheetHeader,
+	SheetTitle,
+	SheetTrigger
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
 import {
@@ -11,11 +18,11 @@ import {
 	FormItem,
 	FormLabel
 } from "@/components/ui/form";
-import FormInput from "@/components/FormInput";
-import CountryInput from "@/components/CountryInput";
-import AttributesInput from "@/components/AttributesInput";
+import FormInput from "@/components/input/FormInput";
+import CountryInput from "@/components/input/CountryInput";
+import AttributesInput from "@/components/input/AttributesInput";
 import React, { useState } from "react";
-import RatingInput from "@/components/RatingInput";
+import RatingInput from "@/components/input/RatingInput";
 
 export default function FilterSheet() {
 	const [open, setOpen] = useState(false);
@@ -65,10 +72,17 @@ export default function FilterSheet() {
 				</Button>
 			</SheetTrigger>
 			<SheetContent className="pointer-events-auto w-96 shrink-0">
+				<SheetHeader>
+					<SheetTitle>Filter Apartments</SheetTitle>
+					<SheetDescription>
+						Choose your filters to apply to get the perfect
+						apartment for you
+					</SheetDescription>
+				</SheetHeader>
 				<Form {...form}>
 					<form
 						onSubmit={form.handleSubmit(handleSubmit)}
-						className="space-y-4"
+						className="mt-6 space-y-4"
 					>
 						<FormInput
 							name="minPrice"

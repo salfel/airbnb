@@ -17,7 +17,7 @@ import {
 	FormItem,
 	FormMessage
 } from "@/components/ui/form";
-import FormInput from "@/components/FormInput";
+import FormInput from "@/components/input/FormInput";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import React from "react";

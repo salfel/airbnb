@@ -10,7 +10,7 @@ import {
 import { Head, Link, router, usePage } from "@inertiajs/react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import FormInput from "@/components/FormInput";
+import FormInput from "@/components/input/FormInput";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";

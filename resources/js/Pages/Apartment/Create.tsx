@@ -8,15 +8,15 @@ import {
 	CardHeader,
 	CardTitle
 } from "@/components/ui/card";
-import FormInput from "@/components/FormInput";
-import CountryInput from "@/components/CountryInput";
+import FormInput from "@/components/input/FormInput";
+import CountryInput from "@/components/input/CountryInput";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Apartment, Model, PageProps } from "@/types";
-import Calendar from "../../components/Calendar";
+import Calendar from "@/components/input/CalendarInput";
 import { objectToFormData, tomorrow } from "@/lib/utils";
-import AttributesInput from "@/components/AttributesInput";
+import AttributesInput from "@/components/input/AttributesInput";
 import ImagesInput from "@/Pages/Apartment/Create/ImagesInput";
 
 export type FormValues = Omit<
