@@ -36,7 +36,7 @@ class ApartmentController extends Controller
                         $query->whereJsonContains('attributes', $attribute);
                     }
                 }))
-                ->paginate(12),
+                ->paginate(12)->withQueryString(),
         ]);
     }
 
