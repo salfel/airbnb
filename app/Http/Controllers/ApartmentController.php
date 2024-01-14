@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ApartmentRequest;
 use App\Models\Apartment;
 use App\Models\Host;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -22,14 +23,32 @@ class ApartmentController extends Controller
         $apartments = $request->has('search') ? Apartment::search($request->get('search')) : Apartment::latest();
 
         return Inertia::render('Home', [
-            'apartments' => $apartments->paginate(12),
+            'apartments' => $apartments->when($request->has('minPrice'),
+                fn (Builder $query) => $query->where('price', '>',
+                    intval($request->get('minPrice'))))
+                ->when($request->has('maxPrice'),
+                    fn (Builder $query) => $query->where('price', '<',
+                        intval($request->get('maxPrice'))))
+                ->when($request->has('city'),
+                    fn (Builder $query) => $query->where('city', $request->get('city')))
+                ->when($request->has('country'),
+                    fn (Builder $query) => $query->where('country', $request->get('country')))
+                ->when($request->has('attributes'), fn (Builder $query) => $query->where(function (Builder $query) use ($request) {
+                    foreach (explode(',', $request->get('attributes')) as $attribute) {
+                        $query->whereJsonContains('attributes', $attribute);
+
+                    }
+                }))
+                ->when($request->has('rating'),
+                    fn (Builder $query) => $query->withAvg('reviews', 'stars')->having('reviews_avg_stars', '>=', $request->get('rating')))
+                ->paginate(12)->withQueryString(),
         ]);
     }
 
     public function show(Apartment $apartment, Request $request)
     {
         return Inertia::render('Apartment/Show', [
-            'apartment' => fn() => Apartment::with(['host.user'])->withCount('reviews')->findOrFail($apartment->id),
+            'apartment' => fn () => Apartment::with(['host.user'])->withCount('reviews')->findOrFail($apartment->id),
             'reviews' => $apartment->reviews()->with('user')->take($request->get('page', 1) * 6)->latest()->get(),
             'mark' => $apartment->mark()->where('user_id', Auth::id())->first(),
             'stars' => $apartment->stars,
@@ -49,7 +68,7 @@ class ApartmentController extends Controller
         $host = $user->host ?? Host::create(['user_id' => $user->id]);
 
         $validated = array_map(function ($value) {
-            if (!is_array($value) || (!count($value) || !($value[0] instanceof \Illuminate\Http\UploadedFile))) {
+            if (! is_array($value) || (! count($value) || ! ($value[0] instanceof \Illuminate\Http\UploadedFile))) {
                 return $value ?? [];
             }
 

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import {
 	Table,
 	TableBody,
-	TableCell,
 	TableHead,
 	TableHeader,
 	TableRow
@@ -11,12 +10,11 @@ import {
 import TablePaginator from "@/components/TablePaginator";
 import { Link } from "@inertiajs/react";
 import { buttonVariants } from "@/components/ui/button";
-import { format } from "date-fns";
-import UserAvatar from "@/components/UserAvatar";
 import { ApartmentOptions } from "@/Pages/Dashboard/Listed/Options";
+import ApartmentTableRow from "@/components/ApartmentTableRow";
 
 export function RentsTable({ rents }: { rents: Rent[] }) {
-	const [values, setValues] = useState(rents);
+	const [values, setValues] = useState(rents.slice(0, 8));
 
 	return (
 		<Table>
@@ -37,32 +35,13 @@ export function RentsTable({ rents }: { rents: Rent[] }) {
 			{rents.length !== 0 ?
 				<TableBody>
 					{values.map((rent) => (
-						<TableRow key={rent.id}>
-							<TableCell>
-								<Link
-									href={route("apartments.show", [
-										rent.apartment.id
-									])}
-									className={buttonVariants({
-										variant: "link"
-									})}
-								>
-									{rent.apartment.title}
-								</Link>
-							</TableCell>
-							<TableCell>
-								{rent.apartment.city}, {rent.apartment.country}
-							</TableCell>
-							<TableCell>{format(rent.start, "PP")}</TableCell>
-							<TableCell>{format(rent.end, "PP")}</TableCell>
-							<TableCell className="flex items-center gap-2">
-								<UserAvatar
-									user={rent.user}
-									className="scale-75"
-								/>
-								{rent.user.name}{" "}
-							</TableCell>
-						</TableRow>
+						<ApartmentTableRow
+							apartment={rent.apartment}
+							start={rent.start}
+							end={rent.end}
+							user={rent.user}
+							key={rent.id}
+						/>
 					))}
 				</TableBody>
 			:	<p className="mt-6 text-lg font-medium">
@@ -74,7 +53,7 @@ export function RentsTable({ rents }: { rents: Rent[] }) {
 }
 
 export function ApartmentsTable({ apartments }: { apartments: Apartment[] }) {
-	const [values, setValues] = useState(apartments);
+	const [values, setValues] = useState(apartments.slice(0, 8));
 
 	return (
 		<Table>
@@ -93,25 +72,11 @@ export function ApartmentsTable({ apartments }: { apartments: Apartment[] }) {
 			{apartments.length !== 0 ?
 				<TableBody>
 					{values.map((apartment) => (
-						<TableRow key={apartment.id}>
-							<TableCell>
-								<Link
-									href={route("apartments.show", [
-										apartment.id
-									])}
-									className={buttonVariants({
-										variant: "link"
-									})}
-								>
-									{apartment.title}
-								</Link>
-							</TableCell>
-							<TableCell>
-								{format(apartment.start, "PP")}
-							</TableCell>
-							<TableCell>{format(apartment.end, "PP")}</TableCell>
-							<ApartmentOptions apartment={apartment} />
-						</TableRow>
+						<ApartmentTableRow
+							apartment={apartment}
+							key={apartment.id}
+							options={<ApartmentOptions apartment={apartment} />}
+						/>
 					))}
 				</TableBody>
 			:	<div className="mt-6 flex items-center gap-6">

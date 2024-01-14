@@ -9,14 +9,14 @@ import {
 	CardTitle
 } from "@/components/ui/card";
 import FormInput from "@/components/FormInput";
-import CountryInput from "@/Pages/Apartment/Create/CountryInput";
+import CountryInput from "@/components/CountryInput";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Apartment, Model, PageProps } from "@/types";
 import Calendar from "../../components/Calendar";
 import { objectToFormData, tomorrow } from "@/lib/utils";
-import AttributesInput from "@/Pages/Apartment/Create/AttributesInput";
+import AttributesInput from "@/components/AttributesInput";
 import ImagesInput from "@/Pages/Apartment/Create/ImagesInput";
 
 export type FormValues = Omit<

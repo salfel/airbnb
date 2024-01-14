@@ -62,7 +62,8 @@ type AttributeGroup = {
 };
 
 export function groupAttributesByCategory(
-	attributes: Attribute[]
+	attributes: Attribute[],
+	excepts: string[] = []
 ): AttributeGroup[] {
 	const grouped: { [key: string]: Attribute[] } = {};
 
@@ -70,7 +71,9 @@ export function groupAttributesByCategory(
 		if (!grouped[attribute.category]) {
 			grouped[attribute.category] = [];
 		}
-		grouped[attribute.category].push(attribute);
+		if (!excepts.includes(attribute.name)) {
+			grouped[attribute.category].push(attribute);
+		}
 	});
 
 	return Object.entries(grouped).map(([name, children]) => ({

@@ -37,6 +37,7 @@ import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import Calendar from "@/components/Calendar";
 import { useErrors } from "@/lib/hooks";
+import ApartmentTableRow from "@/components/ApartmentTableRow";
 
 export default function DashboardRented({ rents }: { rents: Rent[] }) {
 	return (
@@ -59,7 +60,7 @@ DashboardRented.layout = (page: ReactNode) => (
 );
 
 function RentsTable({ rents }: { rents: Rent[] }) {
-	const [values, setValues] = useState(rents);
+	const [values, setValues] = useState(rents.slice(0, 12));
 
 	return (
 		<Table>
@@ -80,33 +81,13 @@ function RentsTable({ rents }: { rents: Rent[] }) {
 			{rents.length !== 0 && (
 				<TableBody>
 					{values.map((rent) => (
-						<TableRow key={rent.id}>
-							<TableCell>
-								<Link
-									href={route("apartments.show", [
-										rent.apartment.id
-									])}
-									className={buttonVariants({
-										variant: "link"
-									})}
-								>
-									{rent.apartment.title}
-								</Link>
-							</TableCell>
-							<TableCell>
-								{rent.apartment.city}, {rent.apartment.country}
-							</TableCell>
-							<TableCell>{format(rent.start, "PP")}</TableCell>
-							<TableCell>{format(rent.end, "PP")}</TableCell>
-							<TableCell className="flex items-center gap-2">
-								<UserAvatar
-									user={rent.apartment.host.user}
-									className="scale-75"
-								/>
-								{rent.apartment.host.user.name}{" "}
-							</TableCell>
-							<Options rent={rent} />
-						</TableRow>
+						<ApartmentTableRow
+							apartment={rent.apartment}
+							start={rent.start}
+							end={rent.end}
+							options={<Options rent={rent} />}
+							key={rent.id}
+						/>
 					))}
 				</TableBody>
 			)}

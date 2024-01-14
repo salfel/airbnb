@@ -11,13 +11,13 @@ export default function ApartmentTableRow({
 	start,
 	end,
 	user,
-	children
+	options
 }: {
 	apartment: Apartment;
-	start: string;
-	end: string;
-	user: User | null;
-	children?: React.ReactNode;
+	start?: string;
+	end?: string;
+	user?: User | null;
+	options?: React.ReactNode;
 }) {
 	return (
 		<TableRow>
@@ -34,16 +34,19 @@ export default function ApartmentTableRow({
 			<TableCell>
 				{apartment.city}, {apartment.country}
 			</TableCell>
-			<TableCell>{format(start, "PP")}</TableCell>
-			<TableCell>{format(end, "PP")}</TableCell>
-			{user && (
+			<TableCell>{format(start || apartment.start, "PP")}</TableCell>
+			<TableCell>{format(end || apartment.end, "PP")}</TableCell>
+			{(user || apartment.host?.user) && (
 				<TableCell className="flex items-center gap-2">
-					<UserAvatar user={user} className="scale-75" />
-					{user.name}{" "}
+					<UserAvatar
+						user={user || apartment.host.user}
+						className="scale-75"
+					/>
+					{(user || apartment.host.user).name}{" "}
 				</TableCell>
 			)}
 
-			{children}
+			{options}
 		</TableRow>
 	);
 }
