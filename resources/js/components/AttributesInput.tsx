@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Control, FieldPath } from "react-hook-form";
 import {
 	FormControl,
@@ -64,6 +64,7 @@ export default function AttributesInput<T extends FormValues>({
 						selected.map((attribute) => attribute.name)
 					)
 				);
+				const containerRef = useRef<HTMLDivElement>(null);
 
 				useEffect(() => {
 					field.onChange(selected.map((attribute) => attribute.name));
@@ -112,75 +113,88 @@ export default function AttributesInput<T extends FormValues>({
 						>
 							Attributes
 						</FormLabel>
-						<FormControl>
-							<Popover open={open} onOpenChange={setOpen}>
-								<PopoverTrigger asChild>
-									<Button variant="outline" id="attributes">
-										Select Attributes
-									</Button>
-								</PopoverTrigger>
-								<PopoverContent>
-									<Command>
-										<CommandInput />
-										<CommandList className="hide-scrollbar">
-											<CommandEmpty>
-												No attributes found...
-											</CommandEmpty>
-											{attributes
-												.filter(
-													(group) =>
-														group.children.length
-												)
-												.map((group, index) => (
-													<Fragment key={group.name}>
-														<CommandGroup
-															heading={group.name}
+						<FormControl ref={containerRef}>
+							<div ref={containerRef}>
+								<Popover open={open} onOpenChange={setOpen}>
+									<PopoverTrigger asChild>
+										<Button
+											variant="outline"
+											id="attributes"
+										>
+											Select Attributes
+										</Button>
+									</PopoverTrigger>
+									<PopoverContent
+										container={containerRef.current}
+										align="start"
+									>
+										<Command>
+											<CommandInput />
+											<CommandList className="hide-scrollbar">
+												<CommandEmpty>
+													No attributes found...
+												</CommandEmpty>
+												{attributes
+													.filter(
+														(group) =>
+															group.children
+																.length
+													)
+													.map((group, index) => (
+														<Fragment
+															key={group.name}
 														>
-															{group.children.map(
-																(
-																	child,
-																	index
-																) => (
-																	<CommandItem
-																		key={
-																			index
-																		}
-																		value={
-																			child.name
-																		}
-																		onSelect={() => {
-																			setOpen(
-																				false
-																			);
-																			field.onChange(
-																				[
-																					...field.value,
-																					child.name
-																				]
-																			);
-																			removeFromAttributes(
-																				child
-																			);
-																		}}
-																	>
-																		{
-																			child.name
-																		}
-																	</CommandItem>
-																)
+															<CommandGroup
+																heading={
+																	group.name
+																}
+															>
+																{group.children.map(
+																	(
+																		child,
+																		index
+																	) => (
+																		<CommandItem
+																			key={
+																				index
+																			}
+																			value={
+																				child.name
+																			}
+																			onSelect={() => {
+																				setOpen(
+																					false
+																				);
+																				field.onChange(
+																					[
+																						...field.value,
+																						child.name
+																					]
+																				);
+																				removeFromAttributes(
+																					child
+																				);
+																			}}
+																		>
+																			{
+																				child.name
+																			}
+																		</CommandItem>
+																	)
+																)}
+															</CommandGroup>
+															{index !==
+																attributes.length -
+																	1 && (
+																<CommandSeparator />
 															)}
-														</CommandGroup>
-														{index !==
-															attributes.length -
-																1 && (
-															<CommandSeparator />
-														)}
-													</Fragment>
-												))}
-										</CommandList>
-									</Command>
-								</PopoverContent>
-							</Popover>
+														</Fragment>
+													))}
+											</CommandList>
+										</Command>
+									</PopoverContent>
+								</Popover>
+							</div>
 						</FormControl>
 						<div className="flex flex-wrap items-center gap-3">
 							{selected.map((attribute) => (

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
 	Popover,
 	PopoverContent,
@@ -38,13 +38,14 @@ export default function CountryInput<T extends FormValues>({
 	control,
 	error
 }: CountryInputProps<T>) {
-	const [open, setOpen] = useState(false);
-
 	return (
 		<FormField
 			control={control}
 			name={"country" as FieldPath<T>}
 			render={({ field }) => {
+				const [open, setOpen] = useState(false);
+				const containerRef = useRef<HTMLDivElement>(null);
+
 				function scrollToSelected() {
 					const element = document.getElementById(field.value);
 					const container = document.getElementById(
@@ -67,55 +68,60 @@ export default function CountryInput<T extends FormValues>({
 							Country
 						</FormLabel>
 						<FormControl>
-							<Popover open={open} onOpenChange={setOpen}>
-								<PopoverTrigger asChild>
-									<Button
-										id="country"
-										className="flex w-full justify-between"
-										variant="outline"
-									>
-										{field.value || "Select Country"}
-
-										<PiCaretUpDown className="h-4 w-4" />
-									</Button>
-								</PopoverTrigger>
-								<PopoverContent
-									onOpenAutoFocus={scrollToSelected}
-									align="start"
-								>
-									<Command>
-										<CommandInput
-											placeholder="Search country..."
-											className="h-9"
-										/>
-										<CommandEmpty>
-											No country found
-										</CommandEmpty>
-										<CommandGroup
-											className="hide-scrollbar max-h-80 overflow-y-auto"
-											id="countryCommandGroup"
+							<div ref={containerRef}>
+								<Popover open={open} onOpenChange={setOpen}>
+									<PopoverTrigger asChild>
+										<Button
+											id="country"
+											className="flex w-full justify-between"
+											variant="outline"
 										>
-											{countries.map((country) => (
-												<CommandItem
-													id={country}
-													key={country}
-													value={country}
-													onSelect={() => {
-														field.onChange(country);
-														setOpen(false);
-													}}
-												>
-													{country}
-													{country ===
-														field.value && (
-														<MdCheck className="ml-auto h-4 w-4" />
-													)}
-												</CommandItem>
-											))}
-										</CommandGroup>
-									</Command>
-								</PopoverContent>
-							</Popover>
+											{field.value || "Select Country"}
+
+											<PiCaretUpDown className="h-4 w-4" />
+										</Button>
+									</PopoverTrigger>
+									<PopoverContent
+										onOpenAutoFocus={scrollToSelected}
+										align="start"
+										container={containerRef.current}
+									>
+										<Command>
+											<CommandInput
+												placeholder="Search country..."
+												className="h-9"
+											/>
+											<CommandEmpty>
+												No country found
+											</CommandEmpty>
+											<CommandGroup
+												className="hide-scrollbar max-h-80 overflow-y-auto"
+												id="countryCommandGroup"
+											>
+												{countries.map((country) => (
+													<CommandItem
+														id={country}
+														key={country}
+														value={country}
+														onSelect={() => {
+															field.onChange(
+																country
+															);
+															setOpen(false);
+														}}
+													>
+														{country}
+														{country ===
+															field.value && (
+															<MdCheck className="ml-auto h-4 w-4" />
+														)}
+													</CommandItem>
+												))}
+											</CommandGroup>
+										</Command>
+									</PopoverContent>
+								</Popover>
+							</div>
 						</FormControl>
 						<FormMessage>{error}</FormMessage>
 					</FormItem>

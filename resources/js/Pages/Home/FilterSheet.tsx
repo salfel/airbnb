@@ -53,7 +53,7 @@ export default function FilterSheet() {
 					<Filter className="size-5" />
 				</Button>
 			</SheetTrigger>
-			<SheetContent className="w-96 shrink-0">
+			<SheetContent className="pointer-events-auto w-96 shrink-0">
 				<Form {...form}>
 					<form
 						onSubmit={form.handleSubmit(handleSubmit)}
