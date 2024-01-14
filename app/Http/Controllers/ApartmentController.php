@@ -29,13 +29,18 @@ class ApartmentController extends Controller
                 ->when($request->has('maxPrice'),
                     fn (Builder $query) => $query->where('price', '<',
                         intval($request->get('maxPrice'))))
+                ->when($request->has('city'),
+                    fn (Builder $query) => $query->where('city', $request->get('city')))
                 ->when($request->has('country'),
                     fn (Builder $query) => $query->where('country', $request->get('country')))
                 ->when($request->has('attributes'), fn (Builder $query) => $query->where(function (Builder $query) use ($request) {
                     foreach (explode(',', $request->get('attributes')) as $attribute) {
                         $query->whereJsonContains('attributes', $attribute);
+
                     }
                 }))
+                ->when($request->has('rating'),
+                    fn (Builder $query) => $query->withAvg('reviews', 'stars')->having('reviews_avg_stars', '>=', $request->get('rating')))
                 ->paginate(12)->withQueryString(),
         ]);
     }

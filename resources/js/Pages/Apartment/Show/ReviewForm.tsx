@@ -12,7 +12,7 @@ import {
 	FormLabel,
 	FormMessage
 } from "@/components/ui/form";
-import RatingInput from "@/Pages/Apartment/Show/RatingInput";
+import RatingInput from "@/components/RatingInput";
 import FormInput from "@/components/FormInput";
 import { Button } from "@/components/ui/button";
 
