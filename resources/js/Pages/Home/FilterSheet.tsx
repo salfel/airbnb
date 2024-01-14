@@ -1,6 +1,4 @@
 import { useSearchParams } from "@/lib/hooks";
-import attributes from "@/constants/attributes";
-import { Attribute } from "@/types";
 import { useForm } from "react-hook-form";
 import { router } from "@inertiajs/react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -20,17 +18,9 @@ export default function FilterSheet() {
 		minPrice: searchParams.get("minPrice") ?? 0,
 		maxPrice: searchParams.get("maxPrice") ?? 10000,
 		country: searchParams.get("country") ?? "",
-		attributes:
-			searchParams
-				.get("attributes")
-				?.split(",")
-				.map((attribute) =>
-					attributes.find((attr) => attribute === attr.name)
-				)
-				.filter(
-					(attribute): attribute is Attribute =>
-						attribute !== undefined
-				) ?? []
+		attributes: (decodeURIComponent(
+			searchParams.get("attributes") ?? ""
+		).split(",") ?? []) as string[]
 	};
 
 	const form = useForm({
@@ -41,10 +31,10 @@ export default function FilterSheet() {
 		const searchParams: Record<string, unknown> = {};
 		for (const [key, value] of Object.entries(values)) {
 			if (key === "attributes") {
-				searchParams["attributes"] = values.attributes.concat();
-				continue;
-			}
-			if (value !== defaultValues[key as keyof typeof values]) {
+				searchParams["attributes"] = values.attributes
+					.filter(Boolean)
+					.join(",");
+			} else if (value !== defaultValues[key as keyof typeof values]) {
 				searchParams[key] = value;
 			}
 		}

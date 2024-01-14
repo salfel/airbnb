@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Control, FieldPath } from "react-hook-form";
 import {
 	FormControl,
@@ -29,7 +29,7 @@ import { Badge } from "@/components/ui/badge";
 import { FaXmark } from "react-icons/fa6";
 
 interface FormValues {
-	attributes: Attribute[];
+	attributes: string[];
 }
 
 interface Props<T extends FormValues> {
@@ -41,47 +41,68 @@ export default function AttributesInput<T extends FormValues>({
 	control,
 	error
 }: Props<T>) {
-	const [attributes, setAttributes] = useState(
-		groupAttributesByCategory(_attributes)
-	);
-	const [selected, setSelected] = useState<Attribute[]>([]);
-
-	function removeFromAttributes(attribute: Attribute) {
-		setAttributes(
-			attributes.map((group) =>
-				group.name === attribute.category ?
-					{
-						name: group.name,
-						children: group.children.filter(
-							(_child) => _child.name !== attribute.name
-						)
-					}
-				:	group
-			)
-		);
-		setSelected((previous) => [...previous, attribute]);
-	}
-
-	function addToAttributes(attribute: Attribute) {
-		for (const group of attributes) {
-			if (group.name == attribute.category) {
-				group.children.push(attribute);
-				break;
-			}
-		}
-
-		setSelected((previous) =>
-			previous.filter((selected) => selected.name !== attribute.name)
-		);
-	}
-
-	const [open, setOpen] = useState(false);
-
 	return (
 		<FormField
 			control={control}
 			name={"attributes" as FieldPath<T>}
 			render={({ field }) => {
+				const [selected, setSelected] = useState<Attribute[]>(
+					(field.value as string[])
+						.map(
+							(name) =>
+								_attributes.find(
+									(attribute) => attribute?.name === name
+								) as Attribute
+						)
+						.filter(
+							(attribute): attribute is Attribute => !!attribute
+						)
+				);
+				const [attributes, setAttributes] = useState(
+					groupAttributesByCategory(
+						_attributes,
+						selected.map((attribute) => attribute.name)
+					)
+				);
+
+				useEffect(() => {
+					field.onChange(selected.map((attribute) => attribute.name));
+				}, [selected.length]);
+
+				function removeFromAttributes(attribute: Attribute) {
+					setAttributes(
+						attributes.map((group) =>
+							group.name === attribute.category ?
+								{
+									name: group.name,
+									children: group.children.filter(
+										(_child) =>
+											_child.name !== attribute.name
+									)
+								}
+							:	group
+						)
+					);
+					setSelected((previous) => [...previous, attribute]);
+				}
+
+				function addToAttributes(attribute: Attribute) {
+					for (const group of attributes) {
+						if (group.name == attribute.category) {
+							group.children.push(attribute);
+							break;
+						}
+					}
+
+					setSelected((previous) =>
+						previous.filter(
+							(selected) => selected.name !== attribute.name
+						)
+					);
+				}
+
+				const [open, setOpen] = useState(false);
+
 				return (
 					<FormItem>
 						<FormLabel
