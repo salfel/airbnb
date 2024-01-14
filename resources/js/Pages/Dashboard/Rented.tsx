@@ -12,9 +12,7 @@ import {
 	TableHeader,
 	TableRow
 } from "@/components/ui/table";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { format } from "date-fns";
-import UserAvatar from "@/components/UserAvatar";
+import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
