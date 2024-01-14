@@ -25,10 +25,12 @@ class ApartmentController extends Controller
         return Inertia::render('Home', [
             'apartments' => $apartments->when($request->has('minPrice'),
                 fn (Builder $query) => $query->where('price', '>',
-                    intval($request->get('minPrice'))))->when($request->has('maxPrice'),
-                        fn (Builder $query) => $query->where('price', '<',
-                            intval($request->get('maxPrice'))))->when($request->has('country'),
-                                fn (Builder $query) => $query->where('country', $request->get('country')))
+                    intval($request->get('minPrice'))))
+                ->when($request->has('maxPrice'),
+                    fn (Builder $query) => $query->where('price', '<',
+                        intval($request->get('maxPrice'))))
+                ->when($request->has('country'),
+                    fn (Builder $query) => $query->where('country', $request->get('country')))
                 ->when($request->has('attributes'), fn (Builder $query) => $query->where(function (Builder $query) use ($request) {
                     foreach (explode(',', $request->get('attributes')) as $attribute) {
                         $query->whereJsonContains('attributes', $attribute);
