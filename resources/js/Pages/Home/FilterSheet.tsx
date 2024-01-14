@@ -1,7 +1,14 @@
 import { useSearchParams } from "@/lib/hooks";
 import { Control, FieldPath, useForm } from "react-hook-form";
 import { router } from "@inertiajs/react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+	Sheet,
+	SheetContent,
+	SheetDescription,
+	SheetHeader,
+	SheetTitle,
+	SheetTrigger
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
 import {
@@ -65,10 +72,17 @@ export default function FilterSheet() {
 				</Button>
 			</SheetTrigger>
 			<SheetContent className="pointer-events-auto w-96 shrink-0">
+				<SheetHeader>
+					<SheetTitle>Filter Apartments</SheetTitle>
+					<SheetDescription>
+						Choose your filters to apply to get the perfect
+						apartment for you
+					</SheetDescription>
+				</SheetHeader>
 				<Form {...form}>
 					<form
 						onSubmit={form.handleSubmit(handleSubmit)}
-						className="space-y-4"
+						className="mt-6 space-y-4"
 					>
 						<FormInput
 							name="minPrice"
