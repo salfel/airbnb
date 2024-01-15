@@ -67,15 +67,11 @@ class ApartmentController extends Controller
         $user = Auth::user();
         $host = $user->host ?? Host::create(['user_id' => $user->id]);
 
-        $validated = array_map(function ($value) {
-            if (! is_array($value) || (! count($value) || ! ($value[0] instanceof \Illuminate\Http\UploadedFile))) {
-                return $value ?? [];
-            }
-
-            return array_map(function ($image) {
-                return '/storage/'.Storage::disk('public')->putFile('apartments', $image);
-            }, $value);
-        }, $request->validated());
+        $validated = $request->validated();
+        $validated = [
+            ...$validated,
+            'images' => array_map(fn (string $image) => '/storage/'.Storage::disk('public')->putFile('apartments', $image), $validated['images']),
+        ];
 
         $apartment = Apartment::create([
             'host_id' => $host->id,
@@ -89,16 +85,39 @@ class ApartmentController extends Controller
     {
         $this->authorize('update', $apartment);
 
-        return Inertia::render('Apartment/Edit');
+        return Inertia::render('Apartment/Edit', [
+            'apartment' => $apartment,
+        ]);
     }
 
     public function update(ApartmentRequest $request, Apartment $apartment)
     {
         $this->authorize('update', $apartment);
 
-        $apartment->update($request->validated());
+        Storage::disk('public')->delete(array_map(fn (string $image) => str_replace('/storage/', '', $image), $apartment->images));
 
-        return to_route('apartments.show', [$apartment->id]);
+        $validated = $request->validated();
+
+        $images = [];
+        foreach ($apartment->images as $image) {
+            if (! in_array($image, $validated['images'])) {
+                Storage::disk('public')->delete(str_replace('/storage/', '', $image));
+            } else {
+                $images[] = $image;
+            }
+        }
+
+        $validated = [
+            ...$validated,
+            'images' => [
+                ...$images,
+                ...array_map(fn ($image) => '/storage/'.Storage::disk('public')->putFile('apartments', $image), array_filter($validated['images'], fn ($image) => ! is_string($image))),
+            ],
+        ];
+
+        $apartment->update($validated);
+
+        return to_route('apartments.show', $apartment);
     }
 
     public function destroy(Apartment $apartment)

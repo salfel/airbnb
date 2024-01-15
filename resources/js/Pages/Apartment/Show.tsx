@@ -33,7 +33,7 @@ import {
 	CarouselPrevious
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, getFilesFromUrls } from "@/lib/utils";
 
 export default function Show({
 	apartment,
