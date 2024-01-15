@@ -61,12 +61,7 @@ export default function CountryInput<T extends FormValues>({
 
 				return (
 					<FormItem className="w-full">
-						<FormLabel
-							htmlFor="country"
-							onClick={() => setOpen(true)}
-						>
-							Country
-						</FormLabel>
+						<FormLabel htmlFor="country">Country</FormLabel>
 						<FormControl>
 							<div ref={containerRef}>
 								<Popover open={open} onOpenChange={setOpen}>

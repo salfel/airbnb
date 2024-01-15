@@ -106,11 +106,7 @@ export default function AttributesInput<T extends FormValues>({
 
 				return (
 					<FormItem>
-						<FormLabel
-							className="block"
-							onClick={() => setOpen(true)}
-							htmlFor="attributes"
-						>
+						<FormLabel className="block" htmlFor="attributes">
 							Attributes
 						</FormLabel>
 						<FormControl ref={containerRef}>
