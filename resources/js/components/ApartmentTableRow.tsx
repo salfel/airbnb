@@ -5,6 +5,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
 import { format } from "date-fns";
 import UserAvatar from "@/components/UserAvatar";
+import { cn } from "@/lib/utils";
 
 export default function ApartmentTableRow({
 	apartment,
@@ -32,7 +33,27 @@ export default function ApartmentTableRow({
 				</Link>
 			</TableCell>
 			<TableCell>
-				{apartment.city}, {apartment.country}
+				<Link
+					href={route("home", {
+						_query: {
+							city: apartment.city
+						}
+					})}
+					className={cn(buttonVariants({ variant: "link" }), "p-0")}
+				>
+					{apartment.city}
+				</Link>
+				,{" "}
+				<Link
+					href={route("home", {
+						_query: {
+							country: apartment.country
+						}
+					})}
+					className={cn(buttonVariants({ variant: "link" }), "p-0")}
+				>
+					{apartment.country}
+				</Link>
 			</TableCell>
 			<TableCell>{format(start || apartment.start, "PP")}</TableCell>
 			<TableCell>{format(end || apartment.end, "PP")}</TableCell>
