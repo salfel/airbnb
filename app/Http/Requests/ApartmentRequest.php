@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Attribute;
-use App\Countries;
+use App\Country;
 use App\Rules\OrRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -17,7 +17,7 @@ class ApartmentRequest extends FormRequest
             'title' => ['required', 'min:3'],
             'description' => ['required', 'min:10'],
             'city' => ['required'],
-            'country' => ['required', Rule::enum(Countries::class)],
+            'country' => ['required', Rule::enum(Country::class)],
             'price' => ['required', 'integer', 'min:1'],
             'square_meters' => ['required', 'integer', 'min:1'],
             'baths' => ['required', 'integer', 'min:1'],

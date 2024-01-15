@@ -2,7 +2,7 @@
 
 namespace App;
 
-enum Countries: string
+enum Country: string
 {
     case Afghanistan = 'Afghanistan';
     case Albania = 'Albania';

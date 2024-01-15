@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Attribute;
-use App\Countries;
+use App\Country;
 use App\Models\Apartment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
@@ -28,7 +28,7 @@ class ApartmentFactory extends Factory
             $images[$i] = $this->faker->imageUrl();
         }
 
-        $countries = Countries::cases();
+        $countries = Country::cases();
 
         return [
             'city' => $this->faker->city(),
