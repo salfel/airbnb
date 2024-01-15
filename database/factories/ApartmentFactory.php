@@ -34,8 +34,8 @@ class ApartmentFactory extends Factory
             'guests' => $this->faker->randomNumber(1),
             'images' => array_fill(0, 3, null),
             'attributes' => $attributes,
-            'start' => $start,
-            'end' => $start->addDays(rand(1, 14)),
+            'start' => clone $start,
+            'end' => $start->addDays(rand(5, 14)),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];
