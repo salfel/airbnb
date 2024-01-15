@@ -22,6 +22,11 @@ class ApartmentFactory extends Factory
 
         $start = rand(0, 1) ? Carbon::now()->subDays(rand(0, 365)) : Carbon::now()->addDays(rand(0, 365));
 
+        $images = [];
+        for ($i = 0; $i < 3; $i++) {
+            $images[$i] = $this->faker->imageUrl();
+        }
+
         return [
             'city' => $this->faker->city(),
             'country' => $this->faker->country(),
@@ -32,7 +37,7 @@ class ApartmentFactory extends Factory
             'beds' => $this->faker->randomNumber(1),
             'baths' => $this->faker->randomNumber(1),
             'guests' => $this->faker->randomNumber(1),
-            'images' => array_fill(0, 3, null),
+            'images' => $images,
             'attributes' => $attributes,
             'start' => clone $start,
             'end' => $start->addDays(rand(5, 14)),
