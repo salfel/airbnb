@@ -65,11 +65,7 @@ function CalendarControl<T extends FormValues>({
 			control={control}
 			render={({ field }) => (
 				<FormItem className="w-full">
-					<FormLabel
-						htmlFor={name}
-						className="lock capitalize"
-						onClick={() => setOpen(true)}
-					>
+					<FormLabel htmlFor={name} className="lock capitalize">
 						{name}
 					</FormLabel>
 					<FormControl>

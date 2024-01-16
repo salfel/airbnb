@@ -82,20 +82,19 @@ export function groupAttributesByCategory(
 	}));
 }
 
-export function objectToFormData(data: {
-	[key: string]: string | number | (string | Blob)[];
-}) {
-	const formData = new FormData();
-	for (const [key, value] of Object.entries(data)) {
-		if (Array.isArray(value)) {
-			value.forEach((image) => {
-				formData.append(`${key}[]`, image);
-			});
+async function getFile(url: string) {
+	const response = await fetch(url, { mode: "no-cors" });
+	const data = await response.blob();
+	return new File([data], url.split("/").pop()?.split("?").pop() ?? "file", {
+		type: data.type
+	});
+}
 
-			continue;
-		}
-
-		formData.set(key, value.toString());
+export async function getFilesFromUrls(urls: string[]): Promise<File[]> {
+	const files: Promise<File>[] = [];
+	for (const url of urls) {
+		files.push(getFile(url));
 	}
-	return formData;
+
+	return await Promise.all(files);
 }

@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Attribute;
+use App\Country;
+use App\Rules\OrRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
@@ -14,7 +17,7 @@ class ApartmentRequest extends FormRequest
             'title' => ['required', 'min:3'],
             'description' => ['required', 'min:10'],
             'city' => ['required'],
-            'country' => ['required', Rule::in(config('constants.countries'))],
+            'country' => ['required', Rule::enum(Country::class)],
             'price' => ['required', 'integer', 'min:1'],
             'square_meters' => ['required', 'integer', 'min:1'],
             'baths' => ['required', 'integer', 'min:1'],
@@ -23,9 +26,9 @@ class ApartmentRequest extends FormRequest
             'start' => ['required', 'date'],
             'end' => ['required', 'date'],
             'images' => ['required', 'array', 'min:1'],
-            'images.*' => [File::image()->max(1024 * 5)],
+            'images.*' => [new OrRule(File::image()->max(4096), 'url')],
             'attributes' => ['required', 'array', 'min:1'],
-            'attributes.*' => [Rule::in(config('constants.apartment.attributes'))],
+            'attributes.*' => [Rule::enum(Attribute::class)],
         ];
     }
 
